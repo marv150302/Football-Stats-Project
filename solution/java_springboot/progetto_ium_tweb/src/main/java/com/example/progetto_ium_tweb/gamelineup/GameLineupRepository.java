@@ -1,4 +1,6 @@
 package com.example.progetto_ium_tweb.gamelineup;
 
-public class GameLineupRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GameLineupRepository extends JpaRepository<GameLineup, Long> {
 }

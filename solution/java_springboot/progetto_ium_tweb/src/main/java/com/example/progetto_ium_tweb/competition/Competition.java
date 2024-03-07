@@ -1,7 +1,6 @@
 package com.example.progetto_ium_tweb.competition;
 
 import jakarta.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "competition")
