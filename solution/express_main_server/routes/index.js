@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios');
-const appearancesRouter = require('./appearances');
+const APPEARANCE_ROUTER = require('./appearances');
+const CLUB_GAMES_ROUTER = require('./club_games');
 
-// Mounting the appearances router
-router.use('/api', appearancesRouter);
+// Mounting all the different routers
+router.use('/api', APPEARANCE_ROUTER);
+router.use('/api', CLUB_GAMES_ROUTER);
 
 
 router.get('/fetch-clubs', async (req, res) => {

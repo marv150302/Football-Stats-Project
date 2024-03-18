@@ -1,10 +1,10 @@
-const Appearances = require('../models/appearances');
+const CLUB_GAMES = require('../models/club_games');
 
 // Controller function to retrieve all data from the "Appearances" collection
-async function getAllAppearances(req, res) {
+async function getAllClubGames(req, res) {
     try {
         // Retrieve all documents from the collection
-        const data = await Appearances.find().limit(10);
+        const data = await CLUB_GAMES.find().limit(10);
         res.json(data);
     } catch (error) {
         console.error('Error retrieving data:', error);
@@ -13,5 +13,5 @@ async function getAllAppearances(req, res) {
 }
 
 module.exports = {
-    getAllAppearances
+    getAllClubGames
 };
