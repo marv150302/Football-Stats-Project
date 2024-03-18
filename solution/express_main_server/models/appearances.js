@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 /**
  *
- * Appearance Schema
+ * Appearances Schema
  */
 const appearanceSchema = new Schema({
     appearance_id: { type: String, required: true },
@@ -22,6 +22,6 @@ const appearanceSchema = new Schema({
 });
 
 // Create a model using the schema
-const Appearance = mongoose.model('Appearance', appearanceSchema);
+const Appearances = mongoose.model('Appearances', appearanceSchema);
 
-module.exports = Appearance;
+module.exports = Appearances;

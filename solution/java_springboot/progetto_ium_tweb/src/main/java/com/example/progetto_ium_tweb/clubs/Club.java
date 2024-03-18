@@ -14,7 +14,7 @@ public class Club {
     private Long id;
 
     @Column(name = "club_id")
-    private Long clubId;
+    private int clubId;
 
     @Column(name = "club_code")
     private String clubCode;
@@ -23,7 +23,7 @@ public class Club {
     private String name;
 
     @Column(name = "domestic_competition_id")
-    private Long domesticCompetitionId;
+    private String domesticCompetitionId;
 
     @Column(name = "total_market_value")
     private Double totalMarketValue;
@@ -50,7 +50,7 @@ public class Club {
     private Integer stadiumSeats;
 
     @Column(name = "net_transfer_record")
-    private Double netTransferRecord;
+    private String netTransferRecord;
 
     @Column(name = "coach_name")
     private String coachName;
@@ -64,11 +64,11 @@ public class Club {
     public Club() {
     }
 
-    public Long getClubId() {
+    public int getClubId() {
         return clubId;
     }
 
-    public void setClubId(Long clubId) {
+    public void setClubId(int clubId) {
         this.clubId = clubId;
     }
 
@@ -88,11 +88,11 @@ public class Club {
         this.name = name;
     }
 
-    public Long getDomesticCompetitionId() {
+    public String getDomesticCompetitionId() {
         return domesticCompetitionId;
     }
 
-    public void setDomesticCompetitionId(Long domesticCompetitionId) {
+    public void setDomesticCompetitionId(String domesticCompetitionId) {
         this.domesticCompetitionId = domesticCompetitionId;
     }
 
@@ -160,11 +160,11 @@ public class Club {
         this.stadiumSeats = stadiumSeats;
     }
 
-    public Double getNetTransferRecord() {
+    public String getNetTransferRecord() {
         return netTransferRecord;
     }
 
-    public void setNetTransferRecord(Double netTransferRecord) {
+    public void setNetTransferRecord(String netTransferRecord) {
         this.netTransferRecord = netTransferRecord;
     }
 

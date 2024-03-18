@@ -6,8 +6,6 @@ mongoose.Promise = global.Promise;
 connection = mongoose.connect(mongoDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    checkServerIdentity: false,
-    family: 4
 })
     .then(() => {
         console.log('connection to mongodb successful!');
