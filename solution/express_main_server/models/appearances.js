@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const MONGOOSE = require('mongoose');
+const SCHEMA = MONGOOSE.Schema;
 
 /**
  *
- * Appearances Schema
+ * APPEARANCES SCHEMA
  */
-const appearanceSchema = new Schema({
+const APPEARANCE_SCHEMA = new SCHEMA({
     appearance_id: { type: String, required: true },
     game_id: { type: String, required: true },
     player_id: { type: String, required: true },
@@ -22,6 +22,6 @@ const appearanceSchema = new Schema({
 });
 
 // Create a model using the schema
-const Appearances = mongoose.model('Appearances', appearanceSchema);
+const APPEARANCES = MONGOOSE.model('APPEARANCES', APPEARANCE_SCHEMA);
 
-module.exports = Appearances;
+module.exports = APPEARANCES;

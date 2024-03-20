@@ -1,10 +1,11 @@
-const Appearances = require('../models/appearances');
+const APPEARANCES = require('../models/appearances');
 
-// Controller function to retrieve all data from the "Appearances" collection
+// Controller function to retrieve all data from the "APPEARANCES" collection
+
 async function getAllAppearances(req, res) {
     try {
         // Retrieve all documents from the collection
-        const data = await Appearances.find().limit(10);
+        const data = await APPEARANCES.find().limit(10);
         res.json(data);
     } catch (error) {
         console.error('Error retrieving data:', error);

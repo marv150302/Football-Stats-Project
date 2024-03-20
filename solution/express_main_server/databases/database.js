@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const MONGOOSE = require('mongoose');
 
-//The URL which will be queried. Run "mongod.exe" for this to connect
-const mongoDB = 'mongodb://localhost:27017/Progetto_IUM_TWEB';
-mongoose.Promise = global.Promise;
-connection = mongoose.connect(mongoDB, {
+const MONGO_DB = 'mongodb://localhost:27017/Progetto_IUM_TWEB';
+MONGOOSE.Promise = global.Promise;
+
+connection = MONGOOSE.connect(MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

@@ -1,16 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const ClubGames = require('../models/club_games');
+const CLUB_GAMES = require('../models/club_games');
 const CLUB_GAMES_CONTROLLER = require('../controllers/club_games');
 
 
-// Route to retrieve all club games
+/**
+ * Route to retrieve all club games
+ */
 router.get('/club-games', CLUB_GAMES_CONTROLLER.getAllClubGames);
 
-// Route to retrieve a specific club game by ID
+/**
+ * Route to retrieve a specific club game by ID
+ * @param{string} id - the id of the game
+ */
 router.get('/club-games/:id', async (req, res) => {
     try {
-        const clubGame = await ClubGames.findById(req.params.id);
+        const clubGame = await CLUB_GAMES.findById(req.params.id);
         if (!clubGame) {
             return res.status(404).json({ error: 'Club game not found' });
         }
@@ -21,6 +26,5 @@ router.get('/club-games/:id', async (req, res) => {
     }
 });
 
-// Add more routes as needed for CRUD operations
 
 module.exports = router;

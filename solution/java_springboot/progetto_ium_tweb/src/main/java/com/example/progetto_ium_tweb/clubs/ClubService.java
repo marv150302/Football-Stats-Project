@@ -12,9 +12,16 @@ public class ClubService {
 
     @Autowired
     public ClubService(ClubRepository clubRepository) {
+
         this.clubRepository = clubRepository;
     }
-    public List<Club> getClubs() {
+
+    /**
+     * Retrieves all clubs from the database.
+     *
+     * @return A list of Club objects representing all clubs.
+     */
+    public List<Club> getAllClubs() {
         // Call the findAll method of the clubRepository to fetch all clubs from the database
         return this.clubRepository.findAll();
     }

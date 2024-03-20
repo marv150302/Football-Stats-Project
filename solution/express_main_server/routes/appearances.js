@@ -1,8 +1,8 @@
-const appearanceExpress = require('express');
-const appearanceRouter = appearanceExpress.Router();
-const appearanceController = require('../controllers/appearances');
+const express = require('express');
+const APPEARANCE_ROUTER = express.Router();
+const APPEARANCE_CONTROLLER = require('../controllers/appearances');
 
 // Route to retrieve all data from the "Appearances" collection
-appearanceRouter.get('/appearances', appearanceController.getAllAppearances);
+APPEARANCE_ROUTER.get('/appearances', APPEARANCE_CONTROLLER.getAllAppearances);
 
-module.exports = appearanceRouter;
+module.exports = APPEARANCE_ROUTER;

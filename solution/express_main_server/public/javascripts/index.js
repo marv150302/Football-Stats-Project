@@ -2,7 +2,7 @@
 test()
 function test() {
 
-    axios.get('/api/club-games')
+    axios.get('/api/get-all-players-valuation')
         .then(response => {
             // Handle successful response
             console.log('Clubs:', response.data);
