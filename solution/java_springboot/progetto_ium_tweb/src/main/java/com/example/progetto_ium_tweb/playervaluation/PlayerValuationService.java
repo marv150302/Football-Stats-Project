@@ -1,14 +1,9 @@
 package com.example.progetto_ium_tweb.playervaluation;
 
-import com.example.progetto_ium_tweb.players.Player;
-import com.example.progetto_ium_tweb.players.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-
-        import java.util.List;
 
 @Service
 public class PlayerValuationService {

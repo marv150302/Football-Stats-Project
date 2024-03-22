@@ -1,5 +1,11 @@
 var express = require('express');
 var router = express.Router();
+const cors = require('cors');
+
+
+router.use(cors())
+
+
 const APPEARANCE_ROUTER = require('./appearances');
 const CLUB_GAMES_ROUTER = require('./club_games');
 const GAME_ROUTER = require('./game');
@@ -9,6 +15,7 @@ const COMPETITIONS_ROUTER = require('./competition');
 const GAME_LINEUP_ROUTER = require('./games_lineup');
 const PLAYER_ROUTER = require('./player');
 const PLAYER_VALUATION_ROUTER = require('./player_valuation');
+const ROOM_LIST_ROUTER = require('./room');
 
 
 // Mounting all the different routers for all the different tables
@@ -28,6 +35,7 @@ router.use('/api', COMPETITIONS_ROUTER);
 router.use('/api', GAME_LINEUP_ROUTER);
 router.use('/api', PLAYER_ROUTER);
 router.use('/api', PLAYER_VALUATION_ROUTER);
+router.use('/api', ROOM_LIST_ROUTER);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

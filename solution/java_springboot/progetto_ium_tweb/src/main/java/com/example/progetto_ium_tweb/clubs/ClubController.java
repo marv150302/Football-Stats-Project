@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000") // Allow requests from this origin
+// Allow requests from this origin
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"}) // Allow requests from this origin
+@RequestMapping("/clubs")
 
 public class ClubController {
 
@@ -28,5 +30,14 @@ public class ClubController {
     public List<Club> getAllClubs(){
 
         return this.clubService.getAllClubs();
+    }
+
+    /**
+     * Retrieves all clubs names from the clubs table.
+     * @return  A list of String objects representing all clubs names.
+     */
+    @GetMapping("/get-all-clubs-name")
+    public List<String> getAllClubNames() {
+        return clubService.getAllClubsName();
     }
 }
