@@ -1,9 +1,7 @@
 package com.example.progetto_ium_tweb.clubs;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "clubs")

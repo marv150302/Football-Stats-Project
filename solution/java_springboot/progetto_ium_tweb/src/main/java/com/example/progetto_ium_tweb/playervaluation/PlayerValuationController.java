@@ -3,6 +3,7 @@ package com.example.progetto_ium_tweb.playervaluation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") // Allow requests from this origin
+@RequestMapping("/players-valuations")
+
 public class PlayerValuationController {
 
     private final PlayerValuationService player_valuation_service;

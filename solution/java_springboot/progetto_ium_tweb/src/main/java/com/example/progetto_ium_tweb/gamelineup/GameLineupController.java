@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") // Allow requests from this origin
+@RequestMapping("/games-lineup")
 public class GameLineupController {
 
     private final GameLineupService game_lineup_service;

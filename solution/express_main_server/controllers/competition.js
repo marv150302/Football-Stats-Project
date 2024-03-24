@@ -1,5 +1,5 @@
 const AXIOS = require('axios');
-const JAVA_SPRING_SERVER_URL = 'http://localhost:8081';
+const JAVA_SPRING_SERVER_URL = 'http://localhost:8081/competitions';
 
 async function getAllCompetitions(req, res) {
 
