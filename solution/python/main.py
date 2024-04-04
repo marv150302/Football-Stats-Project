@@ -102,7 +102,6 @@ def run_analysis():
 
     # Extract the compressed base64 image URL from the Jupyter Flask response
     compressed_base64_image_url = jupyter_data.get('compressed_base64_image_url')
-    #print(compressed_base64_image_url)
     return compressed_base64_image_url;
 
 

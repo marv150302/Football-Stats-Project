@@ -1,8 +1,43 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-a {
-  color: #00B7FF;
+body {
+  background-color: white; /* Matches the background color to the example */
+  font-family: Arial, sans-serif; /* Choose a font similar to the example */
+  color: white; /* Text color */
+}
+
+.header_nav {
+  background-color: rgba(211, 211, 211, 0.37); /* Black background for the nav bar */
+  display: flex; /* Use flexbox for horizontal alignment */
+  justify-content: start; /* Aligns items to the start of the container */
+  padding: 30px 20px;
+  /*border-bottom: 2px solid #2c2c2c;*/
+}
+
+.header_nav ul {
+  list-style-type: none; /* No bullets for list items */
+  display: flex; /* Horizontal alignment of list items */
+  gap: 20px;
+}
+
+
+.header_nav ul li a {
+  color: black; /* White text color for the links */
+  text-decoration: none; /* No underline for the links */
+  font-size: 130%;
+
+}
+
+.header_nav ul li a img {
+  max-height: 50px; /* Keeps the logo within the navbar's height */
+  vertical-align: middle; /* Aligns the logo vertically */
+}
+
+/* Optional: Style for hover effect */
+.header_nav ul li a:hover {
+  text-decoration: underline; /* Underline on hover */
 }

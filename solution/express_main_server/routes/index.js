@@ -38,8 +38,15 @@ router.use('/api', PLAYER_VALUATION_ROUTER);
 router.use('/api', ROOM_LIST_ROUTER);
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Footballytics' });
+router.get('', function(req, res, next) {
+
+  const locals = {
+
+    title: 'Football APP',
+    description: 'Simple Website created for football fans'
+  }
+
+  res.render('index', { locals });
 
 });
 

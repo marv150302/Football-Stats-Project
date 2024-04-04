@@ -6,12 +6,16 @@ var logger = require('morgan');
 const database = require("./databases/database")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
 var app = express();
+const expressLayouts = require('express-ejs-layouts')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+
+app.use(expressLayouts);
+app.set('layout', './layouts/main');
 app.set('view engine', 'ejs');
+
 
 app.use(logger('dev'));
 app.use(express.json());
