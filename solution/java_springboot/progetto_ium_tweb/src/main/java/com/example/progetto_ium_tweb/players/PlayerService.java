@@ -1,6 +1,7 @@
 package com.example.progetto_ium_tweb.players;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,16 @@ public class PlayerService {
      *
      * @return A list of Player objects representing all players.
      */
-    public List<Player> getAllGamesLineup() {
+    public List<Player> getAllPlayers() {
         return this.player_repository.findAll();
+    }
+
+    /**
+     * Retrieves a player's information by his ID
+     *
+     * @return A list of info about a Player found  by his ID
+     */
+    public String getPlayerDataByID(String ID) {
+        return this.player_repository.getPlayerInfoById(ID);
     }
 }

@@ -5,39 +5,72 @@
 }
 
 body {
-  background-color: white; /* Matches the background color to the example */
+  background-color: black; /* Matches the background color to the example */
   font-family: Arial, sans-serif; /* Choose a font similar to the example */
-  color: white; /* Text color */
-}
-
-.header_nav {
-  background-color: rgba(211, 211, 211, 0.37); /* Black background for the nav bar */
-  display: flex; /* Use flexbox for horizontal alignment */
-  justify-content: start; /* Aligns items to the start of the container */
-  padding: 30px 20px;
-  /*border-bottom: 2px solid #2c2c2c;*/
-}
-
-.header_nav ul {
-  list-style-type: none; /* No bullets for list items */
-  display: flex; /* Horizontal alignment of list items */
-  gap: 20px;
 }
 
 
-.header_nav ul li a {
-  color: black; /* White text color for the links */
-  text-decoration: none; /* No underline for the links */
-  font-size: 130%;
 
+.site-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid rgba(211, 211, 211, 0.15);
+  padding: 20px 50px;
 }
 
-.header_nav ul li a img {
-  max-height: 50px; /* Keeps the logo within the navbar's height */
-  vertical-align: middle; /* Aligns the logo vertically */
+.site-header .logo,
+.site-header .navigation,
+.site-header .social-media,
+.site-header .user-account {
+  display: flex;
+  align-items: center;
 }
 
-/* Optional: Style for hover effect */
-.header_nav ul li a:hover {
-  text-decoration: underline; /* Underline on hover */
+.site-header .logo img {
+  width: 200px;
+  margin-right: 10px;
+}
+
+.site-header .logo span,
+.site-header .navigation a,
+.site-header .social-media a,
+.site-header .user-account a {
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  margin: 0 20px 0 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.site-header .navigation a:hover{
+
+  color: rgba(255, 255, 0, 0.9);
+}
+
+#site-name-home-button{
+
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.site-header .navigation a:first-child,
+.site-header .navigation li:first-child {
+  margin-left: 200px; /* Adjust as needed; set to 0 or a smaller value */
+}
+
+.card{
+
+  border: 1px solid rgba(211, 211, 211, 0.15);
+}
+.tall-card {
+  height: 200%; /* Default height */
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 767px) {
+  .tall-card {
+    height: auto; /* Adjust height on smaller screens */
+  }
 }

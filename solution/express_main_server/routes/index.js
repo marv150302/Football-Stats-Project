@@ -38,7 +38,7 @@ router.use('/api', PLAYER_VALUATION_ROUTER);
 router.use('/api', ROOM_LIST_ROUTER);
 
 /* GET home page. */
-router.get('', function(req, res, next) {
+router.get('/', function(req, res, next) {
 
   const locals = {
 
@@ -50,5 +50,19 @@ router.get('', function(req, res, next) {
 
 });
 
+/**
+ * route to get the games page
+ */
+router.get('/games', function(req, res, next) {
+
+  const locals = {
+
+    title: 'Games',
+    description: 'All football matches available'
+  }
+
+  res.render('games', { locals });
+
+});
 
 module.exports = router;

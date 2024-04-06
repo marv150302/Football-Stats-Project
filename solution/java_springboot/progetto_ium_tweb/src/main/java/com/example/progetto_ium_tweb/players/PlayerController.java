@@ -1,7 +1,6 @@
 package com.example.progetto_ium_tweb.players;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +24,21 @@ public class PlayerController {
      * @return A list of Player objects representing all players.
      */
     @GetMapping("/get-all-players")
-    public List<Player> getAllGamesLineup(){
+    public List<Player> getAllPlayers(){
 
-        return this.player_service.getAllGamesLineup();
+        return this.player_service.getAllPlayers();
+    }
+
+    /**
+     * Retrieves player's info by his ID
+     *
+     * @return A list of info about a Player found  by his ID
+     */
+    @GetMapping("/get-player-data-by-id")
+    public ResponseEntity<String> getPlayerDataByID(@RequestParam String playerId){
+
+        String data = this.player_service.getPlayerDataByID(playerId);
+        return ResponseEntity.ok(data); // 200 OK with JSON body
+
     }
 }
