@@ -29,8 +29,10 @@ async function getAllPlayers(req, res) {
  */
 async function getPlayerDataById(req, res) {
 
+
+    const playerId = req.query.playerId;
     try {
-        const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-player-data-by-id');
+        const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-player-data-by-id?playerId='+playerId);
         const competitions = response.data;
         // Handle the data retrieved from the Spring API ìì
         res.json(competitions);

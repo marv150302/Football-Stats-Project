@@ -35,10 +35,10 @@ public class PlayerController {
      * @return A list of info about a Player found  by his ID
      */
     @GetMapping("/get-player-data-by-id")
-    public ResponseEntity<String> getPlayerDataByID(@RequestParam String playerId){
+    public ResponseEntity<Player> getPlayerDataByID(@RequestParam String playerId){
 
-        String data = this.player_service.getPlayerDataByID(playerId);
-        return ResponseEntity.ok(data); // 200 OK with JSON body
+        Player data = this.player_service.getPlayerDataByID(playerId);
+        return   ResponseEntity.ok(data); // 200 OK with JSON body
 
     }
 }

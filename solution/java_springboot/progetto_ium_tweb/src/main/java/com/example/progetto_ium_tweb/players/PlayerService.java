@@ -30,7 +30,7 @@ public class PlayerService {
      *
      * @return A list of info about a Player found  by his ID
      */
-    public String getPlayerDataByID(String ID) {
+    public Player getPlayerDataByID(String ID) {
         return this.player_repository.getPlayerInfoById(ID);
     }
 }

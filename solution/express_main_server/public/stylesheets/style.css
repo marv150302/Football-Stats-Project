@@ -63,14 +63,4 @@ body {
 
   border: 1px solid rgba(211, 211, 211, 0.15);
 }
-.tall-card {
-  height: 200%; /* Default height */
-  display: flex;
-  flex-direction: column;
-}
 
-@media (max-width: 767px) {
-  .tall-card {
-    height: auto; /* Adjust height on smaller screens */
-  }
-}

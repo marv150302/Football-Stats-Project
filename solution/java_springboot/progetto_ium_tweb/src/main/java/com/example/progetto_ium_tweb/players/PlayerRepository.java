@@ -7,6 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    @Query("SELECT p FROM Player p WHERE p.id = :ID")
-    String getPlayerInfoById(String ID);
+    @Query("SELECT p FROM Player p  WHERE p.playerId = :ID")
+    Player getPlayerInfoById(String ID);
 }
