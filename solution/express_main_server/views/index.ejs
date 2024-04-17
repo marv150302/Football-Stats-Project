@@ -1,44 +1,91 @@
-<div class="row">
-    <!-- Large card occupying 6 columns (half the container) -->
-
-    <div class=" card mb-2" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img id="top-goal-scorer-img" src="/images/logo.png" class="shadow img-fluid " alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Two smaller cards, each occupying 3 columns (a quarter of the container) -->
-    <div class="col-12 col-md-6">
+    <!-- First Row -->
+    <div class="row">
         <div class="row">
-            <div class="col-6">
+            <!-- Placeholder cards -->
+            <div class="col-md-6 mb-3">
                 <div class="card">
-                    <img src="/images/logo.png" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">Small Card</h5>
-                        <p class="card-text">Some quick example text to build on the card title.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 id="game-round-index" class="card-title">Serie A </h5>
+                        <!-- Insert team logos here -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div> <!-- Team A information -->
+                                    <h6 id="home-team-index" >Team A</h6>
+                                <img src="team_a_logo.png" alt="Team A Logo" class="img-fluid" style="max-width: 50px;">
+                            </div>
+                            <div> <!-- Score display -->
+                                <h2 id="game-score-index">3 - 2</h2> <!-- Example score -->
+                            </div>
+                            <div> <!-- Team B information -->
+                                <h6 id="away-team-index">Team B</h6>
+                                <img src="team_b_logo.png" alt="Team B Logo" class="img-fluid" style="max-width: 50px;">
+                            </div>
+                        </div>
+                        <p id="game-date-index" class="card-text">Match played on: </p>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card">
-                    <img src="/images/logo.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Small Card</h5>
-                        <p class="card-text">Some quick example text to build on the card title.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
+            <!-- End of Placeholder cards -->
+        </div>
+
+        <!---->
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 24rem;">
+                <img src="/images/icons8-decrease-96.png" class="card-img-top img-fluid w-25 mx-auto d-block" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Stats</h5>
+                    <p class="card-text">Search for insights and statistics on your favourite club or competiton</p>
+                    <a href="#" class="btn btn-danger mx-auto d-block">Enter</a>
                 </div>
             </div>
         </div>
+        <!---->
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 24rem;">
+                <img src="/images/icons8-football-team-96.png" class="card-img-top img-fluid w-25 mx-auto d-block" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Teams</h5>
+                    <p class="card-text">Find your club</p>
+                    <a href="#" class="btn btn-primary mx-auto d-block">Enter</a>
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
+
+
+    <!-- Second Row -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 24rem;">
+                <img src="/images/icons8-trophy-96.png" class="card-img-top img-fluid w-25 mx-auto d-block" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Competitions</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-btn btn-warning mx-auto d-block">Enter</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 24rem;">
+                <img src="/images/icons8-soccer-player-96.png"  class="card-img-top img-fluid w-25 mx-auto d-block" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Players</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-danger mx-auto d-block">Enter</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 24rem;">
+                <img src="/images/icons8-chat-96.png" class="card-img-top img-fluid w-25 mx-auto d-block" alt="..." >
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Chat For Football Pundits</h5>
+                    <p class="card-text">See what others are saying on your favourite Club or Competition</p>
+                    <a href="#" class="btn btn-primary mx-auto d-block">Enter</a>
+                </div>
+            </div>
+
+        </div>
+    </div>

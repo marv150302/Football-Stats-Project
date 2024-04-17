@@ -38,7 +38,7 @@ public class PlayerController {
     public ResponseEntity<Player> getPlayerDataByID(@RequestParam String playerId){
 
         Player data = this.player_service.getPlayerDataByID(playerId);
-        return   ResponseEntity.ok(data); // 200 OK with JSON body
+        return ResponseEntity.ok(data);
 
     }
 }
