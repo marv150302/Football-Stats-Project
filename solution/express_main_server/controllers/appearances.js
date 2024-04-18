@@ -51,12 +51,56 @@ async function getTopScorerId(req, res){
         res.status(500).send("Server Error");
     }
 }
-async function getTopAssistman(req, res){
+const getTopScorersByCompetitionAndYear = async (req, res) => {
+    try {
+        const competitionId = req.query.competition_id; // Get the competition_id from the request query
+        const year = parseInt(req.query.year); // Get the year from the request query
 
+        const pipeline = [
+            {
+                $addFields: {
+                    year: { $year: "$date" }
+                }
+            },
+            {
+                $match: {
+                    competition_id: competitionId,
+                    year: year
+                }
+            },
+            {
+                $group: {
+                    _id: "$player_id",
+                    total_goals: { $sum: "$goals" },
+                    player_name: { $first: "$player_name" },
+                }
+            },
+            {
+                $sort: {
+                    total_goals: -1
+                }
+            },
+            {
+                $limit: 3
+            }
+        ];
 
-}
+        const topScorers = await APPEARANCES.aggregate(pipeline);
+
+        if (topScorers.length > 0) {
+            console.log('Top Scorers:', topScorers);
+            res.json(topScorers); // Return the top scorers as JSON response
+        } else {
+            console.log('No top scorers found');
+            res.status(404).json({ error: 'No top scorers found' }); // Return 404 if no top scorers are found
+        }
+    } catch (error) {
+        console.error('Error finding top scorers:', error);
+        res.status(500).json({ error: 'Failed to fetch top scorers' }); // Return 500 if an error occurs
+    }
+};
 module.exports = {
     getAllAppearances,
     getTopScorer: getTopScorerId,
-    getTopAssistman
+    getTopScorersByCompetitionAndYear
 };

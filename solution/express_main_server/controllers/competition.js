@@ -15,6 +15,7 @@ async function getAllCompetitions(req, res) {
     }
 }
 
+
 module.exports = {
-    getAllCompetitions
+    getAllCompetitions,
 };

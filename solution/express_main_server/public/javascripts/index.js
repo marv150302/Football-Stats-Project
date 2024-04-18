@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-   // getTopScorer();
-    getLatestSerieAGame();
+
+    getLatestGame();
+    getTopScorersByCompetitionAndYear();
 });
+
 
 
 function loadTopScoerData(player) {
 
-    console.log(player)
     document.getElementById('top-goal-scorer-img').src = player.imageUrl;
 }
 
@@ -34,23 +35,19 @@ function getTopScorer() {
 
 /**
  *
- * Function used to get the latest serie A game to display on the homepage
+ * function used to load the latest serie a game on the main page
+ * @param data  the data of the match
+ * @param competition the name of the competitionn
  */
-function getLatestSerieAGame() {
+function loadLatestGameByCompetition(data, competition){
 
-    sendAxiosQuery('/api/get-latest-serie-a-game')
-        .then(data => {
-
-            loadLatestSerieAGame(data)
-        })
-}
-
-function loadLatestSerieAGame(data){
-
-    document.getElementById("game-round-index").innerText += " " + data['round']
-    document.getElementById("home-team-index").innerText = data['home_club_name'];
-    document.getElementById("away-team-index").innerText = data['away_club_name'];
-    document.getElementById("game-score-index").innerText = data['aggregate']
+    console.log("away-team-image-index-"+competition)
+    document.getElementById("game-round-index-"+competition).innerText += " " + data['round']
+    document.getElementById("home-team-index-"+competition).innerText = data['home_club_name'];
+    document.getElementById("away-team-index-"+competition).innerText = data['away_club_name'];
+    document.getElementById("game-score-index-"+competition).innerText = data['aggregate']
+    document.getElementById("home-team-image-index-"+competition).src = "https://tmssl.akamaized.net/images/wappen/head/" + data['home_club_id'] + ".png"
+    document.getElementById("away-team-image-index-"+competition).src = "https://tmssl.akamaized.net/images/wappen/head/" + data['away_club_id'] + ".png"
 
     const dateString = data['date'];
     const date = new Date(dateString);
@@ -59,9 +56,28 @@ function loadLatestSerieAGame(data){
         month: 'long',
         day: 'numeric'
     };
-    document.getElementById('game-date-index').innerText += " " + date.toLocaleDateString('en-US', options)
+    document.getElementById('game-date-index-'+competition).innerText += " " + date.toLocaleDateString('en-US', options)
 
 }
+
+/**
+ * function to get the latest premier league game
+ */
+function getLatestGame() {
+
+    let competitions = ['IT1','GB1'];
+    let competition_name = ['serie-a', 'premier-league']
+
+    competitions.forEach((competition, index) =>{
+
+        sendAxiosQuery('/api/get-latest-game-by-competition', {competition_id: competition})
+            .then(data => {
+
+                loadLatestGameByCompetition(data,competition_name[index]);
+            })
+    })
+}
+
 /**
  * Function used to get both the ID of the player
  * @returns {*}
@@ -79,6 +95,44 @@ function getTopScorerID() {
             console.error('Error:', error);
         });
 }
+
+/**
+ * Function to retrieve the id and the total of goals
+ * of the top three players, from three competitons
+ */
+function getTopScorersByCompetitionAndYear() {
+
+    let competitions = ['IT1','GB1', 'L1'];
+    let competition_name = ['serie-a', 'premier-league', 'bundesliga']
+    let year = 2023;
+    competitions.forEach((competition, index) =>{
+
+        sendAxiosQuery('/api/get-top-scorer-by-competition-and-year', {competition_id: competition, year:year})
+            .then(data => {
+
+                loadTopScorers(data, competition_name[index]);
+            })
+    })
+}
+
+/**
+ *
+ * function used to load the top 3 scorers in the top 3 leagues in the world
+ * @param data the players data
+ * @param competition the competition name
+ */
+function loadTopScorers(data, competition) {
+
+    data.forEach((player, index) => {
+
+        let name = (index+1) + "-name-" + competition;
+        let goals = (index+1) + "-goals-" + competition;
+        document.getElementById(name).innerText = (index+1) + " - " +  player['player_name'];
+        document.getElementById(goals).innerText = " " +player['total_goals'];
+    })
+}
+
+
 
 /**
  * Function to send Axios requests.

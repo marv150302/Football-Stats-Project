@@ -5,11 +5,24 @@
 }
 
 body {
-  background-color: black; /* Matches the background color to the example */
-  font-family: Arial, sans-serif; /* Choose a font similar to the example */
+    font-family: sans-serif; /* Choose a font similar to the example */
+}
+a{
+
+  text-decoration: none;
+  color: white;
+}
+a:hover{
+
+  color: #a9a4a4;
+}
+.nav-link:hover {
+  color: #a9a4a4 !important;
 }
 
-
+table.table {
+  border: 0px solid rgba(0, 0, 0, 0);
+}
 
 .site-header {
   display: flex;
@@ -62,6 +75,13 @@ body {
 .card{
 
   border: 1px solid rgba(211, 211, 211, 0.15);
+}
+.card:hover {
+  transform: scale(1.05); /* Scale the card up slightly on hover */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Add a shadow effect on hover */
+}
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
 }
 
 
