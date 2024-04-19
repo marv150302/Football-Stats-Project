@@ -34,8 +34,44 @@ const getLatestGameByCompetition = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch latest game' }); // Return 500 if an error occurs
     }
 }
+const getLastFourGamesByCompetition = async (req, res) => {
+    try {
+        const year = req.query.year; // Get the year from the request query
+        const competitionId = req.query.competitionId; // Array of competition IDs
+
+        let importantGames = [];
+
+        const games = await Game.find(
+            {
+                'competition_id': competitionId,
+                'date': { $gte: new Date(`${year}-01-01`), $lte: new Date(`${year}-12-31`) }
+            },
+            'date home_club_name away_club_name home_club_goals away_club_goals stadium attendance referee home_club_position away_club_position season competition_type',
+            { sort: { 'date': -1 }, limit: 4 } // Sort by date descending, limit to 4
+        );
+
+        if (games.length > 0) {
+            importantGames.push({
+                competitionId: competitionId,
+                games: games
+            });
+        }
+
+        if (importantGames.length > 0) {
+            console.log('Last 4 games by competition:', importantGames);
+            res.json(importantGames); // Return the filtered game data as JSON response
+        } else {
+            console.log('No games found');
+            res.status(404).json({ error: 'No games found for the given competitions and year' });
+        }
+    } catch (error) {
+        console.error('Error fetching game info:', error);
+        res.status(500).json({ error: 'Failed to fetch game info' });
+    }
+}
 
 
 
 
-module.exports = { getAllGames, getLatestGameByCompetition};
+
+module.exports = { getAllGames, getLatestGameByCompetition, getLastFourGamesByCompetition};
