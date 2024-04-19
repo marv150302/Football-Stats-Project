@@ -14,10 +14,10 @@ a{
 }
 a:hover{
 
-  color: #a9a4a4;
+  color: #FFA500;
 }
 .nav-link:hover {
-  color: #a9a4a4 !important;
+  color: #FFA500 !important;
 }
 
 table.table {
