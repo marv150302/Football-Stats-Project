@@ -28,21 +28,21 @@
                 <div class="card bg-dark text-light">
                     <a href="/">
                         <div class="card-body">
-                            <h5 id="game-round-index-premier-league" class="card-title fw-bold">Premier League </h5>
+                            <h5 id="game-round-index-ligue-1" class="card-title fw-bold">League 1 </h5>
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="text-center"> <!-- Team A information -->
-                                    <h6 id="home-team-index-premier-league">Team A</h6>
-                                    <img id="home-team-image-index-premier-league" alt="Home Team Logo" class="img-fluid" style="max-width: 50px;">
+                                    <h6 id="home-team-index-ligue-1">Team A</h6>
+                                    <img id="home-team-image-index-ligue-1" alt="Home Team Logo" class="img-fluid" style="max-width: 50px;">
                                 </div>
                                 <div> <!-- Score display -->
-                                    <h2 id="game-score-index-premier-league"></h2>
+                                    <h2 id="game-score-index-ligue-1"></h2>
                                 </div>
                                 <div class="text-center"> <!-- Team B information -->
-                                    <h6 id="away-team-index-premier-league">Team B</h6>
-                                    <img id="away-team-image-index-premier-league" alt="Team B Logo" class="img-fluid" style="max-width: 50px;">
+                                    <h6 id="away-team-index-ligue-1">Team B</h6>
+                                    <img id="away-team-image-index-ligue-1" alt="Team B Logo" class="img-fluid" style="max-width: 50px;">
                                 </div>
                             </div>
-                            <p id="game-date-index-premier-league" class="card-text">Match played on: </p>
+                            <p id="game-date-index-ligue-1" class="card-text">Match played on: </p>
                         </div>
                     </a>
                 </div>
@@ -53,14 +53,12 @@
         <!--------------------------------------------------->
         <!--------------------------------------------------->
         <!--Top players in top 3 leagues-->
-        <div class="row">
+        <div class="row align-items-stretch"> <!-- Add align-items-stretch class to the row -->
             <!-- Card 1 -->
             <div class="col-md-4 mb-3">
-                <div class="card bg-light text-dark">
-                    <div class="card-body">
-                        <div class="text-center">
-                            <img class="img-fluid" src="https://tmssl.akamaized.net/images/logo/header/it1.png?lm=1656073460">
-                        </div>
+                <div class="card bg-light text-dark h-100"> <!-- Add h-100 class to make card full height -->
+                    <div class="card-body text-center"> <!-- Add text-center class to center align content -->
+                        <img class="img-fluid w-50" src="/images/serie-a-logo-transparent.png">
                         <h5 class="card-title fw-bold">Top Scorers</h5>
                         <!-- Table for top scorers -->
                         <table class="table table-striped">
@@ -85,45 +83,11 @@
                 </div>
             </div>
 
-
             <!-- Card 2 -->
             <div class="col-md-4 mb-3">
-                <div class="card bg-warning text-dark">
-                    <div class="card-body">
-                        <div class="text-center">
-                            <img src="https://tmssl.akamaized.net/images/logo/header/gb1.png?lm=1521104656">
-                        </div>
-                        <h5 class="card-title fw-bold">Top Scorers</h5>
-                        <!-- Table for top scorers -->
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <td class="fw-bold" id="1-name-bundesliga"></td>
-                                <td id="1-goals-bundesliga"></td>
-                            </tr>
-                            <tr>
-                                <td id="2-name-bundesliga"></td>
-                                <td id="2-goals-bundesliga"></td>
-                            </tr>
-                            <tr>
-                                <td id="3-name-bundesliga"></td>
-                                <td id="3-goals-bundesliga"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <!-- Button to view full list -->
-                        <a href="/competition-2-top-scorers" class="btn btn-dark">View Full List</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="col-md-4 mb-3">
-                <div class="card bg-success text-dark">
-                    <div class="card-body">
-                        <div class="text-center">
-                            <img src="https://tmssl.akamaized.net/images/logo/header/l1.png?lm=1525905518">
-                        </div>
+                <div class="card bg-warning text-dark h-100"> <!-- Add h-100 class to make card full height -->
+                    <div class="card-body text-center"> <!-- Add text-center class to center align content -->
+                        <img class="img-fluid h-50" src="/images/premier-league-logo.png">
                         <h5 class="card-title fw-bold">Top Scorers</h5>
                         <!-- Table for top scorers -->
                         <table class="table table-striped">
@@ -142,11 +106,42 @@
                             </tr>
                             </tbody>
                         </table>
-                        <a href="/competition-1-top-scorers" class="btn btn-dark btn-block">View Full List</a>
+                        <!-- Button to view full list -->
+                        <a href="/competition-2-top-scorers" class="btn btn-dark">View Full List</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-4 mb-3">
+                <div class="card bg-success text-dark h-100"> <!-- Add h-100 class to make card full height -->
+                    <div class="card-body text-center"> <!-- Add text-center class to center align content -->
+                        <img class="img-fluid w-50" src="/images/bundesliga-logo.png">
+                        <h5 class="card-title fw-bold">Top Scorers</h5>
+                        <!-- Table for top scorers -->
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td class="fw-bold" id="1-name-bundesliga"></td>
+                                <td id="1-goals-bundesliga"></td>
+                            </tr>
+                            <tr>
+                                <td id="2-name-bundesliga"></td>
+                                <td id="2-goals-bundesliga"></td>
+                            </tr>
+                            <tr>
+                                <td id="3-name-bundesliga"></td>
+                                <td id="3-goals-bundesliga"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a href="/competition-3-top-scorers" class="btn btn-dark btn-block">View Full List</a>
                     </div>
                 </div>
             </div>
         </div>
+
+
 
 
 

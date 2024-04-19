@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-
     getLatestGame();
     getTopScorersByCompetitionAndYear();
 });
@@ -65,8 +64,8 @@ function loadLatestGameByCompetition(data, competition){
  */
 function getLatestGame() {
 
-    let competitions = ['IT1','GB1'];
-    let competition_name = ['serie-a', 'premier-league']
+    let competitions = ['IT1','FR1'];
+    let competition_name = ['serie-a', 'ligue-1']
 
     competitions.forEach((competition, index) =>{
 
