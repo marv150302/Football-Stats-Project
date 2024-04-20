@@ -40,8 +40,7 @@ function getTopScorer() {
  */
 function loadLatestGameByCompetition(data, competition){
 
-    console.log("away-team-image-index-"+competition)
-    document.getElementById("game-round-index-"+competition).innerText += " " + data['round']
+    document.getElementById("game-round-index-"+competition).innerText += " " + data['round'];
     document.getElementById("home-team-index-"+competition).innerText = data['home_club_name'];
     document.getElementById("away-team-index-"+competition).innerText = data['away_club_name'];
     document.getElementById("game-score-index-"+competition).innerText = data['aggregate']

@@ -23,10 +23,14 @@ public class CompetitionService {
      */
     public List<Competition> getAllCompetitions() {
 
-        return this.competition_repository.findAll();
+        return this.competition_repository.findAllCompetition();
     }
 
-    // Method to retrieve names of all competitions using custom SQL query
+    /**
+     *
+     * Functionn to retrieve names of all competitions using custom SQL query
+     * @return  List containing all the competitions
+     */
     public List<String> getAllCompetitionNames() {
         return this.competition_repository.findAllCompetitionNames();
     }

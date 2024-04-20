@@ -20,6 +20,10 @@ a:hover{
 .nav-link:hover {
   color: #28a745 !important;
 }
+hr {
+  border: 1px solid rgba(204, 204, 204, 0.58); /* Sets a light grey border */
+  margin: 20px 0; /* Adds vertical spacing */
+}
 
 table.table {
   border: 0px solid rgba(0, 0, 0, 0);
@@ -88,4 +92,15 @@ table.table {
 
 .nav-link-black {
   color: black !important;
+}
+.competition-name {
+  font-size: 25px;
+  transition: font-size 0.3s ease;
+}
+
+.competition-name:hover {
+  font-size: 30px;
+}
+.competition-name a:hover {
+  text-decoration: none; !important;
 }
