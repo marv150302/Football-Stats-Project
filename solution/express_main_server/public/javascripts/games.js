@@ -45,14 +45,14 @@ function loadCompetitionsGames(competition, gamesResponse, index, array) {
 
     // Create a header for the competition name
     const competitionHeader = document.createElement('h4');
-    competitionHeader.className = 'competition-name mb-3 text-warning fw-bold';
-
+    competitionHeader.className = competition.name + ' mb-3 text-warning fw-bold';
     competition.name = competition.name
                         .split('-')
                         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                         .join(' ');
+
     const link = document.createElement('a');
-    link.setAttribute('href', '/path-to-competition-details/' + competition.name); // Modify the href accordingly
+    link.setAttribute('href', '/competition-games?competitionId=' + competition.competitionId + '&year=2023'); // Modify the href accordingly
     link.textContent = competition.name;
     link.style.color = 'inherit'; // Ensures the link uses the header's text color
     link.style.textDecoration = 'none'; // Optional: removes underline from link
@@ -101,48 +101,56 @@ function loadCompetitionsGames(competition, gamesResponse, index, array) {
 
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'mt-2 mb-2';
+    buttonContainer.id = "data-button-index" + (index);
 
     const viewButton = document.createElement('button');
-    viewButton.className = 'btn btn-warning btn-lg w-25 d-inline-block mt-auto';
+    viewButton.className = 'btn btn-warning btn-lg w-50 d-inline-block mt-auto';
     viewButton.textContent = 'See More →';
     viewButton.onclick = function() {
-        window.location.href = '/competition-details/' + competition.id;
+        window.location.href = '/competition-games?competitionId=' + competition.competitionId + '&year=2023';
     };
 
     buttonContainer.appendChild(viewButton);
-    competitionsContainer.appendChild(buttonContainer);
+    competitionRow.appendChild(buttonContainer);
 
     // Add a <br> element after each row except for the last one
     if (index < array.length - 1) {
         const hr = document.createElement('hr');
-        competitionsContainer.appendChild(hr);
         hr.id = "data-row-index" + (index);
+        competitionRow.appendChild(hr);
     }
 }
 
+
+
+let debounceTimer;
+document.getElementById('competitionFilter').addEventListener('input', function(event) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        filterCompetitions(event.target.value.toLowerCase());
+    }, 300); // Adjust the delay time (in milliseconds) as needed
+});
 /**
  *
  * Function used to filter the competitions as the user types
  */
-function filterCompetitions() {
-    let input = document.getElementById('competitionFilter').value.toLowerCase();
+function filterCompetitions(input) {
     let container = document.getElementById('competitions-container');
-
     let competitionRows = container.getElementsByClassName('row');
 
     for (let i = 0; i < competitionRows.length; i++) {
         let title = competitionRows[i].getElementsByTagName('h4')[0];
         if (title) {
             let name = title.textContent || title.innerText;
-            if (name.toLowerCase().indexOf(input) > -1) {
-                competitionRows[i].style.display = "";
-                document.getElementById("data-row-index"+(i)).style.display = "";
-            } else {
-                competitionRows[i].style.display = "none";
-                document.getElementById("data-row-index"+(i)).style.display = "none";
-            }
+            let shouldDisplay = name.toLowerCase().includes(input);
+            competitionRows[i].style.display = shouldDisplay ? "" : "none";
+            // hide/show the <hr> element based on filtering result
+            document.getElementById("data-row-index" + (i)).style.display = shouldDisplay ? "" : "none";
+            // hide/show the buttons based on filtering result
+            document.getElementById("data-button-index" + (i)).style.display = shouldDisplay ? "" : "none";
         }
     }
 }
+
 
 

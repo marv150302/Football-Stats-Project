@@ -51,6 +51,17 @@ async function getTopScorerId(req, res){
         res.status(500).send("Server Error");
     }
 }
+
+async function getAllAppearancesByGameId(req, res) {
+    try {
+        const appearances_ = await APPEARANCES.find({ game_id: req.query.game_id });
+        res.json(appearances_);
+    } catch (err) {
+        console.error(err);
+        throw new Error("Failed to retrieve appearances by game ID");
+    }
+}
+
 const getTopScorersByCompetitionAndYear = async (req, res) => {
     try {
         const competitionId = req.query.competition_id; // Get the competition_id from the request query
@@ -102,5 +113,6 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
 module.exports = {
     getAllAppearances,
     getTopScorer: getTopScorerId,
-    getTopScorersByCompetitionAndYear
+    getTopScorersByCompetitionAndYear,
+    getAllAppearancesByGameId
 };

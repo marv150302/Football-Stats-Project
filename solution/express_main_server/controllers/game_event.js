@@ -10,4 +10,20 @@ const getAllGameEvents = async (req, res) => {
     }
 };
 
-module.exports = { getAllGameEvents };
+const getAllGameEventsById = async (req, res) => {
+    try {
+        const  game_id  = req.query.game_id; // Assuming game_id is passed as a URL parameter
+
+        // Find game events filtered by game_id
+        const gameEvents = await GameEvent.find({'game_id': game_id });
+
+        res.json(gameEvents);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to retrieve game events' });
+    }
+};
+
+
+
+
+module.exports = { getAllGameEvents, getAllGameEventsById };

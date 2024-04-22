@@ -1,0 +1,136 @@
+<div class="container">
+    <!-- competition logo-->
+    <div class="row justify-content-center bg-dark">
+        <div class="col-md-9 text-center">
+            <img src="" alt="competition-logo" id="competition-logo">
+        </div>
+    </div>
+
+    <!--game main info-->
+    <div class="row sticky-top justify-content-center bg-dark">
+        <div class="col-md-9">
+            <div class="card h-100 bg-dark text-light">
+                <a href="/games/game-info" id="index-1-game">
+                    <div class="card-body">
+                        <h5 id="game-round-index" class="card-title fw-bold"> </h5>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="text-center">
+                                <h6 id="home-team-index"></h6>
+                                <img id="home-team-image-index" alt="Home Team Logo" class="img-fluid w-25">
+                            </div>
+                            <div>
+                                <h2 id="game-score-index"></h2>
+                            </div>
+                            <div class="text-center">
+                                <h6 id="away-team-index"></h6>
+                                <img id="away-team-image-index" alt="Team B Logo" class="img-fluid w-25">
+                            </div>
+                        </div>
+                        <p id="game-date-index" class="card-text">Match played on: </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <!--game  lineups-->
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <div class="row align-items-center mb-3">
+                        <div class="col-md-6">
+                            <h5 class="text-center">Starting Lineup</h5>
+                            <h6 class="text-center" id="home-team-lineup"></h6>
+                            <table class="table table-striped" id="home-team-table-starting">
+                                <tbody>
+                                <!-- Home team starting lineup content here -->
+                                </tbody>
+                            </table>
+                            <h5 class="text-center mt-4">Substitutes</h5>
+                            <table class="table table-striped" id="home-team-table-substitutes">
+                                <tbody>
+                                <!-- Home team substitutes content here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-center">Starting Lineup</h5>
+                            <h6 class="text-center" id="away-team-lineup"></h6>
+                            <table class="table table-striped" id="away-team-table-starting">
+                                <tbody>
+                                <!-- Away team starting lineup content here -->
+                                </tbody>
+                            </table>
+                            <h5 class="text-center mt-4">Substitutes</h5>
+                            <table class="table table-striped" id="away-team-table-substitutes">
+                                <tbody>
+                                <!-- Away team substitutes content here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <!--game events -->
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card bg-success text-dark game-events">
+                <div class="card-body">
+                    <h5 class=" text-center card-title fw-bold">Game Events</h5>
+                    <div id="game-events"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--current standings-->
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Standings</h5>
+                    <table id="standings-table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Team</th>
+                            <th>Played</th>
+                            <th>Won</th>
+                            <th>Drawn</th>
+                            <th>Lost</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Team A</td>
+                            <td>10</td>
+                            <td>8</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>25</td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+
+<script src="../javascripts/game_info.js"></script>

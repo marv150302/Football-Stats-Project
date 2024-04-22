@@ -64,5 +64,28 @@ router.get('/games', function(req, res, next) {
   res.render('games', { locals });
 
 });
+router.get('/competition-games', function(req, res) {
+  // Retrieve the competition ID and year from the URL parameters
+  const competitionId = req.params.competitionId;
+  const year = req.params.year;
+
+  const locals = {
+    title: 'Competition Games',
+    description: 'All football matches per competition'
+  };
+
+
+  res.render('competition_games', { locals });
+});
+
+router.get('/games/game-info', function (req,res) {
+
+  const locals = {
+    title: 'Game Info',
+    description: 'Detailed Info About the game'
+  };
+  res.render('game_info', { locals });
+})
+
 
 module.exports = router;

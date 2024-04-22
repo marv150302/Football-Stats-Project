@@ -72,8 +72,8 @@ const getLastFourGamesByCompetitionAndYear = async (req, res) => {
         );
 
         if (lastFourGames && lastFourGames.length > 0) {
-            console.log('Last four games:');
-            console.log(lastFourGames);
+            //console.log('Last four games:');
+            //console.log(lastFourGames);
             res.json(lastFourGames); // Return the last four games as JSON response
         } else {
             console.log('No games found');
@@ -85,9 +85,92 @@ const getLastFourGamesByCompetitionAndYear = async (req, res) => {
     }
 }
 
+const getAllGamesByCompetitionAndYear = async (req, res) => {
+    try {
+        const competitionId = req.query.competition_id; // Get the competition_id from the request query
+        const season = parseInt(req.query.year); // Get the season from the request query
+
+        // Aggregate pipeline to group games by round
+        const games = await Game.aggregate([
+            {
+                $match: {
+                    'competition_id': competitionId,
+                    'season': season
+                }
+            },
+            {
+                $sort: { 'date': -1 } // Sort by date in descending order
+            },
+            {
+                $group: {
+                    _id: '$round',
+                    games: { $push: '$$ROOT' } // Group games by round and store in an array
+                }
+            }
+        ]);
+
+        if (games && games.length > 0) {
+            res.json(games); // Return the grouped games as JSON response
+        } else {
+            console.log('No games found');
+            res.status(404).json({ error: 'No games found for the given competition ID and season' }); // Return 404 if no games are found
+        }
+    } catch (error) {
+        console.error('Error finding games:', error);
+        res.status(500).json({ error: 'Failed to fetch games' }); // Return 500 if an error occurs
+    }
+}
+
+/**
+ *
+ * function for getting the information about a single game
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+const getGameInfo = async (req, res) => {
+    try {
+        const game_id = req.query.game_id;
+
+        // Find the game by its game_id
+        const game = await Game.findOne({ game_id: game_id });
+
+        if (game) {
+            res.json(game);
+        } else {
+            // Game not found
+            res.status(404).json({ error: 'Game not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching game:', error);
+        res.status(500).json({ error: 'Failed to fetch game' });
+    }
+};
+
+async function calculateClubStats(req, res) {
+    const { round, competition_type } = req.query;
+
+    try {
+        // Retrieve all games up to the specified round with the specified competition type
+        const games = await Game.find({ round: { $lte: round }, competition_type });
+
+        // Calculate club stats
+        const clubStats = {};
+
+        games.forEach((game) => {
+            // Update club stats based on the game data
+            // Example: Calculate total goals, goals scored, goals taken, etc.
+            // You can customize this logic based on your requirements
+        });
+
+        res.json(clubStats);
+    } catch (error) {
+        console.error('Error calculating club stats:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
 
 
 
 
-
-module.exports = { getAllGames, getLatestGameByCompetition, getLastFourGamesByCompetitionAndYear};
+module.exports = { getAllGames, getLatestGameByCompetition, getLastFourGamesByCompetitionAndYear, getAllGamesByCompetitionAndYear,getGameInfo};

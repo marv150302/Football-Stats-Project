@@ -36,10 +36,13 @@ function getTopScorer() {
  *
  * function used to load the latest serie a game on the main page
  * @param data  the data of the match
- * @param competition the name of the competitionn
+ * @param competition the name of the competition
+ * @param index the index of the current game
  */
-function loadLatestGameByCompetition(data, competition){
+function loadLatestGameByCompetition(data, competition, index){
 
+    document.getElementById('index-' + (index+1) + '-game').href
+        += '?game_id=' + data.game_id;
     document.getElementById("game-round-index-"+competition).innerText += " " + data['round'];
     document.getElementById("home-team-index-"+competition).innerText = data['home_club_name'];
     document.getElementById("away-team-index-"+competition).innerText = data['away_club_name'];
@@ -71,7 +74,7 @@ function getLatestGame() {
         sendAxiosQuery('/api/get-latest-game-by-competition', {competition_id: competition})
             .then(data => {
 
-                loadLatestGameByCompetition(data,competition_name[index]);
+                loadLatestGameByCompetition(data,competition_name[index], index);
             })
     })
 }
@@ -132,18 +135,3 @@ function loadTopScorers(data, competition) {
 
 
 
-/**
- * Function to send Axios requests.
- * @param {string} url The URL to send the request to.
- * @param {Object} params The parameters object to be sent with the request.
- */
-function sendAxiosQuery(url, params = {}) {
-    return axios.get(url, { params })
-        .then(response => {
-            return response.data; // Return the response data for further processing
-        })
-        .catch(error => {
-            console.error('Axios request failed:', error);
-            throw error; // Rethrow the error for handling in the calling function
-        });
-}
