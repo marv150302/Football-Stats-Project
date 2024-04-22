@@ -26,4 +26,13 @@ public class GameLineupService {
     public List<GameLineup> getAllGamesLineup() {
         return this.game_lineup_repository.findAll();
     }
+
+    /**
+     * Retrieves a game lineup from the database.
+     *
+     * @return A list of GameLineup objects representing a specific game lineup.
+     */
+    public List<GameLineup> getGameLineupById(String game_id) {
+        return this.game_lineup_repository.getGameLineupById(game_id);
+    }
 }

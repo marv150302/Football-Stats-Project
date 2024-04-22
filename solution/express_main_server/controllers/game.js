@@ -1,5 +1,6 @@
 const Game = require('../models/Game');
 
+
 /**
  * function to get all games on the database
  * @param req
@@ -8,7 +9,7 @@ const Game = require('../models/Game');
  */
 const getAllGames = async (req, res) => {
     try {
-        const games = await Game.find()
+        const games = await Game.find().limit(10)
         res.json(games);
     } catch (error) {
         console.error('Error fetching games:', error);
@@ -147,23 +148,91 @@ const getGameInfo = async (req, res) => {
     }
 };
 
-async function calculateClubStats(req, res) {
-    const { round, competition_type } = req.query;
+const  calculateClubStats = async (req, res) => {
+    const matchday  = req.query.gameRound;
+    const competition_id = req.query.competition_id;
+    const season = parseInt(req.query.season)
 
     try {
         // Retrieve all games up to the specified round with the specified competition type
-        const games = await Game.find({ round: { $lte: round }, competition_type });
+        const games = await Game.aggregate([
+            {
+                $match: {
+                    season: season,
+                    competition_id: competition_id,
+                    round: { $lte: matchday }
+                }
+            }])
 
-        // Calculate club stats
+        //res.json(games);
+
+
+        // Initialize club statistics object
         const clubStats = {};
 
-        games.forEach((game) => {
-            // Update club stats based on the game data
-            // Example: Calculate total goals, goals scored, goals taken, etc.
-            // You can customize this logic based on your requirements
+        // Iterate over each game to calculate statistics for each club
+        games.forEach(game => {
+            const homeClub = game.home_club_id.toString();
+            const awayClub = game.away_club_id.toString();
+            const homeGoals = game.home_club_goals;
+            const awayGoals = game.away_club_goals;
+
+            // Update home club statistics
+            if (!clubStats[homeClub]) {
+                clubStats[homeClub] = {
+                    goalsScored: 0,
+                    goalsTaken: 0,
+                    matchesPlayed: 0
+                };
+            }
+            clubStats[homeClub].goalsScored += homeGoals;
+            clubStats[homeClub].goalsTaken += awayGoals;
+            clubStats[homeClub].matchesPlayed++;
+
+            // Update away club statistics
+            if (!clubStats[awayClub]) {
+                clubStats[awayClub] = {
+                    goalsScored: 0,
+                    goalsTaken: 0,
+                    matchesPlayed: 0
+                };
+            }
+            clubStats[awayClub].goalsScored += awayGoals;
+            clubStats[awayClub].goalsTaken += homeGoals;
+            clubStats[awayClub].matchesPlayed++;
         });
 
-        res.json(clubStats);
+        // Calculate additional statistics and position for each club
+        const clubStatsWithPosition = Object.keys(clubStats).map(clubId => {
+            const { goalsScored, goalsTaken, matchesPlayed } = clubStats[clubId];
+            const goalDifference = goalsScored - goalsTaken;
+            const points = matchesPlayed * 3; // Assuming 3 points for each win (no draws considered)
+
+            return {
+                clubId,
+                goalsScored,
+                goalsTaken,
+                matchesPlayed,
+                goalDifference,
+                points
+            };
+        });
+
+        // Sort clubs by points and goal difference to determine position
+        clubStatsWithPosition.sort((a, b) => {
+            if (a.points !== b.points) {
+                return b.points - a.points; // Sort by points
+            } else {
+                return b.goalDifference - a.goalDifference; // If points are equal, sort by goal difference
+            }
+        });
+
+        // Assign position based on sorted order
+        clubStatsWithPosition.forEach((clubStats, index) => {
+            clubStats.position = index + 1; // Add 1 to index since position starts from 1
+        });
+
+        res.json(clubStatsWithPosition);
     } catch (error) {
         console.error('Error calculating club stats:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -173,4 +242,5 @@ async function calculateClubStats(req, res) {
 
 
 
-module.exports = { getAllGames, getLatestGameByCompetition, getLastFourGamesByCompetitionAndYear, getAllGamesByCompetitionAndYear,getGameInfo};
+
+module.exports = { getAllGames, getLatestGameByCompetition, getLastFourGamesByCompetitionAndYear, getAllGamesByCompetitionAndYear,getGameInfo, calculateClubStats};

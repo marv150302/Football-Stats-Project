@@ -50,6 +50,7 @@ async function getClubStandingData(req,res){
         const gameRound  = req.query.gameRound;
         const competition_id = req.query.competition_id;
 
+        /*
         // Retrieve all club games from the provided matchday and competition type
         const clubGames = await CLUB_GAMES.aggregate([
             {
@@ -106,9 +107,45 @@ async function getClubStandingData(req,res){
 
             // Calculate total points
             clubStats[club_id].totalPoints = clubStats[club_id].wins * 3 + clubStats[club_id].draws;
-        });
+        });*/
 
-        res.json(clubStats);
+
+        /*const result = await GAMES.aggregate([
+            {
+                $match: {
+                    round: gameRound,
+                    competition_id: competition_id
+                }
+            },
+            {
+                $lookup: {
+                    from: "club_games", // Name of the club_games collection
+                    localField: "game_id",
+                    foreignField: "game_id",
+                    as: "clubGameInfo"
+                }
+            },
+            {
+                $unwind: "$clubGameInfo" // Unwind the array field created by the $lookup stage
+            },
+            {
+                $project: {
+                    _id: 0,
+                    home_club_name: 1,
+                    away_club_name: 1,
+                    own_goals: "$clubGameInfo.own_goals",
+                    opponent_goals: "$clubGameInfo.opponent_goals",
+                    own_position: "$clubGameInfo.own_position",
+                    game_id: 1,
+                    round: 1,
+                    competition_id: 1,
+                    // Add more fields from club_games or games collection as needed
+                }
+            }
+        ]);
+        res.json(result);
+
+       res.json(clubStats);*/
     } catch (error) {
         console.error('Error calculating club stats:', error);
         res.status(500).json({ error: 'Internal server error' });

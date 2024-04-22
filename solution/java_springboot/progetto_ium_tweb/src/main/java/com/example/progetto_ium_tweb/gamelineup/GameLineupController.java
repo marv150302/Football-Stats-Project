@@ -2,6 +2,7 @@ package com.example.progetto_ium_tweb.gamelineup;
 import com.example.progetto_ium_tweb.clubs.Club;
 import com.example.progetto_ium_tweb.competition.Competition;
 import com.example.progetto_ium_tweb.competition.CompetitionService;
+import com.example.progetto_ium_tweb.players.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,17 @@ public class GameLineupController {
     public List<GameLineup> getAllGamesLineup(){
 
         return this.game_lineup_service.getAllGamesLineup();
+    }
+
+    /**
+     * get the game lineup by the id
+     * @param game_id the id of the game
+     * @return a list containing all game lineup info
+     */
+    @GetMapping("/get-game-lineup-data-by-id")
+    public List<GameLineup> getGameLineupById(@RequestParam String game_id){
+
+        return this.game_lineup_service.getGameLineupById(game_id);
+
     }
 }
