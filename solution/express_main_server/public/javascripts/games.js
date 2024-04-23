@@ -69,9 +69,15 @@ function loadCompetitionsGames(competition, gamesResponse, index, array) {
 
         let home_team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + game['home_club_id'] + ".png";
         let away_team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + game['away_club_id'] + ".png";
+        const game_link = '/games/game-info?game_id=' + game.game_id
+            + '&date=' + game.date
+            + '&season=' + game.season
+            + '&competition_id=' + game.competition_id
+            + '&home_club_id=' + game.home_club_id
+            + '&away_club_id=' + game.away_club_id;
 
         card.innerHTML = `
-                        <a href="#">
+                        <a href='${game_link}'>
                             <div class="card-body">
                                 <h5 class="card-title fw-bold">Round: ${game.round}</h5>
                                 <div class="d-flex justify-content-between align-items-center mb-3">

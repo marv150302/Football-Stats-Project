@@ -149,7 +149,7 @@ const getGameInfo = async (req, res) => {
 };
 
 const  calculateClubStats = async (req, res) => {
-    const matchday  = req.query.gameRound;
+    const date  = req.query.date;
     const competition_id = req.query.competition_id;
     const season = parseInt(req.query.season)
 
@@ -160,11 +160,11 @@ const  calculateClubStats = async (req, res) => {
                 $match: {
                     season: season,
                     competition_id: competition_id,
-                    round: { $lte: matchday }
+                    $expr: {
+                        $lte: [ { $toDate: "$date" }, { $toDate: date } ]
+                    }
                 }
             }])
-
-        //res.json(games);
 
 
         // Initialize club statistics object
@@ -182,31 +182,38 @@ const  calculateClubStats = async (req, res) => {
                 clubStats[homeClub] = {
                     goalsScored: 0,
                     goalsTaken: 0,
-                    matchesPlayed: 0
+                    matchesPlayed: 0,
+                    points: 0,
+                    name: game.home_club_name
                 };
             }
             clubStats[homeClub].goalsScored += homeGoals;
             clubStats[homeClub].goalsTaken += awayGoals;
             clubStats[homeClub].matchesPlayed++;
+            if (homeGoals > awayGoals) clubStats[homeClub].points+=3;//win
+            if (homeGoals === awayGoals) clubStats[homeClub].points++;//draw
 
             // Update away club statistics
             if (!clubStats[awayClub]) {
                 clubStats[awayClub] = {
                     goalsScored: 0,
                     goalsTaken: 0,
-                    matchesPlayed: 0
-                };
+                    matchesPlayed: 0,
+                    points:0,
+                    name: game.away_club_name
+                }
             }
             clubStats[awayClub].goalsScored += awayGoals;
             clubStats[awayClub].goalsTaken += homeGoals;
             clubStats[awayClub].matchesPlayed++;
+            if (awayGoals > homeGoals) clubStats[awayClub].points+=3;//win
+            if (homeGoals === awayGoals) clubStats[awayClub].points++;//draw
         });
 
         // Calculate additional statistics and position for each club
         const clubStatsWithPosition = Object.keys(clubStats).map(clubId => {
-            const { goalsScored, goalsTaken, matchesPlayed } = clubStats[clubId];
+            const { goalsScored, goalsTaken, matchesPlayed, points, name } = clubStats[clubId];
             const goalDifference = goalsScored - goalsTaken;
-            const points = matchesPlayed * 3; // Assuming 3 points for each win (no draws considered)
 
             return {
                 clubId,
@@ -214,7 +221,8 @@ const  calculateClubStats = async (req, res) => {
                 goalsTaken,
                 matchesPlayed,
                 goalDifference,
-                points
+                points,
+                name
             };
         });
 

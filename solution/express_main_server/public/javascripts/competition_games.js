@@ -21,10 +21,6 @@ window.addEventListener('load', function() {
 });
 
 
-
-
-
-
 function displayGamesByMatchday(groupedGames, competitionId, year) {
 
     const container = document.getElementById('competitions-container');
@@ -51,8 +47,15 @@ function displayGamesByMatchday(groupedGames, competitionId, year) {
             const homeTeamLogo = `https://tmssl.akamaized.net/images/wappen/head/${game.home_club_id}.png`;
             const awayTeamLogo = `https://tmssl.akamaized.net/images/wappen/head/${game.away_club_id}.png`;
 
+            const game_link = '/games/game-info?game_id=' + game.game_id
+                + '&date=' + game.date
+                + '&season=' + game.season
+                + '&competition_id=' + game.competition_id
+                + '&home_club_id=' + game.home_club_id
+                + '&away_club_id=' + game.away_club_id;
+
             card.innerHTML = `
-                <a href="/games/game-info">
+                <a href='${game_link}'>
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="text-center">

@@ -2,6 +2,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const urlParams = new URLSearchParams(window.location.search);
     const game_id = urlParams.get('game_id');
+    const season = urlParams.get('season');
+    const date = urlParams.get('date');
+    const competition_id = urlParams.get('competition_id');
+    const home_club_id = urlParams.get('home_club_id');
+    const away_club_id = urlParams.get('away_club_id');
+
+
     sendAxiosQuery('/api/get-game-info', {game_id: game_id})
         .then(data => {
 
@@ -11,8 +18,13 @@ document.addEventListener('DOMContentLoaded', function () {
     sendAxiosQuery('/api/get-all-game-events-by-game-id', {game_id: game_id})
         .then(game_events => {
 
-            console.log(game_events)
             loadGameEvents(game_events);
+        })
+
+    sendAxiosQuery('/api/get-standings-up-to-round', {date:date, season:season, competition_id:competition_id})
+        .then(standings =>{
+
+            loadStandings(standings, home_club_id, away_club_id);
         })
 });
 
@@ -175,7 +187,6 @@ async function getPlayerName(playerId) {
     }
 }
 
-
 function getEventIcon(eventType) {
     let iconPath;
     switch (eventType) {
@@ -193,5 +204,54 @@ function getEventIcon(eventType) {
             break;
     }
     return iconPath;
+}
+
+function loadStandings(standings, home_club_id,away_club_id) {
+    const standingsTable = document.getElementById('standings-table');
+
+    // Clear existing standings
+    standingsTable.innerHTML = '';
+
+    // Create table header
+    const tableHeader = `
+        <tr>
+            <th>Position</th>
+            <th>Team</th>
+            <th>Played</th>
+            <th>Goals Scored</th>
+            <th>Goals Taken</th>
+            <th>Goal Difference</th>
+            <th>Points</th>
+        </tr>
+    `;
+    standingsTable.insertAdjacentHTML('beforeend', tableHeader);
+
+    // Iterate over each team in the standings and create a table row
+
+    standings.forEach((team, index) => {
+        const isEvenRow = index % 2 === 0;
+        let home_team_row_color;
+        let away_team_row_color;
+        let currentTeamClass = '' // Add bg-warning class for current team
+        if (team.clubId == home_club_id) currentTeamClass = 'bg-success'
+        if (team.clubId == away_club_id) currentTeamClass = 'bg-warning'
+
+
+
+        let rowClass = isEvenRow ? 'bg-light' : 'bg-white'; // Alternate stripe classes
+
+        const row = `
+            <tr class=" ${currentTeamClass} ">
+                <td>${team.position}</td>
+                <td>${team.name}</td>
+                <td>${team.matchesPlayed}</td>
+                <td>${team.goalsScored}</td>
+                <td>${team.goalsTaken}</td>
+                <td>${team.goalDifference}</td>
+                <td>${team.points}</td>
+            </tr>
+        `;
+        standingsTable.insertAdjacentHTML('beforeend', row);
+    });
 }
 

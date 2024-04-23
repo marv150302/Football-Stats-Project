@@ -42,7 +42,12 @@ function getTopScorer() {
 function loadLatestGameByCompetition(data, competition, index){
 
     document.getElementById('index-' + (index+1) + '-game').href
-        += '?game_id=' + data.game_id;
+        += '?game_id=' + data.game_id
+        + '&date=' + data.date
+        + '&season=' + data.season
+        + '&competition_id=' + data.competition_id
+        + '&home_club_id=' + data.home_club_id
+        + '&away_club_id=' + data.away_club_id;
     document.getElementById("game-round-index-"+competition).innerText += " " + data['round'];
     document.getElementById("home-team-index-"+competition).innerText = data['home_club_name'];
     document.getElementById("away-team-index-"+competition).innerText = data['away_club_name'];
