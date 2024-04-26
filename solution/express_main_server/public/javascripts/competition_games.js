@@ -7,8 +7,9 @@ window.addEventListener('load', function() {
     sendAxiosQuery('/api/get-all-games-by-competition-and-year', {competition_id:competitionId, year:year})
         .then(data =>{
 
-
-
+            /**
+             * order the games by date
+             */
             data.sort((a, b) => {
                 const lastMatchADate = new Date(a.games[a.games.length - 1].date);
                 const lastMatchBDate = new Date(b.games[b.games.length - 1].date);

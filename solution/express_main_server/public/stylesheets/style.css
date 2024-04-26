@@ -15,8 +15,17 @@ a{
 }
 a:hover{
 
-  color: #ffc107;
+  color: #ffc107 !important;
 }
+
+/**
+the link of the players in the game lineups
+ */
+.player-lineups-name-link:hover{
+
+   color: #0056b3 !important;
+}
+
 .nav-link:hover {
   color: #28a745 !important;
 }

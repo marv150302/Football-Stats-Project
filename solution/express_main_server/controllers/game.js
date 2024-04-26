@@ -148,6 +148,35 @@ const getGameInfo = async (req, res) => {
     }
 };
 
+const getHead2Head = async (req, res) => {
+    try {
+
+        try {
+            const homeClubId = req.query.home_club_id;
+            const awayClubId = req.query.away_club_id;
+
+            // Query to find games where the two clubs have faced each other
+            const games = await Game.find({
+                $or: [
+                    { $and: [{ home_club_id: homeClubId }, { away_club_id: awayClubId }] },
+                    { $and: [{ home_club_id: awayClubId }, { away_club_id: homeClubId }] }
+                ]
+            });
+
+            if (!games || games.length === 0) {
+                return res.status(404).send({ message: 'No games found for these teams.' });
+            }
+
+            res.json(games);
+        } catch (error) {
+            res.status(500).send({ message: "Server error", error: error });
+        }
+    } catch (error) {
+        console.error('Error fetching game:', error);
+        res.status(500).json({ error: 'Failed to fetch game' });
+    }
+};
+
 const  calculateClubStats = async (req, res) => {
     const date  = req.query.date;
     const competition_id = req.query.competition_id;
@@ -184,35 +213,35 @@ const  calculateClubStats = async (req, res) => {
                     goalsTaken: 0,
                     matchesPlayed: 0,
                     points: 0,
-                    name: game.home_club_name
+                    name: game.home_club_name,
+                    wins: 0,
+                    loss: 0,
+                    drawn: 0
                 };
             }
             clubStats[homeClub].goalsScored += homeGoals;
             clubStats[homeClub].goalsTaken += awayGoals;
             clubStats[homeClub].matchesPlayed++;
-            if (homeGoals > awayGoals) clubStats[homeClub].points+=3;//win
-            if (homeGoals === awayGoals) clubStats[homeClub].points++;//draw
+            if (homeGoals > awayGoals) {
 
-            // Update away club statistics
-            if (!clubStats[awayClub]) {
-                clubStats[awayClub] = {
-                    goalsScored: 0,
-                    goalsTaken: 0,
-                    matchesPlayed: 0,
-                    points:0,
-                    name: game.away_club_name
-                }
+                //win
+                clubStats[homeClub].points+=3;
+                clubStats[homeClub].wins++;
+            }else if (homeGoals === awayGoals) {
+
+                //draw
+                clubStats[homeClub].points++;
+                clubStats[homeClub].drawn++;
+            }else{
+
+                //loss
+                clubStats[homeClub].loss++;
             }
-            clubStats[awayClub].goalsScored += awayGoals;
-            clubStats[awayClub].goalsTaken += homeGoals;
-            clubStats[awayClub].matchesPlayed++;
-            if (awayGoals > homeGoals) clubStats[awayClub].points+=3;//win
-            if (homeGoals === awayGoals) clubStats[awayClub].points++;//draw
+
         });
 
-        // Calculate additional statistics and position for each club
         const clubStatsWithPosition = Object.keys(clubStats).map(clubId => {
-            const { goalsScored, goalsTaken, matchesPlayed, points, name } = clubStats[clubId];
+            const { goalsScored, goalsTaken, matchesPlayed, points, name, wins, loss, drawn } = clubStats[clubId];
             const goalDifference = goalsScored - goalsTaken;
 
             return {
@@ -222,7 +251,10 @@ const  calculateClubStats = async (req, res) => {
                 matchesPlayed,
                 goalDifference,
                 points,
-                name
+                name,
+                wins,
+                loss,
+                drawn
             };
         });
 
@@ -251,4 +283,13 @@ const  calculateClubStats = async (req, res) => {
 
 
 
-module.exports = { getAllGames, getLatestGameByCompetition, getLastFourGamesByCompetitionAndYear, getAllGamesByCompetitionAndYear,getGameInfo, calculateClubStats};
+
+
+module.exports = {
+    getAllGames,
+    getLatestGameByCompetition,
+    getLastFourGamesByCompetitionAndYear,
+    getAllGamesByCompetitionAndYear,
+    getGameInfo,
+    calculateClubStats,
+    getHead2Head};

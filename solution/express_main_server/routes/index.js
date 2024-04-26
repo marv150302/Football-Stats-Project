@@ -87,5 +87,13 @@ router.get('/games/game-info', function (req,res) {
   res.render('game_info', { locals });
 })
 
+router.get('/players/player-info', function (req,res) {
+
+  const locals = {
+    title: 'Player Data',
+    description: 'Detailed Info About the Player'
+  };
+  res.render('player_info', { locals });
+})
 
 module.exports = router;

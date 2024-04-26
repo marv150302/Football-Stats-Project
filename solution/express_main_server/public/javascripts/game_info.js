@@ -1,38 +1,51 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const game_id = urlParams.get('game_id');
+        const season = urlParams.get('season');
+        const date = urlParams.get('date');
+        const competition_id = urlParams.get('competition_id');
+        const home_club_id = urlParams.get('home_club_id');
+        const away_club_id = urlParams.get('away_club_id');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const game_id = urlParams.get('game_id');
-    const season = urlParams.get('season');
-    const date = urlParams.get('date');
-    const competition_id = urlParams.get('competition_id');
-    const home_club_id = urlParams.get('home_club_id');
-    const away_club_id = urlParams.get('away_club_id');
+        // Load game info
+        const gameInfo = await sendAxiosQuery('/api/get-game-info', {game_id});
+        console.log(gameInfo)
+        loadGameInfo(gameInfo);
+        getLineups(gameInfo);
 
+        // Load game events
+        const gameEvents = await sendAxiosQuery('/api/get-all-game-events-by-game-id', {game_id});
+        loadGameEvents(gameEvents);
 
-    sendAxiosQuery('/api/get-game-info', {game_id: game_id})
-        .then(data => {
+        // Load standings
+        const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
+            date: date,
+            season: season,
+            competition_id: competition_id
+        });
 
-            loadGameInfo(data)
+        loadStandings(standings, home_club_id, away_club_id);
+        loadMinorData(gameInfo);
+
+        const h2h_games = await sendAxiosQuery('/api/get-head-2-head-games', {
+            home_club_id:home_club_id,
+            away_club_id: away_club_id
+
         })
+        displayH2HGames(h2h_games);
 
-    sendAxiosQuery('/api/get-all-game-events-by-game-id', {game_id: game_id})
-        .then(game_events => {
-
-            loadGameEvents(game_events);
-        })
-
-    sendAxiosQuery('/api/get-standings-up-to-round', {date:date, season:season, competition_id:competition_id})
-        .then(standings =>{
-
-            loadStandings(standings, home_club_id, away_club_id);
-        })
+    } catch (error) {
+        console.error('Failed to load game data:', error);
+    }
 });
+
 
 /**
  * function used for displaying the game info on page
  * @param data the game data
  */
-function loadGameInfo(data,) {
+function loadGameInfo(data) {
 
     document.getElementById("game-round-index").innerText += " " + data['round'];
     document.getElementById("home-team-index").innerText = data['home_club_name'];
@@ -51,7 +64,7 @@ function loadGameInfo(data,) {
     document.getElementById('game-date-index').innerText += " " + date.toLocaleDateString('en-US', options)
     document.getElementById('competition-logo').src = 'https://tmssl.akamaized.net/images/logo/header/' + data.competition_id.toLowerCase() + '.png';
 
-    getLineups(data);
+
 }
 
 /**
@@ -81,14 +94,18 @@ function getLineups(data) {
             const home_team_lineups = groupedData.get(data.home_club_id);
             const away_team_lineups = groupedData.get(data.away_club_id);
 
-
-            loadLineups('home', home_team_lineups);
-            loadLineups('away', away_team_lineups);
+            loadLineups('home', home_team_lineups, data.home_club_id);
+            loadLineups('away', away_team_lineups, data.away_club_id);
 
         })
 }
 
-function loadLineups(team, players) {
+/**
+ * function used to load the lineups on the page
+ * @param team identifies if it's the home or away team
+ * @param players the players of the corresponding team
+ */
+function loadLineups(team, players, team_id) {
     const startingTableBody = document.querySelector(`#${team}-team-table-starting tbody`);
     const substitutesTableBody = document.querySelector(`#${team}-team-table-substitutes tbody`);
 
@@ -99,9 +116,15 @@ function loadLineups(team, players) {
     // Iterate over the players and create table rows based on their type
     players.forEach(player => {
 
+        const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${team_id}.png`;
         const row = document.createElement('tr');
-        row.innerHTML = `<td class="" >${player.playerName}</td>
-                        <td class="text-secondary">${player.position}</td>
+        row.innerHTML = `<td class="text-dark" >
+                            <a class="player-lineups-name-link text-dark link-underline-primary" href="/players/player-info?player_id=${player.playerId}">
+                                <img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;">
+                                ${player.number} . ${player.playerName}
+                            </a>
+                         </td>
+                        <td class="text-success">${getPositionInitials(player.position)}</td>
                         <td>${player.teamCaptain === 1 ? '<svg  xmlns="http://www.w3.org/2000/svg" ' +
             '                                                   width="16" ' +
             '                                                   height="16" ' +
@@ -119,7 +142,10 @@ function loadLineups(team, players) {
     });
 }
 
-
+/**
+ * function used to load the events of a game
+ * @param events array of object containing all the game events
+ */
 function loadGameEvents(events) {
     const gameEventsDiv = document.getElementById('game-events');
 
@@ -145,12 +171,12 @@ function loadGameEvents(events) {
         if (event.type === 'Substitutions') {
 
             const substitutionInfo = document.createElement('p');
-            getPlayerName(event.player_in_id)
+            getPlayerDataById(event.player_in_id)
                 .then(playerIn => {
 
                     substitutionInfo.textContent = 'IN: ' + playerIn.name + ', ';
                 })
-            getPlayerName(event.player_id)
+            getPlayerDataById(event.player_id)
                 .then(playerOut => {
 
                     substitutionInfo.textContent += 'OUT: ' + playerOut.name;
@@ -161,7 +187,7 @@ function loadGameEvents(events) {
         } else {
 
             const event_info = document.createElement('p');
-            getPlayerName(event.player_id)
+            getPlayerDataById(event.player_id)
                 .then(player => {
 
                     event_info.textContent = `${player.name}'`;
@@ -178,15 +204,12 @@ function loadGameEvents(events) {
     }
 }
 
-async function getPlayerName(playerId) {
-    try {
-        return await sendAxiosQuery('/api/get-player-data-by-id', {playerId: playerId});
-    } catch (error) {
-        console.error('Error fetching player data:', error);
-        return null;
-    }
-}
-
+/**
+ *
+ * function used to load the icon corresponding to an event
+ * @param eventType the type of event in question
+ * @returns {string} the src of the icon image
+ */
 function getEventIcon(eventType) {
     let iconPath;
     switch (eventType) {
@@ -206,52 +229,133 @@ function getEventIcon(eventType) {
     return iconPath;
 }
 
+/**
+ *
+ * function used to load the standings the teams in the legue of the curent match
+ * the home team will be highlighted in green, the away in yellow
+ * @param standings an array of object containing data about the league standings
+ * @param home_club_id the id of the home team used to highlight its row on the table
+ * @param away_club_id the id of the away team used to highlight its row on the table
+ */
 function loadStandings(standings, home_club_id,away_club_id) {
-    const standingsTable = document.getElementById('standings-table');
+    const standingsTable = document.getElementById('standings-table-tbody');
 
-    // Clear existing standings
     standingsTable.innerHTML = '';
 
-    // Create table header
-    const tableHeader = `
-        <tr>
-            <th>Position</th>
-            <th>Team</th>
-            <th>Played</th>
-            <th>Goals Scored</th>
-            <th>Goals Taken</th>
-            <th>Goal Difference</th>
-            <th>Points</th>
-        </tr>
-    `;
-    standingsTable.insertAdjacentHTML('beforeend', tableHeader);
-
-    // Iterate over each team in the standings and create a table row
 
     standings.forEach((team, index) => {
         const isEvenRow = index % 2 === 0;
-        let home_team_row_color;
-        let away_team_row_color;
+
         let currentTeamClass = '' // Add bg-warning class for current team
         if (team.clubId == home_club_id) currentTeamClass = 'bg-success'
         if (team.clubId == away_club_id) currentTeamClass = 'bg-warning'
 
-
-
         let rowClass = isEvenRow ? 'bg-light' : 'bg-white'; // Alternate stripe classes
-
+        const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${team.clubId}.png`;
         const row = `
-            <tr class=" ${currentTeamClass} ">
+            <tr class="${currentTeamClass}">
                 <td>${team.position}</td>
-                <td>${team.name}</td>
+                <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"> ${team.name}</td>
                 <td>${team.matchesPlayed}</td>
-                <td>${team.goalsScored}</td>
-                <td>${team.goalsTaken}</td>
-                <td>${team.goalDifference}</td>
+                <td>${team.goalsScored} : ${team.goalsTaken}</td>
+                <td>${team.wins}</td>
+                <td>${team.loss}</td>
+                <td>${team.drawn}</td>
                 <td>${team.points}</td>
             </tr>
         `;
+
         standingsTable.insertAdjacentHTML('beforeend', row);
     });
+}
+
+/**
+ * function used to get the initials of the players position
+ * I.E. Center-Back -> CB
+ * @param position
+ * @returns {string}
+ */
+function getPositionInitials(position) {
+
+    if (position == 'Goalkeeper') return 'GK';
+    // Replace hyphens with spaces and split the string into words
+    let words = position.toString().replace('-', ' ').split(' ');
+    // Get the first letter of each word and join them
+    let initials = words.map(word => word[0].toUpperCase()).join('');
+    return initials;
+}
+
+/**
+ * function used to load the least important data
+ * like the manager names, the stadium, the refree name and the competition type
+ * @param data the data of the game
+ */
+function loadMinorData(data) {
+    // Set text for each part, being careful not to disturb the image tags
+    // Using querySelector to target specific spans for text injection
+    document.querySelector('#referee-name span').textContent = `Referee: ${data.referee}`;
+    document.querySelector('#home-manager-name span').textContent = `Home Manager: ${data.home_club_manager_name}`;
+    document.querySelector('#away-manager-name span').textContent = `Away Manager: ${data.away_club_manager_name}`;
+    document.querySelector('#stadium-name span').textContent = `Stadium: ${data.stadium}`;
+}
+
+/**
+ * function for loading the head to head games card
+ * @param games
+ */
+function displayH2HGames(games) {
+    const container = document.querySelector('.head-to-head');
+
+    games.forEach(game => {
+        const card = createGameCard(game);
+        container.appendChild(card);
+    });
+}
+
+/**
+ * function used for dynamically creating the cards for the head 2 head section
+ * @param game the  game data
+ * @returns {HTMLDivElement} the card
+ */
+function createGameCard(game) {
+
+    let home_team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + game['home_club_id'] + ".png";
+    let away_team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + game['away_club_id'] + ".png";
+
+    const colDiv = document.createElement('div');
+    colDiv.className = 'col-md-4 mb-4';
+
+    const card = document.createElement('div');
+    card.className = 'card h-100 bg-secondary text-light';
+
+    const gameDate = new Date(game.date).toLocaleDateString('en-GB'); // Formatting date for display
+
+    const link = document.createElement('a');
+    link.href = `/games/game-info?game_id=${game.game_id}&date=${game.date}&season=${game.season}&competition_id=${game.competition_id}&home_club_id=${game.home_club_id}&away_club_id=${game.away_club_id}`;
+    link.innerHTML = `
+        <div class="card-body">
+            <h5 class="card-title fw-bold">Round: ${game.round}</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="text-center">
+                    <h6>${game.home_club_name}</h6>
+                    <img src="${home_team_logo}" alt="Home Team Logo" class="img-fluid" style="max-width: 50px;">
+                </div>
+                <div>
+                    <h2>${game.aggregate}</h2>
+                </div>
+                <div class="text-center">
+                    <h6>${game.away_club_name}</h6>
+                    <img src="${away_team_logo}" alt="Away Team Logo" class="img-fluid" style="max-width: 50px;">
+                </div>
+            </div>
+            <p class="card-text">Match played on: ${gameDate}</p>
+        </div>
+        <br>
+    `;
+
+    card.appendChild(link); // Append the link (which contains the card body) to the card div
+    colDiv.appendChild(card); // Append the card to the column div
+
+    return colDiv; // Return the column div instead of just the card
 }
 

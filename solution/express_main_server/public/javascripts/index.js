@@ -1,40 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    getLatestGame();
-    getTopScorersByCompetitionAndYear();
+    /**
+     * checking if we're on the main page
+     * this index.js file is shared among different html files
+     */
+    if (document.getElementById('index-page-data')){
+
+        getLatestGame();
+        getTopScorersByCompetitionAndYear();
+    }
 });
-
-
-
-function loadTopScoerData(player) {
-
-    document.getElementById('top-goal-scorer-img').src = player.imageUrl;
-}
-
-/**
- * function used to get all the info about the top scoring player
- * once the player's ID has been retrieved
- */
-function getTopScorer() {
-    getTopScorerID().then(player_id => {
-
-        sendAxiosQuery('/api/get-player-data-by-id', { playerId: player_id._id })
-            .then(data => {
-
-                loadTopScoerData(data)
-                //console.log('Player Data:', data);
-            })
-            .catch(error => {
-                console.error('Failed to fetch player data:', error);
-            });
-    })
-
-
-}
 
 /**
  *
- * function used to load the latest serie a game on the main page
+ * function used to load the latest game by competition on the main page
  * @param data  the data of the match
  * @param competition the name of the competition
  * @param index the index of the current game
@@ -85,24 +64,6 @@ function getLatestGame() {
 }
 
 /**
- * Function used to get both the ID of the player
- * @returns {*}
- */
-function getTopScorerID() {
-
-    return axios.get('/api/top-scorer-id')
-        .then(response => {
-
-            return response.data[0];
-            //getTopScorer(player_id)
-        })
-        .catch(error => {
-
-            console.error('Error:', error);
-        });
-}
-
-/**
  * Function to retrieve the id and the total of goals
  * of the top three players, from three competitons
  */
@@ -138,5 +99,20 @@ function loadTopScorers(data, competition) {
     })
 }
 
+
+/**
+ *
+ * function used to get the player nae by his id
+ * @param playerId the id of the player in question
+ * @returns {Promise<*|null>}
+ */
+async function getPlayerDataById(playerId) {
+    try {
+        return await sendAxiosQuery('/api/get-player-data-by-id', {playerId: playerId});
+    } catch (error) {
+        console.error('Error fetching player data:', error);
+        return null;
+    }
+}
 
 
