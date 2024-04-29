@@ -150,32 +150,56 @@ const getGameInfo = async (req, res) => {
 
 const getHead2Head = async (req, res) => {
     try {
+        const homeClubId = req.query.home_club_id;
+        const awayClubId = req.query.away_club_id;
 
-        try {
-            const homeClubId = req.query.home_club_id;
-            const awayClubId = req.query.away_club_id;
+        // Retrieve all games involving either team
+        const games = await Game.find({
+            $or: [
+                { $and: [{ home_club_id: homeClubId }, { away_club_id: awayClubId }] },
+                { $and: [{ home_club_id: awayClubId }, { away_club_id: homeClubId }] }
+            ]
+        }).sort({ date: 1 });
 
-            // Query to find games where the two clubs have faced each other
-            const games = await Game.find({
-                $or: [
-                    { $and: [{ home_club_id: homeClubId }, { away_club_id: awayClubId }] },
-                    { $and: [{ home_club_id: awayClubId }, { away_club_id: homeClubId }] }
-                ]
-            });
-
-            if (!games || games.length === 0) {
-                return res.status(404).send({ message: 'No games found for these teams.' });
-            }
-
-            res.json(games);
-        } catch (error) {
-            res.status(500).send({ message: "Server error", error: error });
+        if (!games || games.length === 0) {
+            return res.status(404).send({ message: 'No games found for these teams.' });
         }
+
+        // Filter and group games manually
+        const filteredAndGroupedGames = groupGamesBySeason(games);
+
+        res.json(filteredAndGroupedGames);
     } catch (error) {
-        console.error('Error fetching game:', error);
-        res.status(500).json({ error: 'Failed to fetch game' });
+        console.error('Error fetching head-to-head games:', error);
+        res.status(500).send({ message: "Server error", error: error });
     }
 };
+
+/**
+ * function to group all the games by season
+ * @param games the object containing all the games
+ * @returns {{}}
+ */
+function groupGamesBySeason(games) {
+    const grouped = {};
+    games.forEach(game => {
+        const season = game.season;
+        if (!grouped[season]) {
+            grouped[season] = [];
+        }
+        grouped[season].push(game);
+    });
+
+    // Sort the season keys which are strings of year numbers in descending order
+    const sortedSeasons = Object.keys(grouped).sort((a, b) => parseInt(b) - parseInt(a));
+
+    const sortedGrouped = {};
+    sortedSeasons.forEach(season => {
+        sortedGrouped[season] = grouped[season];
+    });
+
+    return sortedGrouped;
+}
 
 const  calculateClubStats = async (req, res) => {
     const date  = req.query.date;
@@ -240,43 +264,53 @@ const  calculateClubStats = async (req, res) => {
 
         });
 
-        const clubStatsWithPosition = Object.keys(clubStats).map(clubId => {
-            const { goalsScored, goalsTaken, matchesPlayed, points, name, wins, loss, drawn } = clubStats[clubId];
-            const goalDifference = goalsScored - goalsTaken;
-
-            return {
-                clubId,
-                goalsScored,
-                goalsTaken,
-                matchesPlayed,
-                goalDifference,
-                points,
-                name,
-                wins,
-                loss,
-                drawn
-            };
-        });
-
-        // Sort clubs by points and goal difference to determine position
-        clubStatsWithPosition.sort((a, b) => {
-            if (a.points !== b.points) {
-                return b.points - a.points; // Sort by points
-            } else {
-                return b.goalDifference - a.goalDifference; // If points are equal, sort by goal difference
-            }
-        });
-
-        // Assign position based on sorted order
-        clubStatsWithPosition.forEach((clubStats, index) => {
-            clubStats.position = index + 1; // Add 1 to index since position starts from 1
-        });
-
-        res.json(clubStatsWithPosition);
+        res.json(getTeamStandings(clubStats));
     } catch (error) {
         console.error('Error calculating club stats:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
+}
+
+/**
+ *
+ * function to get the clubs standings on the table
+ * @param clubStats the object containing the clubs main stats besides the position
+ * @returns {{wins: *, goalsTaken: *, loss: *, matchesPlayed: *, name: *, clubId: *, drawn: *, goalsScored: *, goalDifference: number, points: *}[]}
+ */
+function getTeamStandings(clubStats) {
+
+    const clubStatsWithPosition = Object.keys(clubStats).map(clubId => {
+        const { goalsScored, goalsTaken, matchesPlayed, points, name, wins, loss, drawn } = clubStats[clubId];
+        const goalDifference = goalsScored - goalsTaken;
+
+        return {
+            clubId,
+            goalsScored,
+            goalsTaken,
+            matchesPlayed,
+            goalDifference,
+            points,
+            name,
+            wins,
+            loss,
+            drawn
+        };
+    });
+
+    clubStatsWithPosition.sort((a, b) => {
+        if (a.points !== b.points) {
+            return b.points - a.points; // Sort by points
+        } else {
+            return b.goalDifference - a.goalDifference; // If points are equal, sort by goal difference
+        }
+    });
+
+    // Assign position based on sorted order
+    clubStatsWithPosition.forEach((clubStats, index) => {
+        clubStats.position = index + 1; // Add 1 to index since position starts from 1
+    });
+
+    return clubStatsWithPosition;
 }
 
 

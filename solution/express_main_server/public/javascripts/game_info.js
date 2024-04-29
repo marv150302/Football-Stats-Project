@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // Load game info
         const gameInfo = await sendAxiosQuery('/api/get-game-info', {game_id});
-        console.log(gameInfo)
         loadGameInfo(gameInfo);
         getLineups(gameInfo);
 
@@ -33,6 +32,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             away_club_id: away_club_id
 
         })
+        console.log(h2h_games)
         displayH2HGames(h2h_games);
 
     } catch (error) {
@@ -104,6 +104,7 @@ function getLineups(data) {
  * function used to load the lineups on the page
  * @param team identifies if it's the home or away team
  * @param players the players of the corresponding team
+ * @team_id the id of either the home or away team
  */
 function loadLineups(team, players, team_id) {
     const startingTableBody = document.querySelector(`#${team}-team-table-starting tbody`);
@@ -113,7 +114,6 @@ function loadLineups(team, players, team_id) {
     startingTableBody.innerHTML = '';
     substitutesTableBody.innerHTML = '';
 
-    // Iterate over the players and create table rows based on their type
     players.forEach(player => {
 
         const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${team_id}.png`;
@@ -231,7 +231,7 @@ function getEventIcon(eventType) {
 
 /**
  *
- * function used to load the standings the teams in the legue of the curent match
+ * function used to load the standings the teams in the league of the current match
  * the home team will be highlighted in green, the away in yellow
  * @param standings an array of object containing data about the league standings
  * @param home_club_id the id of the home team used to highlight its row on the table
@@ -287,7 +287,7 @@ function getPositionInitials(position) {
 
 /**
  * function used to load the least important data
- * like the manager names, the stadium, the refree name and the competition type
+ * like the manager names, the stadium, the referee name and the competition type
  * @param data the data of the game
  */
 function loadMinorData(data) {
@@ -300,17 +300,40 @@ function loadMinorData(data) {
 }
 
 /**
- * function for loading the head to head games card
- * @param games
+ * function for loading the head-to-head games card
+ * @param groupedGames all the games grouped by the season they were played in
  */
-function displayH2HGames(games) {
+function displayH2HGames(groupedGames) {
     const container = document.querySelector('.head-to-head');
+    container.innerHTML = ''; // Clear previous content if necessary
 
-    games.forEach(game => {
-        const card = createGameCard(game);
-        container.appendChild(card);
+    // Iterate over each property in the groupedGames object
+    Object.keys(groupedGames).forEach((season, index, array) => {
+        const seasonHeader = document.createElement('h3');
+        seasonHeader.textContent = `${season}`;
+        seasonHeader.classList.add('text-light','text-center')
+        container.appendChild(seasonHeader);
+
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'row'; // Bootstrap row for card layout
+
+        // Iterate over each game in the season array
+        groupedGames[season].forEach(game => {
+            const card = createGameCard(game);
+            rowDiv.appendChild(card);
+        });
+
+        container.appendChild(rowDiv);
+
+        // Add an <hr> unless it's the last season group
+        if (index !== array.length - 1) {
+            const hr = document.createElement('hr');
+            container.appendChild(hr);
+        }
     });
 }
+
+
 
 /**
  * function used for dynamically creating the cards for the head 2 head section
@@ -318,9 +341,8 @@ function displayH2HGames(games) {
  * @returns {HTMLDivElement} the card
  */
 function createGameCard(game) {
-
-    let home_team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + game['home_club_id'] + ".png";
-    let away_team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + game['away_club_id'] + ".png";
+    let home_team_logo = `https://tmssl.akamaized.net/images/wappen/head/${game.home_club_id}.png`;
+    let away_team_logo = `https://tmssl.akamaized.net/images/wappen/head/${game.away_club_id}.png`;
 
     const colDiv = document.createElement('div');
     colDiv.className = 'col-md-4 mb-4';
@@ -334,14 +356,14 @@ function createGameCard(game) {
     link.href = `/games/game-info?game_id=${game.game_id}&date=${game.date}&season=${game.season}&competition_id=${game.competition_id}&home_club_id=${game.home_club_id}&away_club_id=${game.away_club_id}`;
     link.innerHTML = `
         <div class="card-body">
-            <h5 class="card-title fw-bold">Round: ${game.round}</h5>
+            <h5 class="card-title fw-bold">${game.round}</h5>
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="text-center">
                     <h6>${game.home_club_name}</h6>
                     <img src="${home_team_logo}" alt="Home Team Logo" class="img-fluid" style="max-width: 50px;">
                 </div>
                 <div>
-                    <h2>${game.aggregate}</h2>
+                    <h2>${game.score || game.aggregate}</h2>
                 </div>
                 <div class="text-center">
                     <h6>${game.away_club_name}</h6>
@@ -350,12 +372,12 @@ function createGameCard(game) {
             </div>
             <p class="card-text">Match played on: ${gameDate}</p>
         </div>
-        <br>
     `;
 
-    card.appendChild(link); // Append the link (which contains the card body) to the card div
-    colDiv.appendChild(card); // Append the card to the column div
+    card.appendChild(link);
+    colDiv.appendChild(card);
 
-    return colDiv; // Return the column div instead of just the card
+    return colDiv;
 }
+
 
