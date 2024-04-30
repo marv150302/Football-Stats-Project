@@ -3,13 +3,44 @@
         <div class="card h-100 bg-dark text-light">
             <a href="#" id="index-1-game">
                 <div class="card-body">
+                    <div class="row text-center">
+                        <!-- Footballer's name -->
+                        <h1 id="player-name" class="card-title text-light"></h1>
+                    </div>
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <img id="player-image" src=""  alt="Footballer" >
+                            <img class="rounded border light-shadow" id="player-image" src=""  alt="Footballer" >
                         </div>
                         <div class="col">
-                            <!-- Footballer's name -->
-                            <h2 id="player-name" class="card-title"></h2>
+
+                            <table class="text-light table-dark table table-striped">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Age</th>
+                                    <td id="age" ></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Country of Birth</th>
+                                    <td id="country-of-birth" ></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Club</th>
+                                    <td id="current-club"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Height</th>
+                                    <td id="height"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Position</th>
+                                    <td id="position"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Subposition</th>
+                                    <td id="sub-position" ></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -19,29 +50,75 @@
 </div>
 
 <br>
-<div class="row justify-content-center bg-dark">
-    <div class="col-md-9">
-        <div class="card h-100 bg-dark text-light">
-            <a href="#" id="index-1-game">
-                <div class="card-body text-warning">
 
-                    <h5 id="age" class="card-title">Age:</h5>
-                    <hr>
-                    <h5 id="birth-country" class="card-title">Country of birth:</h5>
-                    <hr>
-                    <h5 id="current-club" class="card-title">Club:</h5>
-                    <hr>
-                    <h5 id="foot" class="card-title">Age:</h5>
-                    <hr>
-                    <h5 id="height" class="card-title">Height:</h5>
-                    <hr>
-                    <h5 id="position" class="card-title">Position: </h5>
-                    <hr>
-                    <h5 id="position" class="card-title">Subposition: </h5>
-                </div>
-            </a>
+<div class="row" data-masonry='{"percentPosition": true }' >
+    <!-- First Card -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title that wraps to a new line</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+            </div>
         </div>
     </div>
+
+    <!-- Second Card -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                    <footer class="blockquote-footer">
+                        Someone famous in <cite title="Source Title">Source Title</cite>
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+    </div><div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title that wraps to a new line</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Third Card -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title that wraps to a new line</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Additional cards can be added here following the same pattern -->
 </div>
+
+
 
 <script src="../javascripts/player_info.js"></script>
