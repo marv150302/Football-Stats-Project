@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadLatestGameByCompetition(data, competition, index){
 
     document.getElementById('index-' + (index+1) + '-game').href
-        += '?game_id=' + data.game_id
+        = '/games/game-info?game_id=' + data.game_id
         + '&date=' + data.date
         + '&season=' + data.season
         + '&competition_id=' + data.competition_id

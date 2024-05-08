@@ -1,6 +1,6 @@
 const AXIOS = require('axios');
 const JAVA_SPRING_SERVER_URL = 'http://localhost:8081/players';
-
+const APPEARANCES = require('../models/appearances');
 /**
  * function that return a json containing all players
  * @param req
@@ -42,7 +42,23 @@ async function getPlayerDataById(req, res) {
         res.status(500).json({error: 'Failed to fetch player data from Spring API'});
     }
 }
+
+async function getPlayerStats(req, res){
+
+    const playerId = parseInt(req.query.playerId);
+    try {
+        const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-player-data-by-id?playerId='+playerId);
+        const competitions = response.data;
+        // Handle the data retrieved from the Spring API ìì
+        res.json(competitions);
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching player data from Spring API:', error);
+        res.status(500).json({error: 'Failed to fetch player data from Spring API'});
+    }
+}
 module.exports = {
     getAllPlayers,
     getPlayerDataById,
+    getPlayerStats
 };

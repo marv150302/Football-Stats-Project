@@ -7,7 +7,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             .then(data =>{
 
                 console.log(data)
-                loadPlayerData(data);
+                loadPlayerBasicInfo(data);
+            })
+
+        sendAxiosQuery('/api/get-player-basic-data-by-id-and-season', {player_id:player_id, season: 2023})
+            .then(data =>{
+
+                console.log(data);
             })
 
     } catch (error) {
@@ -20,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async function () {
  * function used to load the players data
  * @param data the data about the player
  */
-function loadPlayerData(data) {
+function loadPlayerBasicInfo(data) {
 
     document.getElementById('player-image').src = data.imageUrl
     document.getElementById('player-name').innerText = data.name
@@ -30,6 +36,10 @@ function loadPlayerData(data) {
     document.getElementById('height').innerText = data.heightInCm + ' cm';
     document.getElementById('position').innerText = data.position
     document.getElementById('sub-position').innerText = data.subPosition;
+
+}
+
+function loadMainStats(data) {
 
 }
 

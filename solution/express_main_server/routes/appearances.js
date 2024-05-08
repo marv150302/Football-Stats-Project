@@ -8,5 +8,6 @@ APPEARANCE_ROUTER.get('/appearances', APPEARANCE_CONTROLLER.getAllAppearances);
 APPEARANCE_ROUTER.get('/top-scorer-id', APPEARANCE_CONTROLLER.getTopScorer);
 APPEARANCE_ROUTER.get('/get-top-scorer-by-competition-and-year', APPEARANCE_CONTROLLER.getTopScorersByCompetitionAndYear);
 APPEARANCE_ROUTER.get('/get-appearances-by-game-id', APPEARANCE_CONTROLLER.getAllAppearancesByGameId);
+APPEARANCE_ROUTER.get('/get-player-basic-data-by-id-and-season', APPEARANCE_CONTROLLER.getTotalGoalsAndAssistsForPlayerAndSeason);
 
 module.exports = APPEARANCE_ROUTER;

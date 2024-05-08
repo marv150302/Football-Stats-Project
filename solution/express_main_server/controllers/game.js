@@ -226,7 +226,7 @@ const  calculateClubStats = async (req, res) => {
         // Iterate over each game to calculate statistics for each club
         games.forEach(game => {
             const homeClub = game.home_club_id.toString();
-            const awayClub = game.away_club_id.toString();
+            //const awayClub = game.away_club_id.toString();
             const homeGoals = game.home_club_goals;
             const awayGoals = game.away_club_goals;
 

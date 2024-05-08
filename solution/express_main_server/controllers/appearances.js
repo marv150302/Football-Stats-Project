@@ -21,6 +21,38 @@ async function getAllAppearances(req, res) {
     }
 }
 
+
+/**
+ * Function that retrieves the total number of goals scored by a player.
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+async function getTotalGoalsByPlayerId(req, res) {
+    try {
+        const playerId = parseInt(req.params.playerId); // Get the player ID from the request parameters
+
+        // Perform MongoDB aggregation to calculate the total goals scored by the player
+        const totalGoals = await APPEARANCES.aggregate([
+            {
+                $match: { player_id: playerId } // Match appearances for the specified player ID
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalGoals: { $sum: "$goals" } // Calculate the total goals using $sum aggregation
+                }
+            }
+        ]);
+
+        // Return the total goals as JSON response
+        res.json({ playerId, totalGoals: totalGoals.length > 0 ? totalGoals[0].totalGoals : 0 });
+    } catch (error) {
+        console.error('Error retrieving total goals:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 /**
  *
  * function that retrieves the ID of the player that scored the most goals
@@ -61,6 +93,78 @@ async function getAllAppearancesByGameId(req, res) {
         throw new Error("Failed to retrieve appearances by game ID");
     }
 }
+
+/**
+ * Function to get the total number of goals and assists for a specific player and season.
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+async function getTotalGoalsAndAssistsForPlayerAndSeason(req, res) {
+    try {
+        const player_id = req.query.player_id
+        const season = parseInt(req.query.season);
+
+        // Perform a join operation between Appearances and Games based on game_id
+        const playerStats = await APPEARANCES.aggregate([
+            {
+                $lookup: {
+                    from: "games", // Name of the Games collection/table
+                    localField: "game_id",
+                    foreignField: "game_id",
+                    as: "gameInfo"
+                }
+            },
+            {
+                $unwind: "$gameInfo" // Unwind the gameInfo array
+            },
+            {
+                $match: {
+                    "gameInfo.season": season, // Filter by season from the Games collection
+                    "player_id": player_id // Filter by player ID
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalAppearances: { $sum: 1 }, // Count total appearances
+                    totalGoals: { $sum: "$goals" }, // Sum up the goals for the current season
+                    totalAssists: { $sum: "$assists" }, // Sum up the assists for the current season
+                    totalYellowCards: { $sum: "$yellow_cards" }, // Sum up the yellow cards for the current season
+                    totalRedCards: { $sum: "$red_cards" }, // Sum up the red cards for the current season
+                    totalMinutesPlayed: { $sum: "$minutes_played" } // Sum up the minutes played for the current season
+                }
+            }
+        ]);
+
+        if (playerStats.length > 0) {
+            const {
+                totalAppearances,
+                totalGoals,
+                totalAssists,
+                totalYellowCards,
+                totalRedCards,
+                totalMinutesPlayed
+            } = playerStats[0];
+
+            res.json({
+                totalAppearances,
+                totalGoals,
+                totalAssists,
+                totalYellowCards,
+                totalRedCards,
+                totalMinutesPlayed
+            });
+        } else {
+            res.status(404).json({ error: "No player stats found for the specified player and season" });
+        }
+    } catch (error) {
+        console.error("Error retrieving player stats:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+
 
 const getTopScorersByCompetitionAndYear = async (req, res) => {
     try {
@@ -114,5 +218,6 @@ module.exports = {
     getAllAppearances,
     getTopScorer: getTopScorerId,
     getTopScorersByCompetitionAndYear,
-    getAllAppearancesByGameId
+    getAllAppearancesByGameId,
+    getTotalGoalsAndAssistsForPlayerAndSeason
 };
