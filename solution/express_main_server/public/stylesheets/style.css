@@ -90,11 +90,11 @@ table.table {
 
   border: 1px solid rgba(211, 211, 211, 0.15);
 }
-.card:hover:not(.game-events) {
+.card:hover:not(.game-events .club-history-container) {
   transform: scale(1.05); /* Scale the card up slightly on hover */
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Add a shadow effect on hover */
 }
-.card:not(.game-events) {
+.card:not(.game-events .club-history-container) {
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
 }
 

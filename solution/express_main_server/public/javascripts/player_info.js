@@ -16,6 +16,12 @@ document.addEventListener('DOMContentLoaded', async function () {
                 loadMainStats(data);
             })
 
+        sendAxiosQuery('/api/get-player-club-history', {player_id:player_id})
+            .then(data =>{
+
+                insertClubsIntoCard(data);
+            })
+
     } catch (error) {
         console.error('Failed to load game data:', error);
     }
@@ -36,6 +42,10 @@ function loadPlayerBasicInfo(data) {
     document.getElementById('height').innerText = data.heightInCm + ' cm';
     document.getElementById('position').innerText = data.position
     document.getElementById('sub-position').innerText = data.subPosition;
+    document.getElementById('market-value').innerText = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'EUR'
+    }).format(data.marketValueInEur);
 
 }
 
@@ -71,4 +81,63 @@ function calculateAge(dob) {
     }
 
     return age;
+}
+
+/**
+ *
+ * function used to create the club item, in the club history card
+ * @param club the object containing the club info
+ * @returns {HTMLDivElement}
+ */
+function createClubCardItem(club) {
+
+    club = club[0];
+    const cardItem = document.createElement("div");
+    cardItem.classList.add("col-md-4", "mb-3");
+
+    const card = document.createElement("div");
+    card.classList.add("card", "bg-success", "text-dark");
+
+    const cardBody = document.createElement("div");
+    cardBody.classList.add("card-body", "d-flex", "flex-column", "align-items-center");
+
+    const clubLogo_url = "https://tmssl.akamaized.net/images/wappen/head/" + club.clubId + ".png";
+    const clubLogo = document.createElement("img");
+    clubLogo.src = clubLogo_url; // Placeholder for logo
+    clubLogo.alt = club.name; // Alt text for accessibility
+    clubLogo.classList.add("img-fluid", "mb-3");
+    cardBody.appendChild(clubLogo);
+
+    // Club name
+    const clubName = document.createElement("h6");
+    clubName.textContent = club.name;
+    clubName.classList.add("fw-bold", "text-dark", "text-center");
+    cardBody.appendChild(clubName);
+
+    // More details link
+    const moreDetailsLink = document.createElement("a");
+    moreDetailsLink.href = club.url;
+    moreDetailsLink.textContent = "More Details";
+    moreDetailsLink.target = "_blank"; // Open link in new tab
+    moreDetailsLink.classList.add("btn", "btn-warning", "mt-auto");
+    cardBody.appendChild(moreDetailsLink);
+
+    card.appendChild(cardBody);
+    cardItem.appendChild(card);
+
+    return cardItem;
+}
+
+/**
+ *
+ * function to insert the club card into the club history container
+ * @param clubs the list of clubs
+ */
+function insertClubsIntoCard(clubs) {
+    const cardBody = document.getElementById('club-history-card');
+
+    clubs.forEach(club => {
+        const clubCardItem = createClubCardItem(club);
+        cardBody.appendChild(clubCardItem);
+    });
 }

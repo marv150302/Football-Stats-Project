@@ -42,6 +42,16 @@ public class GameLineupController {
     public List<GameLineup> getGameLineupById(@RequestParam String game_id){
 
         return this.game_lineup_service.getGameLineupById(game_id);
+    }
 
+    /**
+     *
+     * @param player_id the id of the player whose club history we want to retrieve
+     * @return a list of the player's club history
+     */
+    @GetMapping("/get-player-club-history")
+    public List<Object[]> getPlayerClubAppearanceHistory(@RequestParam String player_id){
+
+        return this.game_lineup_service.getPlayerClubAppearanceHistory(player_id);
     }
 }

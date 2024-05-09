@@ -17,7 +17,7 @@ async function getAllAppearances(req, res) {
         res.json(data);
     } catch (error) {
         console.error('Error retrieving data:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({error: 'Internal server error'});
     }
 }
 
@@ -35,23 +35,24 @@ async function getTotalGoalsByPlayerId(req, res) {
         // Perform MongoDB aggregation to calculate the total goals scored by the player
         const totalGoals = await APPEARANCES.aggregate([
             {
-                $match: { player_id: playerId } // Match appearances for the specified player ID
+                $match: {player_id: playerId} // Match appearances for the specified player ID
             },
             {
                 $group: {
                     _id: null,
-                    totalGoals: { $sum: "$goals" } // Calculate the total goals using $sum aggregation
+                    totalGoals: {$sum: "$goals"} // Calculate the total goals using $sum aggregation
                 }
             }
         ]);
 
         // Return the total goals as JSON response
-        res.json({ playerId, totalGoals: totalGoals.length > 0 ? totalGoals[0].totalGoals : 0 });
+        res.json({playerId, totalGoals: totalGoals.length > 0 ? totalGoals[0].totalGoals : 0});
     } catch (error) {
         console.error('Error retrieving total goals:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({error: 'Internal server error'});
     }
 }
+
 /**
  *
  * function that retrieves the ID of the player that scored the most goals
@@ -60,7 +61,7 @@ async function getTotalGoalsByPlayerId(req, res) {
  * @param res
  * @returns {Promise<void>}
  */
-async function getTopScorerId(req, res){
+async function getTopScorerId(req, res) {
 
 
     try {
@@ -69,11 +70,11 @@ async function getTopScorerId(req, res){
                 $group: {
                     _id: "$player_id", // Group by player_id
                     //playerName: { $first: "$player_name" }, // Use $first to get the player's name (assuming it's consistent across documents for the same player)
-                    totalGoals: { $sum: "$goals" }, // Use $sum to accumulate goals
+                    totalGoals: {$sum: "$goals"}, // Use $sum to accumulate goals
                 }
             },
-            { $sort: { totalGoals: -1 }}, // Sort by totalGoals in descending order
-            { $limit: 1 } // Limit to the top scorer
+            {$sort: {totalGoals: -1}}, // Sort by totalGoals in descending order
+            {$limit: 1} // Limit to the top scorer
         ]);
 
         res.json(topScorer);
@@ -83,9 +84,16 @@ async function getTopScorerId(req, res){
     }
 }
 
+/**
+ *
+ * function to get all the appearances by the game id
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function getAllAppearancesByGameId(req, res) {
     try {
-        const appearances_ = await APPEARANCES.find({ game_id: req.query.game_id });
+        const appearances_ = await APPEARANCES.find({game_id: req.query.game_id});
         res.json(appearances_);
     } catch (err) {
         console.error(err);
@@ -125,12 +133,12 @@ async function getTotalGoalsAndAssistsForPlayerAndSeason(req, res) {
             {
                 $group: {
                     _id: null,
-                    totalAppearances: { $sum: 1 },
-                    totalGoals: { $sum: "$goals" },
-                    totalAssists: { $sum: "$assists" },
-                    totalYellowCards: { $sum: "$yellow_cards" },
-                    totalRedCards: { $sum: "$red_cards" },
-                    totalMinutesPlayed: { $sum: "$minutes_played" }
+                    totalAppearances: {$sum: 1},
+                    totalGoals: {$sum: "$goals"},
+                    totalAssists: {$sum: "$assists"},
+                    totalYellowCards: {$sum: "$yellow_cards"},
+                    totalRedCards: {$sum: "$red_cards"},
+                    totalMinutesPlayed: {$sum: "$minutes_played"}
                 }
             }
         ]);
@@ -154,17 +162,20 @@ async function getTotalGoalsAndAssistsForPlayerAndSeason(req, res) {
                 totalMinutesPlayed
             });
         } else {
-            res.status(404).json({ error: "No player stats found for the specified player and season" });
+            res.status(404).json({error: "No player stats found for the specified player and season"});
         }
     } catch (error) {
         console.error("Error retrieving player stats:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({error: "Internal server error"});
     }
 }
 
-
-
-
+/**
+ * function to get the top scorer in a competition in a certain season
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getTopScorersByCompetitionAndYear = async (req, res) => {
     try {
         const competitionId = req.query.competition_id; // Get the competition_id from the request query
@@ -173,7 +184,7 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
         const pipeline = [
             {
                 $addFields: {
-                    year: { $year: "$date" }
+                    year: {$year: "$date"}
                 }
             },
             {
@@ -185,8 +196,8 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
             {
                 $group: {
                     _id: "$player_id",
-                    total_goals: { $sum: "$goals" },
-                    player_name: { $first: "$player_name" },
+                    total_goals: {$sum: "$goals"},
+                    player_name: {$first: "$player_name"},
                 }
             },
             {
@@ -206,17 +217,89 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
             res.json(topScorers); // Return the top scorers as JSON response
         } else {
             console.log('No top scorers found');
-            res.status(404).json({ error: 'No top scorers found' }); // Return 404 if no top scorers are found
+            res.status(404).json({error: 'No top scorers found'}); // Return 404 if no top scorers are found
         }
     } catch (error) {
         console.error('Error finding top scorers:', error);
-        res.status(500).json({ error: 'Failed to fetch top scorers' }); // Return 500 if an error occurs
+        res.status(500).json({error: 'Failed to fetch top scorers'}); // Return 500 if an error occurs
     }
 };
+
+/**
+ *
+ * Currently not using
+ *
+ * function to get the player's club history by the player id
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+async function getPlayerClubHistory(req, res) {
+    try {
+        const player_id = parseInt(req.params.player_id);
+
+        // Aggregate pipeline to fetch player's club history
+        const clubHistory = await APPEARANCES.aggregate([
+            // Match appearances for the given player_id
+            {$match: {player_id: player_id}},
+
+            // Lookup games based on game_id
+            {
+                $lookup: {
+                    from: "games",
+                    localField: "game_id",
+                    foreignField: "game_id",
+                    as: "gameInfo"
+                }
+            },
+
+            // Unwind the gameInfo array
+            {
+                $unwind: {
+                    "path": "$gameInfo",
+                    "preserveNullAndEmptyArrays": false
+                }
+            },
+
+
+            // Project only the relevant fields from games (home_club_id and away_club_id)
+            {
+                $project: {
+                    _id: 0,
+                    club_ids: ["$gameInfo.home_club_id", "$gameInfo.away_club_id"]
+                }
+            },
+
+            // Unwind the club_ids array
+            {
+                $unwind: {
+                    "path": "$club_ids",
+                    "preserveNullAndEmptyArrays": false
+                }
+            },
+
+            // Group by club_id to remove duplicates
+            {
+                $group: {
+                    _id: "$club_ids"
+                }
+            }
+        ]);
+        // Extract club ids from the result
+        const clubIds = clubHistory.map(item => item._id);
+
+        res.json(clubIds);
+    } catch (error) {
+        console.error("Error fetching player's club history:", error);
+        res.status(500).json({error: "Internal server error"});
+    }
+}
+
 module.exports = {
     getAllAppearances,
     getTopScorer: getTopScorerId,
     getTopScorersByCompetitionAndYear,
     getAllAppearancesByGameId,
-    getTotalGoalsAndAssistsForPlayerAndSeason
+    getTotalGoalsAndAssistsForPlayerAndSeason,
+    getPlayerClubHistory
 };

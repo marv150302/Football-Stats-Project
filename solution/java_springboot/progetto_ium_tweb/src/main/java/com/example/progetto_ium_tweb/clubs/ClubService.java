@@ -2,6 +2,8 @@ package com.example.progetto_ium_tweb.clubs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 @Service
@@ -32,6 +34,17 @@ public class ClubService {
 
         // Fetch all clubs with non-null names from the repository
         return clubRepository.findAllByNameNotNull();
+    }
+
+    /**
+     *
+     * function used to get all the info about a club by its id
+     * @param club_id the id of the club whose info we need to retrieve
+     * @return a list containing info about a club
+     */
+    public List<Club> getClubDataById(@RequestParam String club_id){
+
+        return this.clubRepository.getClubDataById(club_id);
     }
 
 }

@@ -3,4 +3,5 @@ const router = express.Router();
 const CLUB_CONTROLLER = require('../controllers/club');
 
 router.get('/get-all-clubs',CLUB_CONTROLLER.getAllClubs);
+router.get('/get-club-data-by-id',CLUB_CONTROLLER.getClubDataById);
 module.exports = router;

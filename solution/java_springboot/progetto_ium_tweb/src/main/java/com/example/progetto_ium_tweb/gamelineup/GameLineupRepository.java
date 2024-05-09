@@ -13,8 +13,9 @@ public interface GameLineupRepository extends JpaRepository<GameLineup, Long> {
      * @return List containing all the competitions
      */
     @Query(value = "SELECT g FROM GameLineup g WHERE g.gameId = :game_id    ")
-
-
     List<GameLineup> getGameLineupById(String game_id);
+
+    @Query(value = "SELECT c FROM Club c WHERE c.clubId IN (SELECT clubId FROM GameLineup WHERE playerId = :playerId GROUP BY clubId)")
+    List<Object[]> getPlayerClubAppearanceHistory(String playerId);
 
 }

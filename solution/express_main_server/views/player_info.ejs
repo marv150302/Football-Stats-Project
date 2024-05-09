@@ -3,13 +3,18 @@
         <div class="card h-100 bg-dark text-light">
             <div class="card-body">
                 <div class="row text-center">
-                    <!-- Footballer's name -->
-                    <h1 id="player-name" class="card-title text-light"></h1>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <img class="rounded border light-shadow" id="player-image" src=""  alt="Footballer" >
+                    <div class="col ml-12">
+                        <!-- Footballer's name -->
+                        <h1 id="player-name" class="card-title text-light"></h1>
+                        <img class="rounded  light-shadow" id="player-image" src=""  alt="Footballer" >
+
                     </div>
+
+
+                </div>
+                <br>
+                <div class="row align-items-center">
+
                     <div class="col">
 
                         <table class="text-light table-dark table table-striped">
@@ -38,6 +43,10 @@
                                 <th scope="row">Subposition</th>
                                 <td id="sub-position" ></td>
                             </tr>
+                            <tr>
+                                <th scope="row">Market Value</th>
+                                <td id="market-value" ></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -54,11 +63,12 @@
         <div class="card bg-warning text-dark">
             <div class="card-body">
                 <!-- Player Statistics Title -->
-                <!--<h4 class="card-title  text-center mb-4">Player Statistics</h4>-->
+                <h4 class="card-title  text-center mb-4 fw-bold">Player Stats</h4>
+                <hr style="border-color: black">
 
                 <!-- Player Statistics Content -->
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="statistic-item">
                             <h5 class="fw-bold ">Total Appearances</h5>
                             <p id="total-appearances" class="statistic-value">XX</p>
@@ -72,21 +82,7 @@
                             <p id="assists" class="statistic-value">XX</p>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="statistic-item">
-                            <h5 class="fw-bold ">Yellow Cards</h5>
-                            <p id="yellow-cards" class="statistic-value">XX</p>
-                        </div>
-                        <div class="statistic-item">
-                            <h5 class="fw-bold ">Red Cards</h5>
-                            <p id="red-cards" class="statistic-value">XX</p>
-                        </div>
-                        <div class="statistic-item">
-                            <h5 class="fw-bold ">Minutes Played</h5>
-                            <p id="minutes-played" class="statistic-value">XX</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="statistic-item">
                             <h5 class="fw-bold ">Yellow Cards</h5>
                             <p id="yellow-cards" class="statistic-value">XX</p>
@@ -106,96 +102,22 @@
     </div>
 </div>
 
+<br>
 
+<div class="row  justify-content-center bg-dark">
+    <div class="col-md-9">
+        <div class="card h-100 bg-success text-dark club-history-container"  >
+            <div class="card-body" id="club-history-card">
 
-<!--<div class="row" data-masonry="{&quot;percentPosition&quot;: true }" style="position: relative; height: 1723px;">
-    <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 0px;">
-        <div class="card">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
-
-            <div class="card-body">
-                <h5 class="card-title">Card title that wraps to a new line</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <h4 class="card-title text-dark fw-bold text-center">Club History</h4>
+                <hr style="border-color: black">
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 338px;">
-        <div class="card p-3">
-            <figure class="p-3 mb-0">
-                <blockquote class="blockquote">
-                    <p>A well-known quote, contained in a blockquote element.</p>
-                </blockquote>
-                <figcaption class="blockquote-footer mb-0 text-muted">
-                    Someone famous in <cite title="Source Title">Source Title</cite>
-                </figcaption>
-            </figure>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 509px;">
-        <div class="card">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+</div>
 
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 887px;">
-        <div class="card bg-primary text-white text-center p-3">
-            <figure class="mb-0">
-                <blockquote class="blockquote">
-                    <p>A well-known quote, contained in a blockquote element.</p>
-                </blockquote>
-                <figcaption class="blockquote-footer mb-0 text-white">
-                    Someone famous in <cite title="Source Title">Source Title</cite>
-                </figcaption>
-            </figure>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 996px;">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This card has a regular title and short paragraph of text below it.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 1150px;">
-        <div class="card">
-            <svg class="bd-placeholder-img card-img" width="100%" height="260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Card image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Card image</text></svg>
+<br>
 
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 1436px;">
-        <div class="card p-3 text-end">
-            <figure class="mb-0">
-                <blockquote class="blockquote">
-                    <p>A well-known quote, contained in a blockquote element.</p>
-                </blockquote>
-                <figcaption class="blockquote-footer mb-0 text-muted">
-                    Someone famous in <cite title="Source Title">Source Title</cite>
-                </figcaption>
-            </figure>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 0%; top: 1545px;">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is another card with title and supporting text below. This card has some additional content to make it slightly taller overall.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </div>
-</div>-->
-
-<!-- Career Statistics and Recent Performance -->
-
-
-<!-- Training and Contract Information - Smaller Cards -->
 
 
 

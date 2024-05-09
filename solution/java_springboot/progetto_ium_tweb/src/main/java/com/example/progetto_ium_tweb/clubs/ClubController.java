@@ -40,4 +40,16 @@ public class ClubController {
     public List<String> getAllClubNames() {
         return clubService.getAllClubsName();
     }
+
+    /**
+     *
+     * function used to get all the info about a club by its id
+     * @param club_id the id of the club whose info we need to retrieve
+     * @return a list containing info about a club
+     */
+    @GetMapping("/get-club-data-by-id")
+    public List<Club> getClubDataById(@RequestParam String club_id){
+
+        return this.clubService.getClubDataById(club_id);
+    }
 }
