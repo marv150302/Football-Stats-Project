@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         sendAxiosQuery('/api/get-player-basic-data-by-id-and-season', {player_id:player_id, season: 2023})
             .then(data =>{
 
-                console.log(data);
+                loadMainStats(data);
             })
 
     } catch (error) {
@@ -40,6 +40,13 @@ function loadPlayerBasicInfo(data) {
 }
 
 function loadMainStats(data) {
+
+    document.getElementById('total-appearances').innerText = data.totalAppearances;
+    document.getElementById('goals-scored').innerText = data.totalGoals;
+    document.getElementById('assists').innerText = data.totalAssists;
+    document.getElementById('yellow-cards').innerText = data.totalYellowCards;
+    document.getElementById('red-cards').innerText = data.totalRedCards;
+    document.getElementById('minutes-played').innerText = data.totalMinutesPlayed;
 
 }
 

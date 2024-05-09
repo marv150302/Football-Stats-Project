@@ -52,7 +52,6 @@ async function getTotalGoalsByPlayerId(req, res) {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
-
 /**
  *
  * function that retrieves the ID of the player that scored the most goals
@@ -102,37 +101,36 @@ async function getAllAppearancesByGameId(req, res) {
  */
 async function getTotalGoalsAndAssistsForPlayerAndSeason(req, res) {
     try {
-        const player_id = req.query.player_id
+        const player_id = parseInt(req.query.player_id);
         const season = parseInt(req.query.season);
 
-        // Perform a join operation between Appearances and Games based on game_id
         const playerStats = await APPEARANCES.aggregate([
             {
                 $lookup: {
-                    from: "games", // Name of the Games collection/table
+                    from: "games",
                     localField: "game_id",
                     foreignField: "game_id",
                     as: "gameInfo"
                 }
             },
             {
-                $unwind: "$gameInfo" // Unwind the gameInfo array
+                $unwind: "$gameInfo"
             },
             {
                 $match: {
-                    "gameInfo.season": season, // Filter by season from the Games collection
-                    "player_id": player_id // Filter by player ID
+                    "gameInfo.season": season,
+                    "player_id": player_id
                 }
             },
             {
                 $group: {
                     _id: null,
-                    totalAppearances: { $sum: 1 }, // Count total appearances
-                    totalGoals: { $sum: "$goals" }, // Sum up the goals for the current season
-                    totalAssists: { $sum: "$assists" }, // Sum up the assists for the current season
-                    totalYellowCards: { $sum: "$yellow_cards" }, // Sum up the yellow cards for the current season
-                    totalRedCards: { $sum: "$red_cards" }, // Sum up the red cards for the current season
-                    totalMinutesPlayed: { $sum: "$minutes_played" } // Sum up the minutes played for the current season
+                    totalAppearances: { $sum: 1 },
+                    totalGoals: { $sum: "$goals" },
+                    totalAssists: { $sum: "$assists" },
+                    totalYellowCards: { $sum: "$yellow_cards" },
+                    totalRedCards: { $sum: "$red_cards" },
+                    totalMinutesPlayed: { $sum: "$minutes_played" }
                 }
             }
         ]);
@@ -163,6 +161,7 @@ async function getTotalGoalsAndAssistsForPlayerAndSeason(req, res) {
         res.status(500).json({ error: "Internal server error" });
     }
 }
+
 
 
 
