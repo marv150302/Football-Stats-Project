@@ -23,7 +23,8 @@ async function getAllClubs(req, res) {
  */
 async function getClubDataById(req, res) {
 
-    const club_id = req.param.club_id
+    const club_id = req.query.club_id
+    console.log(club_id)
     try {
         const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-club-data-by-id?club_id=' + club_id);
         const clubs = response.data;

@@ -78,6 +78,10 @@ router.get('/competition-games', function(req, res) {
   res.render('competition_games', { locals });
 });
 
+/**
+ *
+ * route for the game info page
+ */
 router.get('/games/game-info', function (req,res) {
 
   const locals = {
@@ -87,6 +91,24 @@ router.get('/games/game-info', function (req,res) {
   res.render('game_info', { locals });
 })
 
+/**
+ *
+ * route for the club info page
+ */
+router.get('/club/club-info', function (req,res) {
+
+  const locals = {
+    title: 'Club Data',
+    description: 'Detailed Info About the Club'
+  };
+  res.render('club_info', { locals });
+})
+
+
+/**
+ *
+ * route for the player_info page
+ */
 router.get('/players/player-info', function (req,res) {
 
   const locals = {

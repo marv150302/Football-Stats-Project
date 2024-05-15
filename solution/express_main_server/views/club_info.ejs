@@ -1,0 +1,121 @@
+<div class="row  justify-content-center bg-dark">
+    <div class="col-md-6 text-center ">
+        <div class="card h-100 bg-dark text-light">
+            <div class="card-body">
+                <img id="club-logo" src="" alt="team-logo">
+                <br>
+                <h4 id="club-name" ></h4>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Coach name -->
+    <div class="col-md-3 text-center ">
+        <div class="card h-100 bg-dark text-dark">
+            <div class="card-body bg-warning">
+                <img class="img-fluid" src="/images/coach.png">
+                <h4 class="fw-bold">Coach</h4>
+                <h2 id="coach-name"></h2>
+            </div>
+        </div>
+    </div>
+
+    <!--Squad Size -->
+    <div class="col-md-3 text-center">
+        <div class="card h-100 bg-dark text-light ">
+            <div class="card-body bg-success">
+                <img src="/images/team.png">
+                <h4 class="fw-bold text-dark">Squad Size</h4>
+                <h2 class="text-warning" id="squad-size"></h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Standings-->
+<div class="row  mt-3">
+    <div class="col-md-3">
+        <div class="card h-100 bg-dark text-light">
+            <div class="card-body">
+                <img id="domestic-competition-logo" src="" alt="domestic-competition-logo">
+                <br>
+                <h4 id="domestic-competition-name" ></h4>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Standings</h5>
+                <div class="table-responsive">
+                    <table id="standings-table" class="table table-striped table-hover">
+                        <thead>
+                        <th>Position</th>
+                        <th>Team</th>
+                        <th>Played</th>
+                        <th>Goals</th>
+                        <th>W</th>
+                        <th>L</th>
+                        <th>D</th>
+                        <th>Points</th>
+                        </thead>
+                        <tbody id="standings-table-tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row  mt-3">
+    <div class="col-md-3">
+        <div class="card  bg-danger text-dark text-center">
+            <div class="card-body bg-danger">
+                <img id="" src="/images/foreign.png" alt="domestic-competition-logo">
+                <br>
+                <h4 id="" >Foreigners Number</h4>
+                <h2 class="fw-bold text-light" id="foreign-player-number" ></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card  bg-dark text-light text-center">
+            <div class="card-body bg-dark">
+                <img id="" src="/images/age-range.png" alt="domestic-competition-logo">
+                <br>
+                <h4 id="" class="fw-bold">Average Age</h4>
+                <h2 class="fw-bold text-light" id="average-age" ></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card  bg-warning text-dark text-center">
+            <div class="card-body bg-warning">
+                <img id="" src="/images/stadium.png" alt="domestic-competition-logo">
+                <br>
+                <h4 id="" class="fw-bold">Stadium</h4>
+                <table class="text-dark table-warning table table-striped">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Stadium Name</th>
+                        <td id="stadium-name" ></td>
+                    </tr>
+                    <tr>
+                        <th class="text-dark" scope="row">Stadium Size</th>
+                        <td id="stadium-size" ></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+<script src="/javascripts/club_info.js"></script>

@@ -13,7 +13,7 @@ const getAllGames = async (req, res) => {
         res.json(games);
     } catch (error) {
         console.error('Error fetching games:', error);
-        res.status(500).json({ error: 'Failed to fetch games' });
+        res.status(500).json({error: 'Failed to fetch games'});
     }
 };
 
@@ -29,9 +29,9 @@ const getLatestGameByCompetition = async (req, res) => {
         const competitionId = req.query.competition_id;
 
         const latest_game = await Game.findOne(
-            { 'competition_id': competitionId },
+            {'competition_id': competitionId},
             {},
-            { sort: { 'date': -1 } }
+            {sort: {'date': -1}}
         );
 
         if (latest_game) {
@@ -40,11 +40,11 @@ const getLatestGameByCompetition = async (req, res) => {
             res.json(latest_game);
         } else {
             console.log('No games found');
-            res.status(404).json({ error: 'No games found' });
+            res.status(404).json({error: 'No games found'});
         }
     } catch (error) {
         console.error('Error finding latest  game:', error);
-        res.status(500).json({ error: 'Failed to fetch latest game' }); // Return 500 if an error occurs
+        res.status(500).json({error: 'Failed to fetch latest game'}); // Return 500 if an error occurs
     }
 }
 
@@ -69,7 +69,7 @@ const getLastFourGamesByCompetitionAndYear = async (req, res) => {
                 }
             },
             {},
-            { sort: { 'date': -1 }, limit: 4 } // Sort by date in descending order and limit to 4
+            {sort: {'date': -1}, limit: 4} // Sort by date in descending order and limit to 4
         );
 
         if (lastFourGames && lastFourGames.length > 0) {
@@ -78,11 +78,11 @@ const getLastFourGamesByCompetitionAndYear = async (req, res) => {
             res.json(lastFourGames); // Return the last four games as JSON response
         } else {
             console.log('No games found');
-            res.status(404).json({ error: 'No games found for the given competition ID and year' }); // Return 404 if no games are found
+            res.status(404).json({error: 'No games found for the given competition ID and year'}); // Return 404 if no games are found
         }
     } catch (error) {
         console.error('Error finding last four games:', error);
-        res.status(500).json({ error: 'Failed to fetch last four games' }); // Return 500 if an error occurs
+        res.status(500).json({error: 'Failed to fetch last four games'}); // Return 500 if an error occurs
     }
 }
 
@@ -100,12 +100,12 @@ const getAllGamesByCompetitionAndYear = async (req, res) => {
                 }
             },
             {
-                $sort: { 'date': -1 } // Sort by date in descending order
+                $sort: {'date': -1} // Sort by date in descending order
             },
             {
                 $group: {
                     _id: '$round',
-                    games: { $push: '$$ROOT' } // Group games by round and store in an array
+                    games: {$push: '$$ROOT'} // Group games by round and store in an array
                 }
             }
         ]);
@@ -114,11 +114,11 @@ const getAllGamesByCompetitionAndYear = async (req, res) => {
             res.json(games); // Return the grouped games as JSON response
         } else {
             console.log('No games found');
-            res.status(404).json({ error: 'No games found for the given competition ID and season' }); // Return 404 if no games are found
+            res.status(404).json({error: 'No games found for the given competition ID and season'}); // Return 404 if no games are found
         }
     } catch (error) {
         console.error('Error finding games:', error);
-        res.status(500).json({ error: 'Failed to fetch games' }); // Return 500 if an error occurs
+        res.status(500).json({error: 'Failed to fetch games'}); // Return 500 if an error occurs
     }
 }
 
@@ -134,17 +134,17 @@ const getGameInfo = async (req, res) => {
         const game_id = req.query.game_id;
 
         // Find the game by its game_id
-        const game = await Game.findOne({ game_id: game_id });
+        const game = await Game.findOne({game_id: game_id});
 
         if (game) {
             res.json(game);
         } else {
             // Game not found
-            res.status(404).json({ error: 'Game not found' });
+            res.status(404).json({error: 'Game not found'});
         }
     } catch (error) {
         console.error('Error fetching game:', error);
-        res.status(500).json({ error: 'Failed to fetch game' });
+        res.status(500).json({error: 'Failed to fetch game'});
     }
 };
 
@@ -156,13 +156,13 @@ const getHead2Head = async (req, res) => {
         // Retrieve all games involving either team
         const games = await Game.find({
             $or: [
-                { $and: [{ home_club_id: homeClubId }, { away_club_id: awayClubId }] },
-                { $and: [{ home_club_id: awayClubId }, { away_club_id: homeClubId }] }
+                {$and: [{home_club_id: homeClubId}, {away_club_id: awayClubId}]},
+                {$and: [{home_club_id: awayClubId}, {away_club_id: homeClubId}]}
             ]
-        }).sort({ date: 1 });
+        }).sort({date: 1});
 
         if (!games || games.length === 0) {
-            return res.status(404).send({ message: 'No games found for these teams.' });
+            return res.status(404).send({message: 'No games found for these teams.'});
         }
 
         // Filter and group games manually
@@ -171,7 +171,7 @@ const getHead2Head = async (req, res) => {
         res.json(filteredAndGroupedGames);
     } catch (error) {
         console.error('Error fetching head-to-head games:', error);
-        res.status(500).send({ message: "Server error", error: error });
+        res.status(500).send({message: "Server error", error: error});
     }
 };
 
@@ -201,23 +201,47 @@ function groupGamesBySeason(games) {
     return sortedGrouped;
 }
 
-const  calculateClubStats = async (req, res) => {
-    const date  = req.query.date;
+const calculateClubStats = async (req, res) => {
+    const date = req.query.date;
     const competition_id = req.query.competition_id;
     const season = parseInt(req.query.season)
 
     try {
         // Retrieve all games up to the specified round with the specified competition type
-        const games = await Game.aggregate([
-            {
+        const pipeline = [];
+
+        // Match condition for season
+        if (season) {
+            pipeline.push({
+                $match: {season: season}
+            });
+        }
+
+        // Match condition for competition_id
+        pipeline.push({
+            $match: {competition_id: competition_id}
+        });
+
+        // Match condition for date
+        if (date) {
+            pipeline.push({
                 $match: {
-                    season: season,
-                    competition_id: competition_id,
                     $expr: {
-                        $lte: [ { $toDate: "$date" }, { $toDate: date } ]
+                        $lte: [{$toDate: "$date"}, {$toDate: date}]
                     }
                 }
-            }])
+            });
+        }
+
+        // Add sorting stage to find the latest season and date
+        pipeline.push({
+            $sort: {season: -1, date: -1}
+        });
+
+
+
+        // Execute the aggregation pipeline
+        const games = await Game.aggregate(pipeline);
 
 
         // Initialize club statistics object
@@ -249,14 +273,14 @@ const  calculateClubStats = async (req, res) => {
             if (homeGoals > awayGoals) {
 
                 //win
-                clubStats[homeClub].points+=3;
+                clubStats[homeClub].points += 3;
                 clubStats[homeClub].wins++;
-            }else if (homeGoals === awayGoals) {
+            } else if (homeGoals === awayGoals) {
 
                 //draw
                 clubStats[homeClub].points++;
                 clubStats[homeClub].drawn++;
-            }else{
+            } else {
 
                 //loss
                 clubStats[homeClub].loss++;
@@ -267,7 +291,7 @@ const  calculateClubStats = async (req, res) => {
         res.json(getTeamStandings(clubStats));
     } catch (error) {
         console.error('Error calculating club stats:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({error: 'Internal server error'});
     }
 }
 
@@ -280,7 +304,7 @@ const  calculateClubStats = async (req, res) => {
 function getTeamStandings(clubStats) {
 
     const clubStatsWithPosition = Object.keys(clubStats).map(clubId => {
-        const { goalsScored, goalsTaken, matchesPlayed, points, name, wins, loss, drawn } = clubStats[clubId];
+        const {goalsScored, goalsTaken, matchesPlayed, points, name, wins, loss, drawn} = clubStats[clubId];
         const goalDifference = goalsScored - goalsTaken;
 
         return {
@@ -314,11 +338,6 @@ function getTeamStandings(clubStats) {
 }
 
 
-
-
-
-
-
 module.exports = {
     getAllGames,
     getLatestGameByCompetition,
@@ -326,4 +345,5 @@ module.exports = {
     getAllGamesByCompetitionAndYear,
     getGameInfo,
     calculateClubStats,
-    getHead2Head};
+    getHead2Head
+};
