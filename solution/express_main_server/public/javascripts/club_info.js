@@ -18,9 +18,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             competition_id: main_info[0].domesticCompetitionId
         });
 
-        console.log(standings)
-
         loadStandings(standings, club_id, main_info[0].domesticCompetitionId);
+
+        const club_players = await sendAxiosQuery('/api/get-club-players', {club_id: club_id})
+        loadPlayerList(club_players);
 
 
     } catch (error) {
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 function loadClubMainData(data) {
 
     let team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + data.clubId + ".png";
-    document.getElementById('club-name').innerHTML = data.name;
+    document.getElementById('club-name').innerText = data.name;
     document.getElementById('club-logo').src = team_logo
     document.getElementById('squad-size').innerText = data.squadSize;
     document.getElementById('coach-name').innerText = data.coachName;
@@ -98,4 +99,33 @@ function loadStandings(standings, club_id, competitionId) {
     } else {
         console.error('Current team not found in standings');
     }
+}
+
+/**
+ *
+ * Function to dynamically create player table row
+ * @param player the player object
+ * @returns {string}
+ */
+function createPlayerRow(player) {
+    return `
+        <tr>
+            <td><img src="${player.imageUrl}" alt="${player.name}" class="img-thumbnail" style="max-width: 80px; max-height: 80px;"></td>
+            <td>${player.name}</td>
+            <td>${player.position}</td>
+            <td>${player.countryOfBirth}</td>
+        </tr>
+        `;
+}
+
+/**
+ *
+ * Function to populate the player list
+ * @param players the list of player object
+ */
+function loadPlayerList(players) {
+    const playerListContainer = document.getElementById('player-list');
+    const playerRows = players.map(player => createPlayerRow(player));
+    playerListContainer.innerHTML = playerRows.join('');
+    document.getElementById('player-heading').innerText = `Players`;
 }
