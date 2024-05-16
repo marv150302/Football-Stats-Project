@@ -1,5 +1,5 @@
 <div class="row  justify-content-center">
-    <div class="col-md-6 text-center ">
+    <div class="col-md-6 text-center">
         <div class="card h-100 bg-secondary text-light">
             <div class="card-body">
                 <img id="club-logo" src="" alt="team-logo">
@@ -22,15 +22,35 @@
     </div>
 
     <!--Squad Size -->
-    <div class="col-md-3 text-center">
-        <div class="card h-100 bg-dark text-light ">
-            <div class="card-body bg-success">
-                <img src="/images/team.png">
-                <h4 class="fw-bold text-dark">Squad Size</h4>
-                <h2 class="text-warning" id="squad-size"></h2>
+
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white text-center">
+                Last Match
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-center">Team Name</h5>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <p class="mb-0">Opponent:</p>
+                    <p class="mb-0">Opponent Team</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="mb-0">Date:</p>
+                    <p class="mb-0">2024-05-15</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="mb-0">Result:</p>
+                    <p class="mb-0">Team 1 - Team 2</p>
+                </div>
+            </div>
+            <div class="card-footer text-muted text-center">
+                Stadium: Stadium Name
             </div>
         </div>
     </div>
+
+
 </div>
 
 <!--Standings-->
@@ -71,6 +91,7 @@
 </div>
 
 <div class="row  mt-3">
+    <!--Number of foreign players -->
     <div class="col-md-3">
         <div class="card h-100 bg-danger text-dark text-center">
             <div class="card-body bg-danger">
@@ -82,9 +103,10 @@
         </div>
     </div>
 
+    <!--Average age-->
     <div class="col-md-3">
-        <div class="card h-100  bg-dark text-light text-center">
-            <div class="card-body bg-dark">
+        <div class="card h-100  bg-secondary text-light text-center">
+            <div class="card-body bg-secondary">
                 <img id="" src="/images/age-range.png" alt="domestic-competition-logo">
                 <br>
                 <h4 id="" class="fw-bold">Average Age</h4>
@@ -93,6 +115,7 @@
         </div>
     </div>
 
+    <!--Stadium info -->
     <div class="col-md-6">
         <div class="card  bg-warning text-dark text-center">
             <div class="card-body bg-warning">
@@ -117,6 +140,7 @@
 </div>
 
 <div class="row  mt-3">
+    <!--Club's players-->
     <div class="col-md-8">
         <div class="card h-100 bg-success text-dark text-center">
             <div class="card-body bg-success">
@@ -130,6 +154,7 @@
                             <th>Name</th>
                             <th>Position</th>
                             <th>Country</th>
+                            <th>Age</th>
                         </tr>
                         </thead>
                         <tbody id="player-list"></tbody>
@@ -139,25 +164,14 @@
         </div>
     </div>
 
-
+    <!--National team players-->
     <div class="col-md-4">
         <div class="card  bg-warning text-dark text-center">
             <div class="card-body bg-warning">
-                <img id="" src="/images/stadium.png" alt="domestic-competition-logo">
+                <img id="" src="/images/united-nations.png" alt="domestic-competition-logo">
                 <br>
-                <h4 id="" class="fw-bold">Stadium</h4>
-                <table class="text-dark table-warning table table-striped">
-                    <tbody>
-                    <tr>
-                        <th scope="row">Stadium Name</th>
-                        <td id="stadium-name" ></td>
-                    </tr>
-                    <tr>
-                        <th class="text-dark" scope="row">Stadium Size</th>
-                        <td id="stadium-size" ></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <h5 id="" class="fw-bold">N° of National Team Players</h5>
+                <h1 class="fw-bold">6</h1>
             </div>
         </div>
     </div>

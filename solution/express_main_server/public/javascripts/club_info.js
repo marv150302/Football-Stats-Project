@@ -42,13 +42,16 @@ function loadClubMainData(data) {
     let team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + data.clubId + ".png";
     document.getElementById('club-name').innerText = data.name;
     document.getElementById('club-logo').src = team_logo
-    document.getElementById('squad-size').innerText = data.squadSize;
+    //document.getElementById('squad-size').innerText = data.squadSize;
     document.getElementById('coach-name').innerText = data.coachName;
     document.getElementById('foreign-player-number').innerText = data.foreignersNumber;
     document.getElementById('average-age').innerHTML = data.averageAge;
     document.getElementById('stadium-name').innerHTML = data.stadiumName
     document.getElementById('stadium-size').innerHTML = data.stadiumSeats
 }
+
+
+
 
 /**
  *
@@ -103,17 +106,36 @@ function loadStandings(standings, club_id, competitionId) {
 
 /**
  *
+ * Function to calculate the age of the player
+ * @param dateOfBirth the date of birth of the player
+ * @returns {number}
+ */
+function calculateAge(dateOfBirth) {
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+
+/**
+ *
  * Function to dynamically create player table row
  * @param player the player object
  * @returns {string}
  */
 function createPlayerRow(player) {
+    const age = calculateAge(player.dateOfBirth);
     return `
         <tr>
-            <td><img src="${player.imageUrl}" alt="${player.name}" class="img-thumbnail" style="max-width: 80px; max-height: 80px;"></td>
+            <td><img src="${player.imageUrl}" alt="${player.name}" class="img-thumbnail" style="max-width: 50px; max-height: 50px;"></td>
             <td>${player.name}</td>
             <td>${player.position}</td>
             <td>${player.countryOfBirth}</td>
+            <td>${age}</td>
         </tr>
         `;
 }
@@ -128,4 +150,14 @@ function loadPlayerList(players) {
     const playerRows = players.map(player => createPlayerRow(player));
     playerListContainer.innerHTML = playerRows.join('');
     document.getElementById('player-heading').innerText = `Players`;
+}
+
+
+/**
+ * Function to load the club's last game
+ * @param game the object containing the data about the game
+ */
+function loadLastGame(game) {
+
+
 }

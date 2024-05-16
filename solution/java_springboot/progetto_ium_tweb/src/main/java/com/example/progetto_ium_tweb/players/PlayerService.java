@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,5 +33,15 @@ public class PlayerService {
      */
     public Player getPlayerDataByID(String ID) {
         return this.player_repository.getPlayerInfoById(ID);
+    }
+
+    /**
+     *
+     * Get the list of players of a club
+     * @param club_id the id of the club
+     * @return a list of player object
+     */
+    public ArrayList<Player> getClubPlayers(String club_id) {
+        return this.player_repository.getClubPlayers(club_id);
     }
 }

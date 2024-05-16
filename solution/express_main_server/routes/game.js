@@ -12,5 +12,6 @@ router.get('/get-all-games-by-competition-and-year', GAME_CONTROLLER.getAllGames
 router.get('/get-game-info', GAME_CONTROLLER.getGameInfo);
 router.get('/get-standings-up-to-round', GAME_CONTROLLER.calculateClubStats);
 router.get('/get-head-2-head-games', GAME_CONTROLLER.getHead2Head);
+router.get('/get-club-last-game', GAME_CONTROLLER.getClubLastGame);
 
 module.exports = router;

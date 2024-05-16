@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,4 +42,19 @@ public class PlayerController {
         return ResponseEntity.ok(data);
 
     }
+
+    /**
+     * Get the list of players of a club
+     * @param club_id the id of the club
+     * @return a list of player object
+     */
+    @GetMapping("/get-club-players")
+    public ResponseEntity<ArrayList<Player>> getClubPlayers(@RequestParam String club_id){
+
+        ArrayList<Player> data = this.player_service.getClubPlayers(club_id);
+        return ResponseEntity.ok(data);
+
+    }
+
+
 }

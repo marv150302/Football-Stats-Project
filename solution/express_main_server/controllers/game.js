@@ -49,6 +49,32 @@ const getLatestGameByCompetition = async (req, res) => {
 }
 
 /**
+ * Function to retrieve the club's last game by its id
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
+const getClubLastGame = async (req, res) =>{
+
+    try {
+        const clubId = req.query.club_id;
+        // Find the latest game for the given club_id
+        const latestGame = await Game.findOne({ $or: [{ home_club_id: clubId }, { away_club_id: clubId }] })
+            .sort({ date: -1 }) // Sort by date in descending order to get the latest game
+            .exec();
+
+        if (!latestGame) {
+            return res.status(404).json({ message: 'No game found for the given club_id' });
+        }
+
+        res.json(latestGame);
+    } catch (error) {
+        console.error("Error retrieving latest game:", error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+/**
  * funcntion to get the last four games by the competition id and the year
  * @param req
  * @param res
@@ -86,6 +112,13 @@ const getLastFourGamesByCompetitionAndYear = async (req, res) => {
     }
 }
 
+/**
+ *
+ * get all games by the competition and the season
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 const getAllGamesByCompetitionAndYear = async (req, res) => {
     try {
         const competitionId = req.query.competition_id; // Get the competition_id from the request query
@@ -345,5 +378,6 @@ module.exports = {
     getAllGamesByCompetitionAndYear,
     getGameInfo,
     calculateClubStats,
-    getHead2Head
+    getHead2Head,
+    getClubLastGame
 };
