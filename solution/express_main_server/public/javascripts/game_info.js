@@ -49,6 +49,10 @@ function loadGameInfo(data) {
 
     document.getElementById("game-round-index").innerText += " " + data['round'];
     document.getElementById("home-team-index").innerText = data['home_club_name'];
+    document.getElementById('home-team-link').href = '/club/club-info?' +
+        'club_id=' + data.home_club_id;
+    document.getElementById('away-team-link').href = '/club/club-info?' +
+        'club_id=' + data.away_club_id;
     document.getElementById("away-team-index").innerText = data['away_club_name'];
     document.getElementById("game-score-index").innerText = data['aggregate']
     document.getElementById("home-team-image-index").src = "https://tmssl.akamaized.net/images/wappen/head/" + data['home_club_id'] + ".png"

@@ -80,15 +80,15 @@ function loadCompetitionsGames(competition, gamesResponse, index, array) {
                         <a href='${game_link}'>
                             <div class="card-body">
                                 <h5 class="card-title fw-bold">Round: ${game.round}</h5>
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div class="text-center">
+                                <div class="row d-flex justify-content-between align-items-center mb-3">
+                                    <div class="col-md-4 text-center">
                                         <h6>${game['home_club_name']}</h6>
                                         <img src="${home_team_logo}" alt="Home Team Logo" class="img-fluid" style="max-width: 50px;">
                                     </div>
-                                    <div>
+                                    <div class="col-md-4 text-center">
                                         <h2>${game['aggregate']}</h2>
                                     </div>
-                                    <div class="text-center">
+                                    <div class="col-md-4 text-center">
                                         <h6>${game['away_club_name']}</h6>
                                         <img src="${away_team_logo}" alt="Away Team Logo" class="img-fluid" style="max-width: 50px;">
                                     </div>

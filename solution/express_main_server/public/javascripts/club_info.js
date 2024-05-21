@@ -1,19 +1,21 @@
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         const urlParams = new URLSearchParams(window.location.search);
-        const game_id = urlParams.get('game_id');
-        const season = urlParams.get('season');
-        const date = urlParams.get('date');
-        const club_id = /*urlParams.get('club_id');*/418
+        //const season = urlParams.get('season');
+        //const date = urlParams.get('date');
+        const club_id = urlParams.get('club_id');
 
         const main_info = await sendAxiosQuery('/api/get-club-data-by-id', {club_id: club_id})
         loadClubMainData(main_info[0]);
 
-        console.log(main_info[0])
+        const last_game = await sendAxiosQuery('/api/get-club-last-game', {club_id: club_id});
+        loadLastGame(last_game, club_id);
+
+        //console.log(main_info[0])
 
         // Load standings
         const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
-            date: date,
+            /*date: date,*/
             season: main_info[0].lastSeason,
             competition_id: main_info[0].domesticCompetitionId
         });
@@ -22,6 +24,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const club_players = await sendAxiosQuery('/api/get-club-players', {club_id: club_id})
         loadPlayerList(club_players);
+
 
 
     } catch (error) {
@@ -46,8 +49,9 @@ function loadClubMainData(data) {
     document.getElementById('coach-name').innerText = data.coachName;
     document.getElementById('foreign-player-number').innerText = data.foreignersNumber;
     document.getElementById('average-age').innerHTML = data.averageAge;
-    document.getElementById('stadium-name').innerHTML = data.stadiumName
+    document.getElementById('stadium-name').innerText = data.stadiumName
     document.getElementById('stadium-size').innerHTML = data.stadiumSeats
+    document.getElementById('national-player-number').innerHTML = data.foreignersNumber;
 }
 
 
@@ -62,9 +66,9 @@ function loadClubMainData(data) {
  * @param competitionId the id of the competition of which we want to display the table
  */
 function loadStandings(standings, club_id, competitionId) {
-    console.log(competitionId);
     const standingsTable = document.getElementById('standings-table-tbody');
 
+    //document.getElementById('competition-link').href = "/competition-games?competitionId=" + competitionId+ "&year=2023"
     document.getElementById('domestic-competition-logo').src = 'https://tmssl.akamaized.net/images/logo/header/' + competitionId.toLowerCase() + '.png';
 
     standingsTable.innerHTML = '';
@@ -132,7 +136,7 @@ function createPlayerRow(player) {
     return `
         <tr>
             <td><img src="${player.imageUrl}" alt="${player.name}" class="img-thumbnail" style="max-width: 50px; max-height: 50px;"></td>
-            <td>${player.name}</td>
+            <td><a href="/players/player-info?player_id=${player.playerId}">${player.name}</a></td>
             <td>${player.position}</td>
             <td>${player.countryOfBirth}</td>
             <td>${age}</td>
@@ -156,8 +160,43 @@ function loadPlayerList(players) {
 /**
  * Function to load the club's last game
  * @param game the object containing the data about the game
+ * @param current_club_id the id of the club you're actually visioning
  */
-function loadLastGame(game) {
+function loadLastGame(game, current_club_id) {
 
+    let home_team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + game.home_club_id + ".png";
+    let away_team_logo = "https://tmssl.akamaized.net/images/wappen/head/" + game.away_club_id + ".png";
+
+    document.getElementById('last-game-link').href = '/games/game-info?game_id=' + game.game_id
+        + '&date=' + game.date
+        + '&season=' + game.season
+        + '&competition_id=' + game.competition_id
+        + '&home_club_id=' + game.home_club_id
+        + '&away_club_id=' + game.away_club_id;
+
+    document.getElementById('home-team-logo').src = home_team_logo;
+    document.getElementById('home-team-name').innerHTML = game.home_club_name;
+    //document.getElementById('home-team-score').innerHTML = game.home_club_goals;
+
+    document.getElementById('away-team-logo').src = away_team_logo;
+    document.getElementById('away-team-name').innerHTML = game.away_club_name;
+    //document.getElementById('away-team-score').innerHTML = game.away_club_goals;
+    document.getElementById('last-game-stadium-name').innerHTML = 'Stadium: ' +  game.stadium;
+
+
+    document.getElementById('score').innerHTML = game.aggregate;
+    /**
+     * ----------------TEMPORARY SOLUTION----------------
+     * this is done because the data in the csv is inconsistent and
+     * all the coaches name have null value,
+     * hence why I use the club's last match to get info about the coach name
+     */
+    if (current_club_id == game.home_club_id){
+
+        document.getElementById('coach-name').innerHTML = game.home_club_manager_name
+    }else{
+
+        document.getElementById('coach-name').innerHTML = game.away_club_manager_name
+    }
 
 }

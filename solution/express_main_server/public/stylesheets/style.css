@@ -114,4 +114,8 @@ table.table {
   text-decoration: none; !important;
 }
 
+/*the link on the card displaying the last game of a club*/
+#last-game-link-card:hover{
 
+  border: 1px solid #ffc107;
+}
