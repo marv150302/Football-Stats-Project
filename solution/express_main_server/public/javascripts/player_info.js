@@ -116,9 +116,8 @@ function createClubCardItem(club) {
 
     // More details link
     const moreDetailsLink = document.createElement("a");
-    moreDetailsLink.href = club.url;
+    moreDetailsLink.href = '/club/club-info?club_id=' + club.clubId;
     moreDetailsLink.textContent = "More Details";
-    moreDetailsLink.target = "_blank"; // Open link in new tab
     moreDetailsLink.classList.add("btn", "btn-warning", "mt-auto");
     cardBody.appendChild(moreDetailsLink);
 

@@ -70,6 +70,7 @@ function loadStandings(standings, club_id, competitionId) {
 
     //document.getElementById('competition-link').href = "/competition-games?competitionId=" + competitionId+ "&year=2023"
     document.getElementById('domestic-competition-logo').src = 'https://tmssl.akamaized.net/images/logo/header/' + competitionId.toLowerCase() + '.png';
+    //document.getElementById('competition-link').href = '/competition-games?competitionId='comp
 
     standingsTable.innerHTML = '';
 

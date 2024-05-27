@@ -90,14 +90,20 @@ table.table {
 
   border: 1px solid rgba(211, 211, 211, 0.15);
 }
-.card:hover:not(.game-events .club-history-container) {
+.card:hover:not(.game-events .club-history-container ) {
   transform: scale(1.05); /* Scale the card up slightly on hover */
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Add a shadow effect on hover */
 }
-.card:not(.game-events .club-history-container) {
+.card:not(.game-events .club-history-container #standings-table) {
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
 }
 
+#standings-table:hover{
+  transform: none !important;
+}
+#standings-table{
+  transform: none !important;
+}
 
 .nav-link-black {
   color: black !important;
@@ -119,3 +125,51 @@ table.table {
 
   border: 1px solid #ffc107;
 }
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+.hidden {
+  display: none;
+}
+
+.menu-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+.menu-buttons .btn {
+  background-color: transparent;
+  color: #6c757d; /* Bootstrap secondary color */
+  border: 2px solid transparent; /* Set border width */
+  border-radius: 0; /* Remove border radius */
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  width: 100px; /* Adjust width as needed */
+  height: 50px; /* Equal to width to make it square */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none; /* Remove outline */
+}
+.menu-buttons .btn:hover {
+  color: white; /* Black color */
+}
+.menu-buttons .btn.active {
+  color: #ffc107; /* Black color */
+  border-bottom-color: #ffc107; /* Bootstrap warning color */
+}
+.menu-buttons .btn.active:hover {
+  border-bottom-color: #ffc107; /* Bootstrap warning color */
+}
+.menu-buttons .btn:focus {
+  outline: 0;
+}
+/* Remove outline on button focus in Chrome */
+button:focus { outline:0 !important; }

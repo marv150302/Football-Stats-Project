@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+
+    <div class="col-md-12 text-center">
+
+        <img id="competition-logo" src="https://tmssl.akamaized.net/images/logo/header/it1.png">
+    </div>
+
+</div>
+<div class="row mb-0">
+    <div class="col-md-3">
+        <!-- Menu buttons -->
+        <div class="menu-buttons">
+            <button type="button" class="btn active" onclick="toggleDiv('div1')" id="btn-div1">Standings</button>
+            <button type="button" class="btn" onclick="toggleDiv('div2')" id="btn-div2">Games</button>
+            <button type="button" class="btn" onclick="toggleDiv('div3')" id="btn-div3">Scorers Table</button>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="group-standings-container"></div>
+
+
+<div class="row">
+    <div class="col bg-dark">
+        <div class="collapse show" id="div1">
+            <div class="table-responsive">
+                <table id="standings-table" class="table table-dark  table-striped table-hover">
+                    <thead>
+                    <th>Position</th>
+                    <th>Team</th>
+                    <th>Played</th>
+                    <th>Goals</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>D</th>
+                    <th>Points</th>
+                    </thead>
+                    <tbody id="standings-table-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="collapse" id="div2">
+            <div class="row justify-content-center" id="games-container">
+
+            </div>
+        </div>
+
+        <div class="collapse" id="div3">
+            <div class="card card-body">
+                Content of Div 3
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/javascripts/competition_info.js"></script>
+
+

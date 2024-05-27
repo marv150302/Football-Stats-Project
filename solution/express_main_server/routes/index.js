@@ -64,19 +64,6 @@ router.get('/games', function(req, res, next) {
   res.render('games', { locals });
 
 });
-router.get('/competition-games', function(req, res) {
-  // Retrieve the competition ID and year from the URL parameters
-  const competitionId = req.params.competitionId;
-  const year = req.params.year;
-
-  const locals = {
-    title: 'Competition Games',
-    description: 'All football matches per competition'
-  };
-
-
-  res.render('competition_games', { locals });
-});
 
 /**
  *
@@ -118,4 +105,23 @@ router.get('/players/player-info', function (req,res) {
   res.render('player_info', { locals });
 })
 
+router.get('/competitions', function (req, res) {
+
+  const locals = {
+
+    title: 'Competitions',
+    description: 'Info about each competition'
+  }
+  res.render('competitions', {locals});
+})
+
+router.get('/competitions/competition-info', function (req, res) {
+
+  const locals = {
+
+    title: 'Competitions',
+    description: 'Info about each competition'
+  }
+  res.render('competition_info', {locals});
+})
 module.exports = router;
