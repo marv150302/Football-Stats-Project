@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         const home_club_id = urlParams.get('home_club_id');
         const away_club_id = urlParams.get('away_club_id');
 
+        let competition = await sendAxiosQuery('/api/get-competition-by-id', {competition_id:competition_id});
+        competition = competition[0];
+
+
+
         // Load game info
         const gameInfo = await sendAxiosQuery('/api/get-game-info', {game_id});
         loadGameInfo(gameInfo);
@@ -24,7 +29,16 @@ document.addEventListener('DOMContentLoaded', async function () {
             competition_id: competition_id
         });
 
-        loadStandings(standings, home_club_id, away_club_id);
+        if (competition.type.includes('domestic')){
+
+            loadDomesticCompetitionStandings(standings, 'standings-container', home_club_id, away_club_id);
+        }else{
+
+            /**
+             * if it's an international competition
+             */
+            loadInternationalCompetitionStandings(standings,'standings-container', home_club_id, away_club_id)
+        }
         loadMinorData(gameInfo);
 
         const h2h_games = await sendAxiosQuery('/api/get-head-2-head-games', {
@@ -32,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             away_club_id: away_club_id
 
         })
-        console.log(h2h_games)
+        //console.log(h2h_games)
         displayH2HGames(h2h_games);
 
     } catch (error) {
@@ -72,7 +86,7 @@ function loadGameInfo(data) {
 }
 
 /**
- * functio used to display the game lineups
+ * function used to display the game lineups
  * @param data the game data
  */
 function getLineups(data) {
@@ -233,45 +247,7 @@ function getEventIcon(eventType) {
     return iconPath;
 }
 
-/**
- *
- * function used to load the standings the teams in the league of the current match
- * the home team will be highlighted in green, the away in yellow
- * @param standings an array of object containing data about the league standings
- * @param home_club_id the id of the home team used to highlight its row on the table
- * @param away_club_id the id of the away team used to highlight its row on the table
- */
-function loadStandings(standings, home_club_id,away_club_id) {
-    const standingsTable = document.getElementById('standings-table-tbody');
 
-    standingsTable.innerHTML = '';
-
-
-    standings.forEach((team, index) => {
-        const isEvenRow = index % 2 === 0;
-
-        let currentTeamClass = '' // Add bg-warning class for current team
-        if (team.clubId == home_club_id) currentTeamClass = 'bg-success'
-        if (team.clubId == away_club_id) currentTeamClass = 'bg-warning'
-
-        let rowClass = isEvenRow ? 'bg-light' : 'bg-white'; // Alternate stripe classes
-        const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${team.clubId}.png`;
-        const row = `
-            <tr class="${currentTeamClass}">
-                <td>${team.position}</td>
-                <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"> ${team.name}</td>
-                <td>${team.matchesPlayed}</td>
-                <td>${team.goalsScored} : ${team.goalsTaken}</td>
-                <td>${team.wins}</td>
-                <td>${team.loss}</td>
-                <td>${team.drawn}</td>
-                <td>${team.points}</td>
-            </tr>
-        `;
-
-        standingsTable.insertAdjacentHTML('beforeend', row);
-    });
-}
 
 /**
  * function used to get the initials of the players position
@@ -383,5 +359,7 @@ function createGameCard(game) {
 
     return colDiv;
 }
+
+
 
 

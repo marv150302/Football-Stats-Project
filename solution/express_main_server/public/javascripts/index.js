@@ -122,6 +122,164 @@ async function getPlayerDataById(playerId) {
     }
 }
 
+/**
+ *
+ * function used to load the international competition standings
+ * the home team will be highlighted in green, the away in yellow
+ * @param groupedData an array of object containing data about the competition standings
+ * @param container_id the id of the container on which append the data
+ * @param home_club_id the id of the home team used to highlight its row on the table
+ * @param away_club_id the id of the away team used to highlight its row on the table
+ */
+function loadInternationalCompetitionStandings(groupedData, container_id, home_club_id, away_club_id) {
+    groupedData = groupBy(groupedData, 'round')
+    const container = document.getElementById(container_id);
+    container.innerHTML = ''; // Clear existing content
+
+    Object.keys(groupedData).forEach(round => {
+        const teams = groupedData[round];
+
+        // Create a group header
+        const groupHeader = document.createElement('h3');
+        groupHeader.textContent = round;
+        groupHeader.className = 'text-warning mt-4';
+        container.appendChild(groupHeader);
+
+        // Create a table for the group
+        const table = document.createElement('table');
+        table.className = 'table table-dark table-striped';
+
+        // Create table header
+        const thead = document.createElement('thead');
+        thead.innerHTML = `
+            <tr>
+                <th>Position</th>
+                <th>Team</th>
+                <th>Played</th>
+                <th>Goals</th>
+                <th>Goal Difference</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Draws</th>
+                <th>Points</th>
+            </tr>
+        `;
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+
+        // Add rows for each team in the group
+        teams.forEach((team, index) => {
+            const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${team.clubId}.png`; // Assuming clubId is home_club_id
+            const row = `
+                <tr id="team-row-${team.clubId}">
+                    <td>${index+1}</td>
+                    <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"> ${team.name}</td>
+                    <td>${team.matchesPlayed}</td>
+                    <td>${team.goalsScored} : ${team.goalsTaken}</td>
+                    <td>${team.goalDifference}</td>
+                    <td>${team.wins}</td>
+                    <td>${team.loss}</td>
+                    <td>${team.drawn}</td>
+                    <td>${team.points}</td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+
+        table.appendChild(tbody);
+        container.appendChild(table);
+    });
+    if (home_club_id){
+
+        document.getElementById('team-row-' + home_club_id).className = 'table-success';
+    }
+    if (away_club_id){
+
+        document.getElementById('team-row-' + away_club_id).className = 'table-warning';
+    }
+}
+
+/**
+ *
+ * function used to load the standings the teams in the league of the current match
+ * the home team will be highlighted in green, the away in yellow
+ * @param standings an array of object containing data about the league standings
+ * @param container_id the id of the container in which append the data
+ * @param home_club_id the id of the home team used to highlight its row on the table
+ * @param away_club_id the id of the away team used to highlight its row on the table
+ */
+function loadDomesticCompetitionStandings(standings, container_id, home_club_id,away_club_id) {
+    const standingsTable = document.getElementById(container_id);
+
+
+    standingsTable.innerHTML = '';
+
+    const table = document.createElement('table');
+    table.className = 'table table-dark table-striped';
+    // Create table header
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+            <tr>
+                <th>Position</th>
+                <th>Team</th>
+                <th>Played</th>
+                <th>Goals</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Draws</th>
+                <th>Points</th>
+            </tr>
+        `;
+    table.appendChild(thead);
+    const tbody = document.createElement('tbody');
+
+    standings.forEach((team, index) => {
+
+        const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${team.clubId}.png`;
+        const row = `
+            <tr id="team-row-${team.clubId}">
+                <td>${team.position}</td>
+                <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"> ${team.name}</td>
+                <td>${team.matchesPlayed}</td>
+                <td>${team.goalsScored} : ${team.goalsTaken}</td>
+                <td>${team.wins}</td>
+                <td>${team.loss}</td>
+                <td>${team.drawn}</td>
+                <td>${team.points}</td>
+            </tr>
+        `;
+
+        tbody.insertAdjacentHTML('beforeend', row);
+        table.appendChild(tbody);
+    });
+
+
+    standingsTable.appendChild(table)
+    if (home_club_id){
+
+        document.getElementById('team-row-' + home_club_id).className = 'table-success';
+    }
+    if (away_club_id){
+
+        document.getElementById('team-row-' + away_club_id).className = 'table-warning';
+    }
+}
+
+
+/**
+ * Function to group an array by one of its field
+ * @param array the array to group
+ * @param key the field on which you want to group by
+ * @returns {*}
+ */
+function groupBy(array, key) {
+    return array.reduce((result, currentValue) => {
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
+        return result;
+    }, {});
+}
+
 
 
 

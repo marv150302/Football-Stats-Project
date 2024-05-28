@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         const last_game = await sendAxiosQuery('/api/get-club-last-game', {club_id: club_id});
         loadLastGame(last_game, club_id);
 
-        //console.log(main_info[0])
-
         // Load standings
         const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
             /*date: date,*/
@@ -70,7 +68,8 @@ function loadStandings(standings, club_id, competitionId) {
 
     //document.getElementById('competition-link').href = "/competition-games?competitionId=" + competitionId+ "&year=2023"
     document.getElementById('domestic-competition-logo').src = 'https://tmssl.akamaized.net/images/logo/header/' + competitionId.toLowerCase() + '.png';
-    //document.getElementById('competition-link').href = '/competition-games?competitionId='comp
+    document.getElementById('competition-link').href = '/competitions/competition-info?competition_id=' + competitionId;
+    document.getElementById('standings-link').href = '/competitions/competition-info?competition_id=' + competitionId;
 
     standingsTable.innerHTML = '';
 

@@ -75,7 +75,7 @@ const getClubLastGame = async (req, res) =>{
 }
 
 /**
- * funcntion to get the last four games by the competition id and the year
+ * Function to get the last four games by the competition id and the year
  * @param req
  * @param res
  * @returns {Promise<void>}
@@ -181,6 +181,13 @@ const getGameInfo = async (req, res) => {
     }
 };
 
+/**
+ *
+ * Function to get all head to head games
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const getHead2Head = async (req, res) => {
     try {
         const homeClubId = req.query.home_club_id;
@@ -295,6 +302,7 @@ const calculateClubStats = async (req, res) => {
                     matchesPlayed: 0,
                     points: 0,
                     name: game.home_club_name,
+                    round: game.round,
                     wins: 0,
                     loss: 0,
                     drawn: 0
@@ -337,7 +345,7 @@ const calculateClubStats = async (req, res) => {
 function getTeamStandings(clubStats) {
 
     const clubStatsWithPosition = Object.keys(clubStats).map(clubId => {
-        const {goalsScored, goalsTaken, matchesPlayed, points, name, wins, loss, drawn} = clubStats[clubId];
+        const {goalsScored, goalsTaken, matchesPlayed, points, name, round, wins, loss, drawn} = clubStats[clubId];
         const goalDifference = goalsScored - goalsTaken;
 
         return {
@@ -348,6 +356,7 @@ function getTeamStandings(clubStats) {
             goalDifference,
             points,
             name,
+            round,
             wins,
             loss,
             drawn

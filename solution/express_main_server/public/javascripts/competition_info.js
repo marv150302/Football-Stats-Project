@@ -4,15 +4,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     const competition_id = urlParams.get('competition_id');
     const season = 2023;
 
+    let competition = await sendAxiosQuery('/api/get-competition-by-id', {competition_id:competition_id});
+    competition = competition[0];
+    console.log(competition)
+
+    /**
+     * if it's a qualification competition we don't need to show the standings
+     */
+    if (competition.subType.includes('qualif')){
+
+        toggleDiv('div2') //we show the second div, the one with the games
+        document.getElementById('btn-div1').style.display = 'none'; //we hide the button that displays the div with the standings
+        document.getElementById('div1').style.display = 'none';// we hide the first div that displays the games
+    }else{
+
+        const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
+            competition_id: competition_id,
+            season: season
+        });
+
+        if (competition.type.includes('domestic')){
+
+            /**
+             * if it's a domestic competition
+             */
+            loadDomesticCompetitionStandings(standings, 'standings-container');
+        }else{
+
+            /**
+             * if it's an international competition
+             */
+            loadInternationalCompetitionStandings(standings,'standings-container')
+        }
+    }
     document.getElementById('competition-logo').src = "https://tmssl.akamaized.net/images/logo/header/" + competition_id.toLowerCase() + '.png';
 
-    const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
-        competition_id: competition_id,
-        season: season
-    });
-
-    //loadStandings(standings);
-    loadGroupStandings(standings)
 
     const games = await sendAxiosQuery('/api/get-all-games-by-competition-and-year', {competition_id:competition_id, year:season})
     games.sort((a, b) => {
@@ -20,7 +46,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const lastMatchBDate = new Date(b.games[b.games.length - 1].date);
         return lastMatchBDate - lastMatchADate;
     });
-    console.log(games)
 
     displayGamesByMatchday(games, competition_id);
 });
@@ -28,85 +53,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 /**
  *
- * function used to load the standings the teams in the league of the current match
- * the home team will be highlighted in green, the away in yellow
- * @param standings an array of object containing data about the league standings
- */
-function loadGroupStandings(groupStandings) {
-    console.log(groupStandings)
-    const container = document.getElementById('group-standings-container');
-    container.innerHTML = ''; // Clear any existing content
-
-    // Iterate over each group in the standings data
-    groupStandings.forEach(group => {
-        const groupName = group._id; // The group name (e.g., "Group C")
-        const games = group.games; // The games within the group
-
-        // Create a table for each group
-        const table = document.createElement('table');
-        table.className = 'table table-striped';
-
-        // Create table header
-        const thead = document.createElement('thead');
-        thead.innerHTML = `
-            <tr>
-                <th>Position</th>
-                <th>Team</th>
-                <th>Played</th>
-                <th>Goals</th>
-                <th>Wins</th>
-                <th>Losses</th>
-                <th>Draws</th>
-                <th>Points</th>
-            </tr>
-        `;
-        table.appendChild(thead);
-
-        const tbody = document.createElement('tbody');
-
-        // Add rows for each game in the group
-        games.forEach((game, index) => {
-            const isEvenRow = index % 2 === 0;
-            let rowClass = isEvenRow ? 'bg-light' : 'bg-white'; // Alternate stripe classes
-            const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${game.home_club_id}.png`; // Assuming clubId is home_club_id
-            const row = `
-                <tr class="${rowClass}">
-                    <td>${index + 1}</td> <!-- Assuming index + 1 as the position -->
-                    <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"> ${game.home_club_name}</td>
-                    <td>${game.home_club_goals + game.away_club_goals}</td>
-                    <td>${game.home_club_goals} : ${game.away_club_goals}</td>
-                    <td>${game.home_club_goals > game.away_club_goals ? 1 : 0}</td> <!-- Wins -->
-                    <td>${game.home_club_goals < game.away_club_goals ? 1 : 0}</td> <!-- Losses -->
-                    <td>${game.home_club_goals === game.away_club_goals ? 1 : 0}</td> <!-- Draws -->
-                    <td>${game.home_club_goals > game.away_club_goals ? 3 : game.home_club_goals === game.away_club_goals ? 1 : 0}</td> <!-- Points -->
-                </tr>
-            `;
-            tbody.insertAdjacentHTML('beforeend', row);
-        });
-
-        table.appendChild(tbody);
-
-        // Add a group header
-        const groupHeader = document.createElement('h3');
-        groupHeader.textContent = `Group ${groupName}`;
-        groupHeader.className = 'mt-4';
-
-        // Append group header and table to the container
-        container.appendChild(groupHeader);
-        container.appendChild(table);
-    });
-}
-
-
-
-
-
-
-
-/**
- *
  * function used to display and hide the divs
- * @param divId
+ * @param divId the id of the div
  */
 function toggleDiv(divId) {
     // Hide all divs
@@ -146,7 +94,7 @@ function displayGamesByMatchday(groupedGames) {
 
         group.games.forEach(game => {
             const col = document.createElement('div');
-            col.className = 'col-md-3 mb-3';
+            col.className = 'col-md-6 mb-3';
 
             const card = document.createElement('div');
             card.className = 'card h-100 bg-dark text-light';
