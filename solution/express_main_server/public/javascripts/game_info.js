@@ -22,23 +22,27 @@ document.addEventListener('DOMContentLoaded', async function () {
         const gameEvents = await sendAxiosQuery('/api/get-all-game-events-by-game-id', {game_id});
         loadGameEvents(gameEvents);
 
-        // Load standings
-        const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
-            date: date,
-            season: season,
-            competition_id: competition_id
-        });
+        if (!competition.subType.includes('qualif') || !competition.subType.includes('cup')){
 
-        if (competition.type.includes('domestic')){
+            // Load standings
+            const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
+                date: date,
+                season: season,
+                competition_id: competition_id
+            });
 
-            loadDomesticCompetitionStandings(standings, 'standings-container', home_club_id, away_club_id);
-        }else{
+            if (competition.type.includes('domestic')){
 
-            /**
-             * if it's an international competition
-             */
-            loadInternationalCompetitionStandings(standings,'standings-container', home_club_id, away_club_id)
+                loadDomesticCompetitionStandings(standings, 'standings-container', home_club_id, away_club_id);
+            }else{
+
+                /**
+                 * if it's an international competition
+                 */
+                loadInternationalCompetitionStandings(standings,'standings-container', home_club_id, away_club_id)
+            }
         }
+
         loadMinorData(gameInfo);
 
         const h2h_games = await sendAxiosQuery('/api/get-head-2-head-games', {

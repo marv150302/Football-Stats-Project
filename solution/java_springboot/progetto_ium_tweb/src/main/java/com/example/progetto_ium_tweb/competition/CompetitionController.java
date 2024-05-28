@@ -34,11 +34,19 @@ public class CompetitionController {
 
     /**
      *
-     *
      * @return a list of String objects containing the name of all competition
      */
     @GetMapping("/get-all-competitions-name")
     public List<String> getAllCompetitionNames() {
         return competitionService.getAllCompetitionNames();
+    }
+
+    /**
+     * @param competition_id the id of the competition
+     * @return a competition object containing the info about a specific competition identified by its id
+     */
+    @GetMapping("/get-competition-by-id")
+    public List<Competition> getCompetitionById(@RequestParam String competition_id) {
+        return competitionService.getCompetitionById(competition_id);
     }
 }

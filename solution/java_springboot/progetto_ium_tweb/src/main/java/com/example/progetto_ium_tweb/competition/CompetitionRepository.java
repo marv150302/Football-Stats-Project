@@ -20,4 +20,12 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
      */
     @Query("SELECT c FROM Competition c ORDER BY c.name ASC")
     List<Competition> findAllCompetition();
+
+    /**
+     * Sql query to get data about a specific competition
+     * @param competition_id the id of the competition
+     * @return a competition object with all the data
+     */
+    @Query("SELECT c FROM Competition c  WHERE c.competitionId = :competition_id")
+    List<Competition> getCompetitionById(String competition_id);
 }

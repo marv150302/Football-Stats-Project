@@ -34,4 +34,16 @@ public class CompetitionService {
     public List<String> getAllCompetitionNames() {
         return this.competition_repository.findAllCompetitionNames();
     }
+
+    /**
+     *
+     * Function to get the data about a competition by its ID
+     * @param competition_id the id of the competition
+     * @return an object containing the data about the competition
+     */
+    public List<Competition> getCompetitionById(String competition_id){
+
+
+        return this.competition_repository.getCompetitionById(competition_id);
+    }
 }

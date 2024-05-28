@@ -1,6 +1,4 @@
-const AXIOS = require('axios');
 const APPEARANCES = require('../models/appearances');
-const JAVA_SPRING_SERVER_URL = 'http://localhost:8081/players';
 
 
 /**
@@ -198,6 +196,7 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
                     _id: "$player_id",
                     total_goals: {$sum: "$goals"},
                     player_name: {$first: "$player_name"},
+                    club_id: {$first: "$player_current_club_id"}
                 }
             },
             {
@@ -206,7 +205,7 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
                 }
             },
             {
-                $limit: 3
+                $limit: 14
             }
         ];
 
@@ -227,7 +226,7 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
 
 /**
  *
- * Currently not using
+ * *****Currently not using******
  *
  * function to get the player's club history by the player id
  * @param req

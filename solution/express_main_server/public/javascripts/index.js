@@ -6,8 +6,6 @@
  */
 function loadLatestGameByCompetition(data, competition){
 
-
-
     const dateString = data['date'];
     const date = new Date(dateString);
     const options = {
@@ -26,11 +24,19 @@ function loadLatestGameByCompetition(data, competition){
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
+    let competition_logo_src = "https://tmssl.akamaized.net/images/logo/header/" + data.competition_id.toLowerCase() + '.png';
+    let competition_link = "/competitions/competition-info?competition_id=" + data.competition_id;
     document.getElementById('main-domestic-leagues-latest-game').innerHTML += `<div class="col-md-3 mb-3">
                 <div class="card h-100 bg-dark text-light">
-                    <a href=${game_link} id="index-1-game">
-                        <div class="card-body">
-                            <h3 id="game-round-index-laliga" class="card-title fw-bold text-success">${competition} </h3>
+                    <div class="card-title text-center bg-success">
+                            <a href="${competition_link}" >
+                                <img class="img-fluid  mb-3 mt-3" style="width: 50px; height: 60px" src="${competition_logo_src}" alt="competition logo">
+                            </a>
+                            <!--<h3 class="fw-bold text-dark">${competition} </h3>-->
+                        </div>
+                        <a href="${game_link}"><div class="card-body">
+                            
+                            
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="text-center">
                                     <h6 id="home-team-index-laliga">${data.home_club_name}</h6>
@@ -44,9 +50,11 @@ function loadLatestGameByCompetition(data, competition){
                                     <img id="" src="${"https://tmssl.akamaized.net/images/wappen/head/" + data['away_club_id'] + ".png"}" alt="Team B Logo" class="img-fluid w-25">
                                 </div>
                             </div>
-                            <p id="" class="card-text">Match played on: ${date.toLocaleDateString('en-US', options)}</p>
+                            
+                        </div></a>
+                        <div class="card-footer">
+                                <p id="" class="card-text">Match played on: ${date.toLocaleDateString('en-US', options)}</p>
                         </div>
-                    </a>
                 </div>
             </div>`
 }
@@ -61,7 +69,6 @@ function getLatestGame() {
     let competition_name = ['laliga', 'ligue-1', 'bundesliga', 'serie-a', 'premier-league']
 
     competitions.forEach((competition, index) =>{
-        console.log(index)
         sendAxiosQuery('/api/get-latest-game-by-competition', {competition_id: competition})
             .then(data => {
 
@@ -132,7 +139,10 @@ async function getPlayerDataById(playerId) {
  * @param away_club_id the id of the away team used to highlight its row on the table
  */
 function loadInternationalCompetitionStandings(groupedData, container_id, home_club_id, away_club_id) {
-    groupedData = groupBy(groupedData, 'round')
+
+    groupedData = groupedData.filter(item => item.round.includes('Group'));//only display the standings of the group not the 'rounds'
+    groupedData = groupedData.sort((a, b) => a.round.localeCompare(b.round));//sorting by group name, localeCompare is used particolarly for string
+    groupedData = groupBy(groupedData, 'round')//grouping by group name
     const container = document.getElementById(container_id);
     container.innerHTML = ''; // Clear existing content
 
@@ -264,6 +274,53 @@ function loadDomesticCompetitionStandings(standings, container_id, home_club_id,
 
         document.getElementById('team-row-' + away_club_id).className = 'table-warning';
     }
+}
+
+
+/**
+ *
+ * Function to display the leagues top scorers
+ * @param container_id the id of the container in which append the data
+ * @param data the array of objects containing the data on the player
+ */
+function loadLeagueTopScorers(data, container_id) {
+    const standingsTable = document.getElementById(container_id);
+
+
+    standingsTable.innerHTML = '';
+
+    const table = document.createElement('table');
+    table.className = 'table table-dark table-striped';
+    // Create table header
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+            <tr>
+                <th>Position</th>
+                <th>Player</th>
+                <th>Goals</th>
+                <th>Team</th>
+            </tr>
+        `;
+    table.appendChild(thead);
+    const tbody = document.createElement('tbody');
+
+    data.forEach((player, index) => {
+
+        console.log(player)
+        const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${player.club_id}.png`;
+        const row = `
+            <tr >
+                <td>${index+1}</td>
+                <td>${player.player_name}</td>
+                <td>${player.total_goals}</td>
+                <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"></td>
+            </tr>
+        `;
+
+        tbody.insertAdjacentHTML('beforeend', row);
+        table.appendChild(tbody);
+    });
+    standingsTable.appendChild(table)
 }
 
 
