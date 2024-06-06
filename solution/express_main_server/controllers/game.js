@@ -122,7 +122,8 @@ const getLastFourGamesByCompetitionAndYear = async (req, res) => {
 const getAllGamesByCompetitionAndYear = async (req, res) => {
     try {
         const competitionId = req.query.competition_id; // Get the competition_id from the request query
-        const season = parseInt(req.query.year); // Get the season from the request query
+        const season = parseInt(req.query.season); // Get the season from the request query
+
 
         // Aggregate pipeline to group games by round
         const games = await Game.aggregate([
@@ -143,12 +144,7 @@ const getAllGamesByCompetitionAndYear = async (req, res) => {
             }
         ]);
 
-        if (games && games.length > 0) {
-            res.json(games); // Return the grouped games as JSON response
-        } else {
-            console.log('No games found');
-            res.status(404).json({error: 'No games found for the given competition ID and season'}); // Return 404 if no games are found
-        }
+        res.json(games); // Return the grouped games as JSON response
     } catch (error) {
         console.error('Error finding games:', error);
         res.status(500).json({error: 'Failed to fetch games'}); // Return 500 if an error occurs

@@ -226,7 +226,7 @@ function loadDomesticCompetitionStandings(standings, container_id, home_club_id,
     standingsTable.innerHTML = '';
 
     const table = document.createElement('table');
-    table.className = 'table table-dark table-striped';
+    table.className = 'table table-dark table-striped table-hover';
     // Create table header
     const thead = document.createElement('thead');
     thead.innerHTML = `
@@ -247,10 +247,12 @@ function loadDomesticCompetitionStandings(standings, container_id, home_club_id,
     standings.forEach((team, index) => {
 
         const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${team.clubId}.png`;
+        const club_link = '/club/club-info?' +
+            'club_id=' + team.clubId;
         const row = `
             <tr id="team-row-${team.clubId}">
                 <td>${team.position}</td>
-                <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"> ${team.name}</td>
+                <td><a href="${club_link}"><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"> ${team.name}</a> </td>
                 <td>${team.matchesPlayed}</td>
                 <td>${team.goalsScored} : ${team.goalsTaken}</td>
                 <td>${team.wins}</td>
@@ -284,18 +286,20 @@ function loadDomesticCompetitionStandings(standings, container_id, home_club_id,
  * @param data the array of objects containing the data on the player
  */
 function loadLeagueTopScorers(data, container_id) {
+    //console.log(data)
     const standingsTable = document.getElementById(container_id);
 
 
     standingsTable.innerHTML = '';
 
     const table = document.createElement('table');
-    table.className = 'table table-dark table-striped';
+    table.className = 'table table-dark table-striped table-hover';
     // Create table header
     const thead = document.createElement('thead');
     thead.innerHTML = `
             <tr>
                 <th>Position</th>
+                <th></th>
                 <th>Player</th>
                 <th>Goals</th>
                 <th>Team</th>
@@ -308,12 +312,25 @@ function loadLeagueTopScorers(data, container_id) {
 
         console.log(player)
         const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${player.club_id}.png`;
+        const club_link = '/club/club-info?' +
+            'club_id=' + player.playerDetails.currentClubId;
         const row = `
             <tr >
                 <td>${index+1}</td>
-                <td>${player.player_name}</td>
+                <td>
+                    <a href="/players/player-info?player_id=${player._id}">
+                        <img src="${player.playerDetails.imageUrl}" alt="${player.playerDetails.name}" class="img-thumbnail" style="max-width: 50px; max-height: 50px;">
+                    </a>
+                </td>
+                <td>
+                    <a href="/players/player-info?player_id=${player._id}">${player.player_name}</a>
+                        <br>
+                    <a href="${club_link}" class="text-secondary">${player.playerDetails.currentClubName}</a>
+                    </td>
                 <td>${player.total_goals}</td>
-                <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"></td>
+                <td>
+                    <a href="${club_link}" class="text-secondary"><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"></a>
+                </td>
             </tr>
         `;
 

@@ -1,4 +1,5 @@
 const APPEARANCES = require('../models/appearances');
+const AXIOS = require('axios');
 
 
 /**
@@ -176,13 +177,13 @@ async function getTotalGoalsAndAssistsForPlayerAndSeason(req, res) {
  */
 const getTopScorersByCompetitionAndYear = async (req, res) => {
     try {
-        const competitionId = req.query.competition_id; // Get the competition_id from the request query
-        const year = parseInt(req.query.year); // Get the year from the request query
+        const competitionId = req.query.competition_id;
+        const year = parseInt(req.query.year);
 
         const pipeline = [
             {
                 $addFields: {
-                    year: {$year: "$date"}
+                    year: { $year: "$date" }
                 }
             },
             {
@@ -194,9 +195,9 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
             {
                 $group: {
                     _id: "$player_id",
-                    total_goals: {$sum: "$goals"},
-                    player_name: {$first: "$player_name"},
-                    club_id: {$first: "$player_current_club_id"}
+                    total_goals: { $sum: "$goals" },
+                    player_name: { $first: "$player_name" },
+                    club_id: { $first: "$player_current_club_id" }
                 }
             },
             {
@@ -213,14 +214,29 @@ const getTopScorersByCompetitionAndYear = async (req, res) => {
 
         if (topScorers.length > 0) {
             console.log('Top Scorers:', topScorers);
-            res.json(topScorers); // Return the top scorers as JSON response
+
+            // Making a call to getPlayerDataById route for each top scorer
+            const playerDetailsPromises = topScorers.map(async (scorer) => {
+                try {
+                    const response = await AXIOS.get(`http://localhost:3000/api/get-player-data-by-id?playerId=${scorer._id}`); // Adjust the URL to match your Express server
+                    scorer.playerDetails = response.data; // Attach player details to the scorer object
+                } catch (error) {
+                    console.error(`Error fetching data for player ${scorer._id}:`, error);
+                    scorer.playerDetails = null; // If there's an error, set playerDetails to null
+                }
+            });
+
+            // Wait for all player details to be fetched
+            await Promise.all(playerDetailsPromises);
+
+            res.json(topScorers); // Return the top scorers with player details as JSON response
         } else {
             console.log('No top scorers found');
-            res.status(404).json({error: 'No top scorers found'}); // Return 404 if no top scorers are found
+            res.status(404).json({ error: 'No top scorers found' });
         }
     } catch (error) {
         console.error('Error finding top scorers:', error);
-        res.status(500).json({error: 'Failed to fetch top scorers'}); // Return 500 if an error occurs
+        res.status(500).json({ error: 'Failed to fetch top scorers' });
     }
 };
 
