@@ -173,3 +173,8 @@ table.table {
 }
 /* Remove outline on button focus in Chrome */
 button:focus { outline:0 !important; }
+
+.scrollable-list {
+  max-height: 200px;
+  overflow-y: auto;
+}

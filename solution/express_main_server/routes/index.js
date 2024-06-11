@@ -124,4 +124,15 @@ router.get('/competitions/competition-info', function (req, res) {
   }
   res.render('competition_info', {locals});
 })
+
+router.get('/clubs', function (req, res) {
+
+  const locals = {
+
+    title: 'Clubs',
+    description: 'List of all clubs'
+  }
+
+  res.render('clubs',{locals});
+})
 module.exports = router;
