@@ -85,6 +85,7 @@ function loadGameInfo(data) {
     };
     document.getElementById('game-date-index').innerText += " " + date.toLocaleDateString('en-US', options)
     document.getElementById('competition-logo').src = 'https://tmssl.akamaized.net/images/logo/header/' + data.competition_id.toLowerCase() + '.png';
+    document.getElementById('competition-link').href = '/competitions/competition-info?competition_id=' + data.competition_id;
 
 
 }
@@ -177,7 +178,7 @@ function loadGameEvents(events) {
     // Iterate over each event and create a card for it
     for (const event of events) {
         const card = document.createElement('div');
-        card.classList.add('card', 'mb-3', 'text-center', 'bg-success');
+        card.classList.add('card', 'mb-3', 'text-center', 'bg-dark');
 
         const cardBody = document.createElement('div');
         cardBody.classList.add('card-body', 'fw-bold');
@@ -188,6 +189,7 @@ function loadGameEvents(events) {
         icon.classList.add('w-5');
 
         const eventDescription = document.createElement('p');
+        eventDescription.className = 'text-light'
         eventDescription.textContent = `${event.minute}' - ${event.description}`;
 
         if (event.type === 'Substitutions') {
@@ -196,23 +198,33 @@ function loadGameEvents(events) {
             getPlayerDataById(event.player_in_id)
                 .then(playerIn => {
 
-                    substitutionInfo.textContent = 'IN: ' + playerIn.name + ', ';
+                    const sub_in = document.createElement('p');
+                    sub_in.className = 'text-success'
+                    sub_in.innerHTML = `⬆: <img class="img-thumbnail" style="width: 50px; height: 60px;" src="${playerIn.imageUrl}" alt="${playerIn.name}'s image"> ${playerIn.name} `;
+                    substitutionInfo.appendChild(sub_in);
+                    //substitutionInfo.textContent = 'IN: ' + playerIn.name + ', ';
                 })
             getPlayerDataById(event.player_id)
                 .then(playerOut => {
 
-                    substitutionInfo.textContent += 'OUT: ' + playerOut.name;
+                    const sub_out = document.createElement('p');
+                    const player_img = document.createElement('img');
+                    player_img.src = playerOut.imageUrl;
+                    sub_out.className = 'text-danger'
+                    sub_out.innerHTML = `⬇: <img class="img-thumbnail" style="width: 50px; height: 60px;" src="${playerOut.imageUrl}" alt="${playerOut.name}'s image"> ${playerOut.name} `;
+                    substitutionInfo.appendChild(sub_out);
                 })
 
 
             cardBody.appendChild(substitutionInfo);
         } else {
 
-            const event_info = document.createElement('p');
+            const event_info = document.createElement('h4');
+            event_info.className = 'text-light card-title'
             getPlayerDataById(event.player_id)
                 .then(player => {
 
-                    event_info.textContent = `${player.name}'`;
+                    event_info.innerHTML = `<a href="/players/player-info?player_id=${player.playerId}"><img class="img-thumbnail" style="width: 50px; height: 60px;" src="${player.imageUrl}" alt="${player.name}'s image"> ${player.name}</a> `;
                 })
 
             cardBody.appendChild(event_info);
