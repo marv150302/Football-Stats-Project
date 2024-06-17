@@ -57,8 +57,24 @@ async function getPlayerStats(req, res){
         res.status(500).json({error: 'Failed to fetch player data from Spring API'});
     }
 }
+
+async function getPlayerByName(req, res){
+
+    const name = req.query.name;
+    try {
+        const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-player-by-name?name='+name);
+        const competitions = response.data;
+        // Handle the data retrieved from the Spring API ìì
+        res.json(competitions);
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching player data from Spring API:', error);
+        res.status(500).json({error: 'Failed to fetch player data from Spring API'});
+    }
+}
+
 module.exports = {
     getAllPlayers,
     getPlayerDataById,
-    getPlayerStats
+    getPlayerByName
 };

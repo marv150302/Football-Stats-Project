@@ -24,4 +24,12 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
      */
     @Query("SELECT p FROM Player p WHERE p.currentClubId = :club_id")
     ArrayList<Player> getClubPlayers(String club_id);
+
+    /**
+     * Query used to get players by name
+     * @param name the name of the player(it can contain the surname)
+     * @return a list of player object
+     */
+    @Query("SELECT p FROM Player p WHERE LOWER(p.name) LIKE CONCAT('%', LOWER(:name), '%')")
+    ArrayList<Player> getPlayerByName(String name);
 }

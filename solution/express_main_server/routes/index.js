@@ -135,4 +135,15 @@ router.get('/clubs', function (req, res) {
 
   res.render('clubs',{locals});
 })
+
+router.get('/players', function (req, res) {
+
+  const locals = {
+
+    title: 'Search for players',
+    description: 'Search Players'
+  }
+
+  res.render('player',{locals});
+})
 module.exports = router;

@@ -44,4 +44,14 @@ public class PlayerService {
     public ArrayList<Player> getClubPlayers(String club_id) {
         return this.player_repository.getClubPlayers(club_id);
     }
+
+    /**
+     *
+     * Get players by name or/and surname
+     * @param name the name of the player/s to search
+     * @return a list of player object
+     */
+    public ArrayList<Player> getPlayerByName(String name) {
+        return this.player_repository.getPlayerByName(name);
+    }
 }

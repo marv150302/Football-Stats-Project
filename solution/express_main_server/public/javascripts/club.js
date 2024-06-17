@@ -20,7 +20,7 @@ function createClubCards(groupedClubs) {
         cardBody.className = 'card-body bg-dark';
 
         const cardTitle = document.createElement('h5');
-        cardTitle.className = 'card-title';
+        cardTitle.className = 'card-title text-warning';
         cardTitle.textContent = initial;
 
         const listGroup = document.createElement('ul');

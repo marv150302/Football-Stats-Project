@@ -56,5 +56,18 @@ public class PlayerController {
 
     }
 
+    /**
+     * Get player/s by name
+     * @param name the name of the player
+     * @return a list of player object
+     */
+    @GetMapping("/get-player-by-name")
+    public ResponseEntity<ArrayList<Player>> getPlayerByName(@RequestParam String name){
+
+        ArrayList<Player> data = this.player_service.getPlayerByName(name);
+        return ResponseEntity.ok(data);
+
+    }
+
 
 }
