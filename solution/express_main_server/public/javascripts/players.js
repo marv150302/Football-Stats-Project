@@ -33,3 +33,16 @@ function renderTable(players) {
         tbody.append(row);
     });
 }
+
+/**
+ * Function used to handle the enter button
+ * being pressed when the user has finished typing
+ * @param event
+ */
+function customEventFunction(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent the default action (form submission)
+        searchPlayers();
+        // Add your custom function logic here
+    }
+}

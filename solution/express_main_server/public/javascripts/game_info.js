@@ -187,6 +187,7 @@ function loadGameEvents(events) {
         const icon = document.createElement('img');
         icon.src = getEventIcon(event.type); // Set icon image URL
         icon.classList.add('w-5');
+        //icon.onerror = "this.style.display = 'none'"
 
         const eventDescription = document.createElement('p');
         eventDescription.className = 'text-light'
@@ -248,7 +249,7 @@ function getEventIcon(eventType) {
     let iconPath;
     switch (eventType) {
         case 'Substitutions':
-            iconPath = '../images/substitution.png'; // Example icon for substitutions
+            iconPath = ''; // Example icon for substitutions
             break;
         case 'Goals':
             iconPath = '../images/ball.png'; // Example icon for goals
