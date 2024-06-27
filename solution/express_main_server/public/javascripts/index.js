@@ -27,36 +27,34 @@ function loadLatestGameByCompetition(data, competition){
     let competition_logo_src = "https://tmssl.akamaized.net/images/logo/header/" + data.competition_id.toLowerCase() + '.png';
     let competition_link = "/competitions/competition-info?competition_id=" + data.competition_id;
     document.getElementById('main-domestic-leagues-latest-game').innerHTML += `<div class="col-md-3 mb-3">
-                <div class="card h-100 d-flex flex-column bg-dark text-light">
-    <div class="card-title text-center bg-success">
-        <a href="${competition_link}">
-            <img class="img-fluid mb-3 mt-3" style="width: 50px; height: 60px" src="${competition_logo_src}" alt="competition logo">
-        </a>
-        <!--<h3 class="fw-bold text-dark">${competition} </h3>-->
-    </div>
-    <a href="${game_link}">
-        <div class="card-body flex-grow-1">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="text-center">
-                    <h6 id="home-team-index-laliga">${data.home_club_name}</h6>
-                    <img id="" src="${"https://tmssl.akamaized.net/images/wappen/head/" + data['home_club_id'] + ".png"}" alt="Home Team Logo" class="img-fluid w-25">
+        <div class="card h-100 d-flex flex-column bg-dark text-light">
+            <div class="card-title text-center bg-success">
+                <a href="${competition_link}">
+                    <img class="img-fluid mb-3 mt-3" style="width: 50px; height: 60px" src="${competition_logo_src}" alt="competition logo">
+                </a>
+            </div>
+            <a href="${game_link}">
+                <div class="card-body flex-grow-1">
+                    <div class=" row d-flex justify-content-between align-items-center mb-3">
+                        <div class="col-md-4 text-center">
+                            <h6 id="home-team-index-laliga">${data.home_club_name}</h6>
+                            <img id="" src="${"https://tmssl.akamaized.net/images/wappen/head/" + data['home_club_id'] + ".png"}" alt="Home Team Logo" class="img-fluid w-50">
+                        </div>
+                        <div class="col-md-3">
+                            <h4 id="">${data['aggregate']}</h4>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <h6 id="">${data.away_club_name}</h6>
+                            <img id="" src="${"https://tmssl.akamaized.net/images/wappen/head/" + data['away_club_id'] + ".png"}" alt="Team B Logo" class="img-fluid w-50">
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <h2 id="">${data['aggregate']}</h2>
-                </div>
-                <div class="text-center">
-                    <h6 id="">${data.away_club_name}</h6>
-                    <img id="" src="${"https://tmssl.akamaized.net/images/wappen/head/" + data['away_club_id'] + ".png"}" alt="Team B Logo" class="img-fluid w-25">
-                </div>
+            </a>
+            <div class="card-footer mt-auto">
+                Match played on: ${date.toLocaleDateString('en-US', options)}
             </div>
         </div>
-    </a>
-    <div class="card-footer">
-        Match played on: ${date.toLocaleDateString('en-US', options)}
-    </div>
-</div>
-
-            </div>`
+       </div>`
 }
 
 
