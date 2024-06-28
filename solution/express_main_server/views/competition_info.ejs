@@ -12,9 +12,13 @@
         <div class="menu-buttons">
             <button type="button" class="btn active" onclick="toggleDiv('div1')" id="btn-div1">Standings</button>
             <button type="button" class="btn" onclick="toggleDiv('div2')" id="btn-div2">Games</button>
-            <button type="button" class="btn" onclick="toggleDiv('div3')" id="btn-div3">Scorers Table</button>
+            <button type="button" class="btn" onclick="toggleDiv('div3')" id="btn-div3" style="border-right: 1px solid lightgray">Scorers Table</button>
+            <a  class="fw-bold text-center" href="" style="margin-left:5%; color: antiquewhite">Enter Forum</a>
+
+
         </div>
     </div>
+
 </div>
 
 
@@ -22,7 +26,7 @@
 
 
 
-<div class="row">
+<div class="row justify-content-center">
     <div class="col bg-dark">
         <div class="collapse show" id="div1">
             <div class="table-responsive" id="standings-container">
@@ -38,7 +42,7 @@
 
         <div class="collapse" id="div3">
             <div class="table-responsive" id="top-scorers">
-                Content of Div 3
+
             </div>
         </div>
     </div>

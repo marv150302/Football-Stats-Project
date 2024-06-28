@@ -1,0 +1,36 @@
+<div class="row justify-content-center">
+
+    <div class="col-md-6 text-center text-light" id="login-form">
+        <div class="card text-light bg-dark" >
+            <div class="card-body">
+
+
+                <h5 class="card-title">Login</h5>
+                <br>
+                <form onsubmit="return false;">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control bg-dark" id="username" aria-describedby="usernameHelp">
+                        <!--<div id="usernameHelp" class="form-text">We'll never share your email with anyone else.</div>-->
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control bg-dark" id="password">
+                    </div>
+                    <button type="submit" onclick="enterRoom()" class="btn btn-warning">Enter</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-9 bg-light" id="chat-interface" >
+
+        <div id="chat-history" class="bg-light">
+
+        </div>
+    </div>
+</div>
+
+<script src="../socket.io/socket.io.js"></script>
+<script src="/javascripts/forum.js"></script>

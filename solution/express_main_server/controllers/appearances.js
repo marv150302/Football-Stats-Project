@@ -142,6 +142,7 @@ async function getTotalGoalsAndAssistsForPlayerAndSeason(req, res) {
             }
         ]);
 
+        console.log(playerStats)
         if (playerStats.length > 0) {
             const {
                 totalAppearances,

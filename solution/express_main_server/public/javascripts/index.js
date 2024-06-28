@@ -308,7 +308,6 @@ function loadLeagueTopScorers(data, container_id) {
 
     data.forEach((player, index) => {
 
-        console.log(player)
         const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${player.club_id}.png`;
         const club_link = '/club/club-info?' +
             'club_id=' + player.playerDetails.currentClubId;

@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         //const date = urlParams.get('date');
         const club_id = urlParams.get('club_id');
 
+        document.getElementById('forum-button').href = "/forum?type=club&id=" + club_id
+
         const main_info = await sendAxiosQuery('/api/get-club-data-by-id', {club_id: club_id})
         loadClubMainData(main_info[0]);
 

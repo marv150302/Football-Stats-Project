@@ -146,4 +146,14 @@ router.get('/players', function (req, res) {
 
   res.render('player',{locals});
 })
+router.get('/forum', function (req, res) {
+
+  const locals = {
+
+    title: 'Forumm',
+    description: 'Discuss with other pundits'
+  }
+
+  res.render('forum',{locals});
+})
 module.exports = router;

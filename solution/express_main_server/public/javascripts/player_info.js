@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         sendAxiosQuery('/api/get-player-club-history', {player_id:player_id})
             .then(data =>{
 
-                insertClubsIntoCard(data);
+                insertClubsIntoTable(data);
             })
 
     } catch (error) {
@@ -85,58 +85,50 @@ function calculateAge(dob) {
 
 /**
  *
- * function used to create the club item, in the club history card
+ * function used to create the club item, in the club history table
  * @param club the object containing the club info
- * @returns {HTMLDivElement}
+ * @returns {HTMLTableRowElement}
  */
-function createClubCardItem(club) {
-
+function createClubTableRowItem(club, index) {
     club = club[0];
-    const cardItem = document.createElement("div");
-    cardItem.classList.add("col-md-4", "mb-3");
+    const row = document.createElement("tr");
 
-    const card = document.createElement("div");
-    card.classList.add("card", "bg-success", "text-dark");
+    const club_index = document.createElement("td");
+    club_index.innerText = index;
+    club_index.classList.add('text-light')
+    row.appendChild(club_index);
 
-    const cardBody = document.createElement("div");
-    cardBody.classList.add("card-body", "d-flex", "flex-column", "align-items-center");
 
+    const clubLogoCell = document.createElement("td");
     const clubLogo_url = "https://tmssl.akamaized.net/images/wappen/head/" + club.clubId + ".png";
     const clubLogo = document.createElement("img");
     clubLogo.src = clubLogo_url; // Placeholder for logo
     clubLogo.alt = club.name; // Alt text for accessibility
-    clubLogo.classList.add("img-fluid", "mb-3");
-    cardBody.appendChild(clubLogo);
+    clubLogo.style.width = "20%";
+    clubLogoCell.appendChild(clubLogo);
+    row.appendChild(clubLogoCell);
 
-    // Club name
-    const clubName = document.createElement("h6");
-    clubName.textContent = club.name;
-    clubName.classList.add("fw-bold", "text-dark", "text-center");
-    cardBody.appendChild(clubName);
+    const clubNameCell = document.createElement("td");
+    clubNameCell.classList.add('text-light')
+    clubNameCell.textContent = club.name;
+    let club_link = '/club/club-info?club_id=' + club.clubId;
+    clubNameCell.innerHTML = `<a href="${club_link}">${club.name}</a>`;
+     row.appendChild(clubNameCell);
 
-    // More details link
-    const moreDetailsLink = document.createElement("a");
-    moreDetailsLink.href = '/club/club-info?club_id=' + club.clubId;
-    moreDetailsLink.textContent = "More Details";
-    moreDetailsLink.classList.add("btn", "btn-warning", "mt-auto");
-    cardBody.appendChild(moreDetailsLink);
 
-    card.appendChild(cardBody);
-    cardItem.appendChild(card);
-
-    return cardItem;
+    return row;
 }
 
 /**
  *
- * function to insert the club card into the club history container
+ * function to insert the club table row into the club history table
  * @param clubs the list of clubs
  */
-function insertClubsIntoCard(clubs) {
-    const cardBody = document.getElementById('club-history-card');
+function insertClubsIntoTable(clubs) {
+    const tableBody = document.getElementById('club-history-table-body');
 
-    clubs.forEach(club => {
-        const clubCardItem = createClubCardItem(club);
-        cardBody.appendChild(clubCardItem);
+    clubs.forEach((club, index) => {
+        const clubTableRowItem = createClubTableRowItem(club, index+1);
+        tableBody.appendChild(clubTableRowItem);
     });
 }

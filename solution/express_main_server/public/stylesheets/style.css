@@ -178,3 +178,7 @@ button:focus { outline:0 !important; }
   max-height: 200px;
   overflow-y: auto;
 }
+
+.bg-purple {
+  background-color: #8e42c1; /* Example purple color */
+}
