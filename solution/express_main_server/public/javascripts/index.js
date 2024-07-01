@@ -4,7 +4,7 @@
  * @param data  the data of the match
  * @param competition the name of the competition
  */
-function loadLatestGameByCompetition(data, competition){
+function loadLatestGameByCompetition(data, competition) {
 
     const dateString = data['date'];
     const date = new Date(dateString);
@@ -63,14 +63,14 @@ function loadLatestGameByCompetition(data, competition){
  */
 function getLatestGame() {
 
-    let competitions = ['ES1','FR1', 'L1', 'IT1', 'GB1'];
+    let competitions = ['ES1', 'FR1', 'L1', 'IT1', 'GB1'];
     let competition_name = ['laliga', 'ligue-1', 'bundesliga', 'serie-a', 'premier-league']
 
-    competitions.forEach((competition, index) =>{
+    competitions.forEach((competition, index) => {
         sendAxiosQuery('/api/get-latest-game-by-competition', {competition_id: competition})
             .then(data => {
 
-                loadLatestGameByCompetition(data,competition_name[index], index);
+                loadLatestGameByCompetition(data, competition_name[index], index);
             })
     })
 }
@@ -81,12 +81,12 @@ function getLatestGame() {
  */
 function getTopScorersByCompetitionAndYear() {
 
-    let competitions = ['IT1','GB1', 'L1'];
+    let competitions = ['IT1', 'GB1', 'L1'];
     let competition_name = ['serie-a', 'premier-league', 'bundesliga']
     let year = 2023;
-    competitions.forEach((competition, index) =>{
+    competitions.forEach((competition, index) => {
 
-        sendAxiosQuery('/api/get-top-scorer-by-competition-and-year', {competition_id: competition, year:year})
+        sendAxiosQuery('/api/get-top-scorer-by-competition-and-year', {competition_id: competition, year: year})
             .then(data => {
 
                 loadTopScorers(data, competition_name[index]);
@@ -104,10 +104,10 @@ function loadTopScorers(data, competition) {
 
     data.forEach((player, index) => {
 
-        let name = (index+1) + "-name-" + competition;
-        let goals = (index+1) + "-goals-" + competition;
-        document.getElementById(name).innerText = (index+1) + " - " +  player['player_name'];
-        document.getElementById(goals).innerText = " " +player['total_goals'];
+        let name = (index + 1) + "-name-" + competition;
+        let goals = (index + 1) + "-goals-" + competition;
+        document.getElementById(name).innerText = (index + 1) + " - " + player['player_name'];
+        document.getElementById(goals).innerText = " " + player['total_goals'];
     })
 }
 
@@ -181,7 +181,7 @@ function loadInternationalCompetitionStandings(groupedData, container_id, home_c
             const teamLogo = `https://tmssl.akamaized.net/images/wappen/head/${team.clubId}.png`; // Assuming clubId is home_club_id
             const row = `
                 <tr id="team-row-${team.clubId}">
-                    <td>${index+1}</td>
+                    <td>${index + 1}</td>
                     <td><img src="${teamLogo}" alt="Logo" style="width: 30px; height: 40px;"> ${team.name}</td>
                     <td>${team.matchesPlayed}</td>
                     <td>${team.goalsScored} : ${team.goalsTaken}</td>
@@ -198,11 +198,11 @@ function loadInternationalCompetitionStandings(groupedData, container_id, home_c
         table.appendChild(tbody);
         container.appendChild(table);
     });
-    if (home_club_id){
+    if (home_club_id) {
 
         document.getElementById('team-row-' + home_club_id).className = 'table-success';
     }
-    if (away_club_id){
+    if (away_club_id) {
 
         document.getElementById('team-row-' + away_club_id).className = 'table-warning';
     }
@@ -217,7 +217,7 @@ function loadInternationalCompetitionStandings(groupedData, container_id, home_c
  * @param home_club_id the id of the home team used to highlight its row on the table
  * @param away_club_id the id of the away team used to highlight its row on the table
  */
-function loadDomesticCompetitionStandings(standings, container_id, home_club_id,away_club_id) {
+function loadDomesticCompetitionStandings(standings, container_id, home_club_id, away_club_id) {
     const standingsTable = document.getElementById(container_id);
 
 
@@ -266,11 +266,11 @@ function loadDomesticCompetitionStandings(standings, container_id, home_club_id,
 
 
     standingsTable.appendChild(table)
-    if (home_club_id){
+    if (home_club_id) {
 
         document.getElementById('team-row-' + home_club_id).className = 'table-success';
     }
-    if (away_club_id){
+    if (away_club_id) {
 
         document.getElementById('team-row-' + away_club_id).className = 'table-warning';
     }
@@ -313,7 +313,7 @@ function loadLeagueTopScorers(data, container_id) {
             'club_id=' + player.playerDetails.currentClubId;
         const row = `
             <tr >
-                <td>${index+1}</td>
+                <td>${index + 1}</td>
                 <td>
                     <a href="/players/player-info?player_id=${player._id}">
                         <img src="${player.playerDetails.imageUrl}" alt="${player.playerDetails.name}" class="img-thumbnail" style="max-width: 50px; max-height: 50px;">

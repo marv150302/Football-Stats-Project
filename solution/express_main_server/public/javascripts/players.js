@@ -1,5 +1,3 @@
-
-
 /**
  * Function that makes the server call with the name
  * @returns {Promise<void>}
@@ -7,7 +5,7 @@
 async function searchPlayers() {
 
     let name = document.getElementById('player-name').value;
-    const player_list = await sendAxiosQuery('/api/get-player-by-name',{name:name});
+    const player_list = await sendAxiosQuery('/api/get-player-by-name', {name: name});
     renderTable(player_list)
 }
 
@@ -43,6 +41,5 @@ function customEventFunction(event) {
     if (event.key === "Enter") {
         event.preventDefault(); // Prevent the default action (form submission)
         searchPlayers();
-        // Add your custom function logic here
     }
 }

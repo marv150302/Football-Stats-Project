@@ -1,17 +1,17 @@
-<div class="row  justify-content-center">
+<div class="row justify-content-center">
+    <!-- Club Info Card -->
     <div class="col-md-6 text-center">
         <div class="card h-100 bg-warning text-dark">
             <div class="card-body">
                 <img id="club-logo" src="" alt="team-logo">
                 <br><br>
-                <h3 class="fw-bold" id="club-name" ></h3>
-
+                <h3 class="fw-bold" id="club-name"></h3>
             </div>
         </div>
     </div>
 
-    <!--Coach name -->
-    <div class="col-md-2 text-center ">
+    <!-- Coach Info Card -->
+    <div class="col-md-2 text-center">
         <div class="card h-100 bg-dark text-light">
             <div class="card-body bg-dark">
                 <img class="img-fluid" src="/images/coach.png">
@@ -23,54 +23,53 @@
         </div>
     </div>
 
-    <!--last Game -->
-
+    <!-- Last Game Info Card -->
     <div class="col-md-4">
         <a id="last-game-link" href="">
             <div class="card bg-dark" id="last-game-link-card">
-                <div class="card-header bg-dark text-white text-center">
-                    Last Match
-                </div>
+                <div class="card-header bg-dark text-white text-center">Last Match</div>
                 <div class="card-body bg-dark text-light fw-bold">
                     <div class="row justify-content-center">
+                        <!-- Home Team Info -->
                         <div class="col-md-4 text-center">
-                            <img style="width: 50px; height: 60px"  class="img-fluid" id="home-team-logo" src="">
-                            <div class="" id="home-team-name" ></div>
+                            <img style="width: 50px; height: 60px" class="img-fluid" id="home-team-logo" src="">
+                            <div id="home-team-name"></div>
                         </div>
+                        <!-- Score Info -->
                         <div class="col-md-4 text-center">
                             <br>
                             <h1 id="score"></h1>
                         </div>
-                        <div class="col-md-4  text-center">
-                            <img style="width: 50px; height: 60px"  class="img-fluid" id="away-team-logo" src="">
-                            <div class="" id="away-team-name" ></div>
+                        <!-- Away Team Info -->
+                        <div class="col-md-4 text-center">
+                            <img style="width: 50px; height: 60px" class="img-fluid" id="away-team-logo" src="">
+                            <div id="away-team-name"></div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-muted text-center bg-dark text-light">
-                    <p class="text-light fw-bold" id="last-game-stadium-name" ></p>
+                    <p class="text-light fw-bold" id="last-game-stadium-name"></p>
                 </div>
             </div>
         </a>
     </div>
-
-
 </div>
 
-<!--Standings-->
-<div class="row  mt-3">
+<!-- Standings Section -->
+<div class="row mt-3">
+    <!-- Competition Info Card -->
     <div class="col-md-3">
         <a id="competition-link" href="">
             <div class="card h-100 bg-dark text-light text-center">
                 <div class="card-body bg-dark">
                     <img id="domestic-competition-logo" src="" alt="domestic-competition-logo">
                     <br>
-                    <h4 id="domestic-competition-name" ></h4>
-
+                    <h4 id="domestic-competition-name"></h4>
                 </div>
             </div>
         </a>
     </div>
+    <!-- Standings Table Card -->
     <div class="col-md-9">
         <a href="" id="standings-link">
             <div class="card bg-dark">
@@ -79,14 +78,16 @@
                     <div class="table-responsive">
                         <table id="standings-table" class="table table-dark table-striped table-hover">
                             <thead>
-                            <th>Position</th>
-                            <th>Team</th>
-                            <th>Played</th>
-                            <th>Goals</th>
-                            <th>W</th>
-                            <th>L</th>
-                            <th>D</th>
-                            <th>Points</th>
+                            <tr>
+                                <th>Position</th>
+                                <th>Team</th>
+                                <th>Played</th>
+                                <th>Goals</th>
+                                <th>W</th>
+                                <th>L</th>
+                                <th>D</th>
+                                <th>Points</th>
+                            </tr>
                             </thead>
                             <tbody id="standings-table-tbody">
                             </tbody>
@@ -98,49 +99,48 @@
     </div>
 </div>
 
-<div class="row  mt-3">
-    <!--Number of foreign players -->
+<!-- Additional Info Section -->
+<div class="row mt-3">
+    <!-- Number of Foreign Players Card -->
     <div class="col-md-3">
         <div class="card h-100 bg-dark text-dark text-center">
             <div class="card-body bg-dark">
-                <img id="" src="/images/foreign.png" alt="domestic-competition-logo">
+                <img src="/images/foreign.png" alt="foreign players">
                 <br><br>
-                <h3 id="" class="fw-bold text-light">Foreigners Number</h3>
+                <h3 class="fw-bold text-light">Foreigners Number</h3>
                 <hr>
-                <h1 class="fw-bold text-light" id="foreign-player-number" ></h1>
+                <h1 class="fw-bold text-light" id="foreign-player-number"></h1>
             </div>
         </div>
     </div>
-
-    <!--Average age-->
+    <!-- Average Age Card -->
     <div class="col-md-3">
-        <div class="card h-100  bg-dark text-light text-center">
+        <div class="card h-100 bg-dark text-light text-center">
             <div class="card-body bg-dark">
-                <img id="" src="/images/age-range.png" alt="domestic-competition-logo">
+                <img src="/images/age-range.png" alt="average age">
                 <br><br>
-                <h3 id="" class="fw-bold ">Average Age</h3>
+                <h3 class="fw-bold">Average Age</h3>
                 <hr>
-                <h1 class="fw-bold text-light" id="average-age" ></h1>
+                <h1 class="fw-bold text-light" id="average-age"></h1>
             </div>
         </div>
     </div>
-
-    <!--Stadium info -->
+    <!-- Stadium Info Card -->
     <div class="col-md-6">
-        <div class="card  bg-warning text-dark text-center">
+        <div class="card bg-warning text-dark text-center">
             <div class="card-body bg-warning">
-                <img id="" src="/images/stadium.png" alt="domestic-competition-logo">
+                <img src="/images/stadium.png" alt="stadium">
                 <br>
-                <h4 id="" class="fw-bold">Stadium</h4>
-                <table class="text-dark table-dark table table-striped">
+                <h4 class="fw-bold">Stadium</h4>
+                <table class="table table-dark table-striped text-dark">
                     <tbody>
                     <tr>
                         <th scope="row">Stadium Name</th>
-                        <td  id="stadium-name" ></td>
+                        <td id="stadium-name"></td>
                     </tr>
                     <tr>
                         <th class="text-light" scope="row">Stadium Size</th>
-                        <td class="text-light" id="stadium-size" ></td>
+                        <td class="text-light" id="stadium-size"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -149,8 +149,9 @@
     </div>
 </div>
 
-<div class="row  mt-3">
-    <!--Club's players-->
+<!-- Players Section -->
+<div class="row mt-3">
+    <!-- Club's Players Card -->
     <div class="col-md-8">
         <div class="card h-100 bg-success text-dark text-center">
             <div class="card-body bg-success">
@@ -173,14 +174,13 @@
             </div>
         </div>
     </div>
-
-    <!--National team players-->
+    <!-- National Team Players Card -->
     <div class="col-md-4">
-        <div class="card  bg-dark text-light text-center">
+        <div class="card bg-dark text-light text-center">
             <div class="card-body bg-dark">
-                <img id="" src="/images/united-nations.png" alt="domestic-competition-logo">
+                <img src="/images/united-nations.png" alt="national team players">
                 <br><br>
-                <h3 id="" class="fw-bold">N° of National Team Players</h3>
+                <h3 class="fw-bold">N° of National Team Players</h3>
                 <hr>
                 <h1 id="national-player-number" class="fw-bold"></h1>
             </div>
@@ -188,20 +188,19 @@
     </div>
 </div>
 
+<!-- Forum Section -->
 <div class="row mt-3 justify-content-center">
-
     <div class="col-9">
-
-        <div class="card  bg-dark text-light text-center">
+        <div class="card bg-dark text-light text-center">
             <div class="card-title">
                 <br>
-                <h5 class="text-light fw-bold">Engage and share insights <br> in real-time discussions with fellow fans.</h5>
+                <h5 class="text-light fw-bold">Engage and share insights <br> in real-time discussions with fellow fans.
+                </h5>
             </div>
             <div class="card-body bg-dark">
-                <img id="" src="/images/chat.png" style="width: 10%" alt="chat image">
+                <img src="/images/chat.png" style="width: 10%" alt="chat image">
                 <br><br>
-                <a id="forum-button" href="" type="button" class="btn btn-warning w-100 ">Enter Forum</a>
-
+                <a id="forum-button" href="" type="button" class="btn btn-warning w-100">Enter Forum</a>
             </div>
         </div>
     </div>

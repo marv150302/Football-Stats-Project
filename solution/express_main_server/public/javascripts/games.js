@@ -1,4 +1,11 @@
-document.addEventListener('DOMContentLoaded', function() {
+/**
+ *
+ * NOTE:
+ *  THIS CODE WAS NOT USED ANYMORE IN THE PROJECT
+ *  AS I WAS ABLE TO IMPLEMENT A MORE EFFICIENT WAY TO QUERY THE GAMES
+ */
+
+document.addEventListener('DOMContentLoaded', function () {
 
     getLastFourGamesByCompetition();
 });
@@ -47,9 +54,9 @@ function loadCompetitionsGames(competition, gamesResponse, index, array) {
     const competitionHeader = document.createElement('h4');
     competitionHeader.className = competition.name + ' mb-3 text-warning fw-bold';
     competition.name = competition.name
-                        .split('-')
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                        .join(' ');
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
 
     const link = document.createElement('a');
     link.setAttribute('href', '/competition-games?competitionId=' + competition.competitionId + '&year=2023'); // Modify the href accordingly
@@ -112,7 +119,7 @@ function loadCompetitionsGames(competition, gamesResponse, index, array) {
     const viewButton = document.createElement('button');
     viewButton.className = 'btn btn-warning btn-lg w-50 d-inline-block mt-auto';
     viewButton.textContent = 'See More →';
-    viewButton.onclick = function() {
+    viewButton.onclick = function () {
         window.location.href = '/competition-games?competitionId=' + competition.competitionId + '&year=2023';
     };
 
@@ -128,14 +135,14 @@ function loadCompetitionsGames(competition, gamesResponse, index, array) {
 }
 
 
-
 let debounceTimer;
-document.getElementById('competitionFilter').addEventListener('input', function(event) {
+document.getElementById('competitionFilter').addEventListener('input', function (event) {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
         filterCompetitions(event.target.value.toLowerCase());
     }, 300); // Adjust the delay time (in milliseconds) as needed
 });
+
 /**
  *
  * Function used to filter the competitions as the user types

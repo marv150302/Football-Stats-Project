@@ -2,6 +2,13 @@
 const AXIOS = require('axios');
 const JAVA_SPRING_SERVER_URL = 'http://localhost:8081';
 
+/**
+ * Function to get the list of available rooms for chat
+ * NOTE: this was unused as it was replaced by a better implementation for handling rooms
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function getRoomList(req, res) {
 
     try {

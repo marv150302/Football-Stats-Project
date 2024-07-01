@@ -1,39 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
     const competitionTableBody = document.getElementById('competition-table').querySelector('tbody');
 
-    // Function to format competition name and type
+    /**
+     * Function to format a string:
+     * - Capitalizes the first letter
+     * - Replaces underscores and dashes with spaces
+     * @param {string} str - The string to format
+     * @returns {string} - The formatted string
+     */
     function formatString(str) {
         if (!str) return ''; // Check if the string is null or undefined
 
         // Capitalize first letter
         str = str.charAt(0).toUpperCase() + str.slice(1);
-        // Replace underscores with spaces
-        str = str.replace(/_/g, ' ');
-        // Replace dashes with spaces
-        str = str.replace(/-/g, ' ');
+        // Replace underscores and dashes with spaces
+        str = str.replace(/[_-]/g, ' ');
         return str;
     }
 
-    // Fetch competition data from the API endpoint
-    sendAxiosQuery('/api/get-all-competitions')
-        .then(data => {
+    /**
+     * Fetches competition data from the API and populates the table
+     */
+    async function populateCompetitionTable() {
+        try {
+            // Fetch competition data from the API endpoint
+            const data = await sendAxiosQuery('/api/get-all-competitions');
+
             // Clear previous table rows
             competitionTableBody.innerHTML = '';
 
             // Add new rows to the table
             data.forEach((competition, index) => {
-                const competition_logo_url = 'https://tmssl.akamaized.net/images/logo/header/' + competition.competitionId.toLowerCase() + '.png';
+                const competitionLogoUrl = `https://tmssl.akamaized.net/images/logo/header/${competition.competitionId.toLowerCase()}.png`;
+                const competitionLink = `/competitions/competition-info?competition_id=${competition.competitionId}`;
+
                 const row = document.createElement('tr');
-                const competition_link = "/competitions/competition-info?competition_id=" + competition.competitionId;
                 row.innerHTML = `
-                    <th class="text-light" scope="row">${index +1}</th>
-                    <th><a href=${competition_link}><img style="height: 70px; width: 50px" src=${competition_logo_url}></a></th>
-                    <td><a href=${competition_link} ><h4 class="fw-bold " >${formatString(competition.name)}</h4></a></td>
-                    <td><h5 class="fw-bold " >${formatString(competition.type)}</h5></td>
-                    <td><h5 class="fw-bold " >${formatString(competition.countryName)}</h5></td>
+                    <th class="text-light" scope="row">${index + 1}</th>
+                    <th><a href="${competitionLink}"><img style="height: 70px; width: 50px" src="${competitionLogoUrl}" alt="${formatString(competition.name)} logo"></a></th>
+                    <td><a href="${competitionLink}"><h4 class="fw-bold">${formatString(competition.name)}</h4></a></td>
+                    <td><h5 class="fw-bold">${formatString(competition.type)}</h5></td>
+                    <td><h5 class="fw-bold">${formatString(competition.countryName)}</h5></td>
                 `;
                 competitionTableBody.appendChild(row);
             });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+
+    populateCompetitionTable();
 });

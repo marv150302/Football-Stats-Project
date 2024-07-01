@@ -27,8 +27,7 @@ router.use('/api', GAME_EVENT_ROUTER);
 
 /**
  *
- * the following are calling a postgres database using
- * springboot
+ * the following are routes that make calls to a spring server
  */
 router.use('/api', CLUB_ROUTER);
 router.use('/api', COMPETITIONS_ROUTER);
@@ -105,6 +104,9 @@ router.get('/players/player-info', function (req,res) {
   res.render('player_info', { locals });
 })
 
+/**
+ * Route for the competition page
+ */
 router.get('/competitions', function (req, res) {
 
   const locals = {
@@ -115,6 +117,9 @@ router.get('/competitions', function (req, res) {
   res.render('competitions', {locals});
 })
 
+/**
+ * route for the competition info page
+ */
 router.get('/competitions/competition-info', function (req, res) {
 
   const locals = {
@@ -125,6 +130,9 @@ router.get('/competitions/competition-info', function (req, res) {
   res.render('competition_info', {locals});
 })
 
+/**
+ * route for the clubs page
+ */
 router.get('/clubs', function (req, res) {
 
   const locals = {
@@ -136,6 +144,9 @@ router.get('/clubs', function (req, res) {
   res.render('clubs',{locals});
 })
 
+/**
+ * route for the players list page
+ */
 router.get('/players', function (req, res) {
 
   const locals = {
@@ -146,6 +157,10 @@ router.get('/players', function (req, res) {
 
   res.render('player',{locals});
 })
+
+/**
+ * route for the forum page
+ */
 router.get('/forum', function (req, res) {
 
   const locals = {

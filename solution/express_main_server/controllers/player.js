@@ -1,6 +1,6 @@
 const AXIOS = require('axios');
 const JAVA_SPRING_SERVER_URL = 'http://localhost:8081/players';
-const APPEARANCES = require('../models/appearances');
+
 /**
  * function that return a json containing all players
  * @param req
@@ -34,7 +34,6 @@ async function getPlayerDataById(req, res) {
     try {
         const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-player-data-by-id?playerId='+playerId);
         const competitions = response.data;
-        // Handle the data retrieved from the Spring API ìì
         res.json(competitions);
     } catch (error) {
         // Handle errors
@@ -43,13 +42,19 @@ async function getPlayerDataById(req, res) {
     }
 }
 
+/**
+ * Function to get player stats
+ * NOTE: unused(replaced by better implementation)
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function getPlayerStats(req, res){
 
     const playerId = parseInt(req.query.playerId);
     try {
         const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-player-data-by-id?playerId='+playerId);
         const competitions = response.data;
-        // Handle the data retrieved from the Spring API ìì
         res.json(competitions);
     } catch (error) {
         // Handle errors
@@ -58,18 +63,23 @@ async function getPlayerStats(req, res){
     }
 }
 
+/**
+ * Function for searching for players in the database
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function getPlayerByName(req, res){
 
     const name = req.query.name;
     try {
         const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-player-by-name?name='+name);
-        const competitions = response.data;
-        // Handle the data retrieved from the Spring API ìì
-        res.json(competitions);
+        const players = response.data;
+        res.json(players);
     } catch (error) {
         // Handle errors
-        console.error('Error fetching player data from Spring API:', error);
-        res.status(500).json({error: 'Failed to fetch player data from Spring API'});
+        console.error('Error fetching players data from Spring API:', error);
+        res.status(500).json({error: 'Failed to fetch playera data from Spring API'});
     }
 }
 

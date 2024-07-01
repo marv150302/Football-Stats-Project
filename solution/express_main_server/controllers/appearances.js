@@ -11,7 +11,7 @@ const AXIOS = require('axios');
  */
 async function getAllAppearances(req, res) {
     try {
-        // Retrieve all documents from the collection
+
         const data = await APPEARANCES.find().limit(10);
         res.json(data);
     } catch (error) {
@@ -31,7 +31,6 @@ async function getTotalGoalsByPlayerId(req, res) {
     try {
         const playerId = parseInt(req.params.playerId); // Get the player ID from the request parameters
 
-        // Perform MongoDB aggregation to calculate the total goals scored by the player
         const totalGoals = await APPEARANCES.aggregate([
             {
                 $match: {player_id: playerId} // Match appearances for the specified player ID
@@ -276,7 +275,6 @@ async function getPlayerClubHistory(req, res) {
                     "preserveNullAndEmptyArrays": false
                 }
             },
-
 
             // Project only the relevant fields from games (home_club_id and away_club_id)
             {

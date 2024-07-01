@@ -1,6 +1,11 @@
 const CLUB_GAMES = require('../models/club_games');
 
-// Controller function to retrieve all data from the "Appearances" collection
+/**
+ * Function to retrieve all games
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function getAllClubGames(req, res) {
     try {
         // Retrieve all documents from the collection
@@ -44,6 +49,12 @@ async function getClubGameByGameIdAndClubId(req, res) {
     }
 }
 
+/**
+ * Function to get club standing
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function getClubStandingData(req,res){
 
     try {

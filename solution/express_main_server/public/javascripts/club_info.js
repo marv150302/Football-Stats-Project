@@ -26,14 +26,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         loadPlayerList(club_players);
 
 
-
     } catch (error) {
         console.error('Failed to load club data:', error);
     }
 });
-
-
-
 
 
 /**
@@ -53,8 +49,6 @@ function loadClubMainData(data) {
     document.getElementById('stadium-size').innerHTML = data.stadiumSeats
     document.getElementById('national-player-number').innerHTML = data.foreignersNumber;
 }
-
-
 
 
 /**
@@ -183,7 +177,7 @@ function loadLastGame(game, current_club_id) {
     document.getElementById('away-team-logo').src = away_team_logo;
     document.getElementById('away-team-name').innerHTML = game.away_club_name;
     //document.getElementById('away-team-score').innerHTML = game.away_club_goals;
-    document.getElementById('last-game-stadium-name').innerHTML = 'Stadium: ' +  game.stadium;
+    document.getElementById('last-game-stadium-name').innerHTML = 'Stadium: ' + game.stadium;
 
 
     document.getElementById('score').innerHTML = game.aggregate;
@@ -193,10 +187,10 @@ function loadLastGame(game, current_club_id) {
      * all the coaches name have null value,
      * hence why I use the club's last match to get info about the coach name
      */
-    if (current_club_id == game.home_club_id){
+    if (current_club_id == game.home_club_id) {
 
         document.getElementById('coach-name').innerHTML = game.home_club_manager_name
-    }else{
+    } else {
 
         document.getElementById('coach-name').innerHTML = game.away_club_manager_name
     }

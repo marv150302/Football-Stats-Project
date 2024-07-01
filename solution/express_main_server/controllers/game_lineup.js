@@ -24,7 +24,7 @@ async function getAllGamesLineup(req, res) {
 
 /**
  *
- * get the games lineup bu the game id
+ * get the games lineup by the game id
  * @param req
  * @param res
  * @returns {Promise<void>}
@@ -60,8 +60,8 @@ async function getPlayerClubAppearanceHistory(req, res) {
         res.json(clubs);
     } catch (error) {
         // Handle errors
-        console.error('Error fetching games lineup from Spring API:', error);
-        res.status(500).json({error: 'Failed to fetch game lineup from Spring API'});
+        console.error('Error fetching the club history from Spring API:', error);z
+        res.status(500).json({error: 'Failed to fetch club history from Spring API'});
     }
 }
 

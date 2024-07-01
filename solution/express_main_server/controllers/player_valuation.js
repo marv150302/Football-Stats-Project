@@ -1,6 +1,12 @@
 const AXIOS = require('axios');
 const JAVA_SPRING_SERVER_URL = 'http://localhost:8081/players-valuations';
 
+/**
+ * Function to get all player's valuations
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function getAllPlayersValuation(req, res) {
 
     try {

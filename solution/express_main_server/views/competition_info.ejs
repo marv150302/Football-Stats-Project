@@ -1,52 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Info</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<!-- Competition Logo Row -->
 <div class="row justify-content-center">
-
     <div class="col-md-12 text-center">
-
-        <img id="competition-logo" src="https://tmssl.akamaized.net/images/logo/header/it1.png">
+        <img id="competition-logo" src="https://tmssl.akamaized.net/images/logo/header/it1.png" alt="Competition Logo">
     </div>
-
 </div>
+
+<!-- Menu Buttons Row -->
 <div class="row mb-0">
     <div class="col-md-3">
         <!-- Menu buttons -->
         <div class="menu-buttons">
             <button type="button" class="btn active" onclick="toggleDiv('div1')" id="btn-div1">Standings</button>
             <button type="button" class="btn" onclick="toggleDiv('div2')" id="btn-div2">Games</button>
-            <button type="button" class="btn" onclick="toggleDiv('div3')" id="btn-div3" style="border-right: 1px solid lightgray">Scorers Table</button>
-            <a id="forum-button"  class="fw-bold text-center" href="" style="margin-left:5%; color: antiquewhite">Enter Forum</a>
-
-
+            <button type="button" class="btn" onclick="toggleDiv('div3')" id="btn-div3"
+                    style="border-right: 1px solid lightgray">Scorers Table
+            </button>
+            <a id="forum-button" class="fw-bold text-center" href="" style="margin-left:5%; color: antiquewhite">Enter
+                Forum</a>
         </div>
     </div>
-
 </div>
 
-
-
-
-
-
+<!-- Content Row -->
 <div class="row justify-content-center">
     <div class="col bg-dark">
+        <!-- Standings Section -->
         <div class="collapse show" id="div1">
             <div class="table-responsive" id="standings-container">
-
             </div>
-
         </div>
+        <!-- Games Section -->
         <div class="collapse" id="div2">
             <div class="row justify-content-center" id="games-container">
-
             </div>
         </div>
-
+        <!-- Scorers Table Section -->
         <div class="collapse" id="div3">
             <div class="table-responsive" id="top-scorers">
-
             </div>
         </div>
     </div>
 </div>
+
+<!-- JavaScript -->
 <script src="/javascripts/competition_info.js"></script>
-
-
+<!-- Optional JavaScript and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

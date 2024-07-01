@@ -6,13 +6,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('forum-button').href = "/forum?type=competition&id=" + competition_id
 
-    let competition = await sendAxiosQuery('/api/get-competition-by-id', {competition_id:competition_id});
+    let competition = await sendAxiosQuery('/api/get-competition-by-id', {competition_id: competition_id});
     competition = competition[0];
 
 
     document.getElementById('competition-logo').src = "https://tmssl.akamaized.net/images/logo/header/" + competition_id.toLowerCase() + '.png';
 
-    const games = await sendAxiosQuery('/api/get-all-games-by-competition-and-year', {competition_id:competition_id, season:season})
+    const games = await sendAxiosQuery('/api/get-all-games-by-competition-and-year', {
+        competition_id: competition_id,
+        season: season
+    })
     /**
      * if among the competition games there are group games -> it's an international competition with group games -> we display the groups standing
      * if the competition type is a domestic league we display the usual standings
@@ -20,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
      * we hide the standings
      *
      */
-    if (games.some(game => game._id.includes('Group'))){
+    if (games.some(game => game._id.includes('Group'))) {
 
 
         const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
@@ -31,9 +34,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         /**
          * if it's an international competition
          */
-        loadInternationalCompetitionStandings(standings,'standings-container')
+        loadInternationalCompetitionStandings(standings, 'standings-container')
 
-    }else if(competition.type == "domestic_league"){
+    } else if (competition.type == "domestic_league") {
 
         const standings = await sendAxiosQuery('/api/get-standings-up-to-round', {
             competition_id: competition_id,
@@ -43,14 +46,12 @@ document.addEventListener('DOMContentLoaded', async () => {
          * if it's a domestic competition
          */
         loadDomesticCompetitionStandings(standings, 'standings-container');
-    }
-    else{
+    } else {
 
         toggleDiv('div2') //we show the second div, the one with the games
         document.getElementById('btn-div1').style.display = 'none'; //we hide the button that displays the div with the standings
         document.getElementById('div1').style.display = 'none';// we hide the first div that displays the games
     }
-
 
 
     games.sort((a, b) => {
@@ -61,7 +62,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     displayGamesByMatchday(games, competition_id);
 
-    const top_scorers = await  sendAxiosQuery('/api/get-top-scorer-by-competition-and-year', {competition_id: competition_id.toUpperCase(), year:season})
+    const top_scorers = await sendAxiosQuery('/api/get-top-scorer-by-competition-and-year', {
+        competition_id: competition_id.toUpperCase(),
+        year: season
+    })
     loadLeagueTopScorers(top_scorers, 'top-scorers')
 });
 

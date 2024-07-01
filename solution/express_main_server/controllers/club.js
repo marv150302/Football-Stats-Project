@@ -27,7 +27,6 @@ async function getClubDataById(req, res) {
     try {
         const response = await AXIOS.get(JAVA_SPRING_SERVER_URL + '/get-club-data-by-id?club_id=' + club_id);
         const clubs = response.data;
-        // Handle the data retrieved from the Spring API ìì
         res.json(clubs);
     } catch (error) {
         // Handle errors

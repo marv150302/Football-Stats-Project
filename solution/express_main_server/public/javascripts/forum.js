@@ -1,7 +1,6 @@
 let name = null;
 let roomNo = null;
-let chat= io.connect('/chat');
-let user_count = 1;
+let chat = io.connect('/chat');
 
 function enterRoom() {
 
@@ -12,26 +11,24 @@ function enterRoom() {
     connectToRoom();
 }
 
-
+/**
+ * Function to connect to the room
+ */
 function connectToRoom() {
 
-    /**
-     *
-     * going to take it from urlparama
-     */
     const urlParams = new URLSearchParams(window.location.search);
     roomNo = urlParams.get('id');
-
     name = document.getElementById('username').value;
-
     /**
-     *
+     * NOTE* this is a temporary solution, and i will have to handle
+     * the user in anothe way
      * will have to check if the name is already present, if so not allow it
      */
     chat.emit('create or join', roomNo, name);
 }
+
 /**
- * it initialises the socket for /chat
+ * function for initializing the chat
  */
 function initChatSocket() {
     // called when someone joins the room. If it is someone else it notifies the joining of the room
@@ -95,10 +92,14 @@ function addChatMessage(userLogo, userName, message, date) {
                 </div>
             `;
 
-
     chatContainer.appendChild(card);
 }
 
+/**
+ *
+ * Function to toggle the upvote button
+ * @param button
+ */
 function toggleVote(button) {
     if (button.children[0].classList.contains('fa-arrow-up')) {
         button.classList.toggle('text-success');
@@ -115,7 +116,7 @@ function toggleVote(button) {
 
 
 /**
- * called when the Send button is pressed. It gets the text to send from the interface
+ * function called when the Send button is pressed. It gets the text to send from the interface
  * and sends the message via  socket
  */
 function sendChatText() {
