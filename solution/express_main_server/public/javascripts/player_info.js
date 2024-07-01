@@ -3,11 +3,12 @@ document.addEventListener('DOMContentLoaded', async function () {
         const urlParams = new URLSearchParams(window.location.search);
         const player_id = urlParams.get('player_id');
 
-        document.getElementById('forum-button').href = `/forum?type=player&id=${player_id}`;
+
 
         // Fetch and load player data
         const playerData = await sendAxiosQuery('/api/get-player-data-by-id', { playerId: player_id });
         loadPlayerBasicInfo(playerData);
+        document.getElementById('forum-button').href = `/forum?type=player&id=${player_id}&url=${playerData.imageUrl}`;
 
         // Fetch and load player main stats
         const playerMainStats = await sendAxiosQuery('/api/get-player-basic-data-by-id-and-season', { player_id: player_id, season: 2023 });

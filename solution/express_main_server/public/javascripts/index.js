@@ -352,5 +352,87 @@ function groupBy(array, key) {
 }
 
 
+/**
+ * Function used for dynamically creating the cards for the head-to-head section
+ * @param {Object} game - The game data
+ * @returns {HTMLDivElement} - The card
+ */
+function createGameCard(game) {
+    const home_team_logo = `https://tmssl.akamaized.net/images/wappen/head/${game.home_club_id}.png`;
+    const away_team_logo = `https://tmssl.akamaized.net/images/wappen/head/${game.away_club_id}.png`;
 
+    const colDiv = document.createElement('div');
+    colDiv.className = 'col-md-4 mb-4';
 
+    const card = document.createElement('div');
+    card.className = 'card h-100 bg-secondary text-light';
+
+    const gameDate = new Date(game.date).toLocaleDateString('en-GB'); // Formatting date for display
+
+    const link = document.createElement('a');
+    link.href = `/games/game-info?game_id=${game.game_id}&date=${game.date}&season=${game.season}&competition_id=${game.competition_id}&home_club_id=${game.home_club_id}&away_club_id=${game.away_club_id}`;
+    link.innerHTML = `
+        <div class="card-body">
+            <h5 class="card-title fw-bold">${game.round}</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="text-center">
+                    <h6>${game.home_club_name}</h6>
+                    <img src="${home_team_logo}" alt="Home Team Logo" class="img-fluid" style="max-width: 50px;">
+                </div>
+                <div>
+                    <h2>${game.score || game.aggregate}</h2>
+                </div>
+                <div class="text-center">
+                    <h6>${game.away_club_name}</h6>
+                    <img src="${away_team_logo}" alt="Away Team Logo" class="img-fluid" style="max-width: 50px;">
+                </div>
+            </div>
+            <p class="card-text">Match played on: ${gameDate}</p>
+        </div>
+    `;
+
+    card.appendChild(link);
+    colDiv.appendChild(card);
+
+    return colDiv;
+}
+
+/**
+ *
+ * Function to create a larger game-card
+ * just as the one used on the game_info page
+ * @param game the object containing data about the game
+ */
+function createBigGameCard(game) {
+
+    let card = document.createElement('div');
+    const home_team_logo = `https://tmssl.akamaized.net/images/wappen/head/${game.home_club_id}.png`;
+    const away_team_logo = `https://tmssl.akamaized.net/images/wappen/head/${game.away_club_id}.png`;
+
+    card.classList.add('card', 'bg-dark', 'text-light')
+
+    card.innerHTML = `
+    <div class="card-body">
+        <h5 id="game-round-index" class="card-title fw-bold">${game.round}</h5>
+        <div class="row d-flex justify-content-between align-items-center mb-3">
+            <div class="col-md-4 text-center">
+                <a id="home-team-link" href="${game.url}">
+                    <h6 id="home-team">${game.home_club_name}</h6>
+                    <img id="home-team-image" alt="Home Team Logo" src="${home_team_logo}" class="img-fluid w-25"> <!-- Replace src with actual path to home team logo -->
+                </a>
+            </div>
+            <div class="col-md-4 text-center">
+                <h2 id="game-score">${game.home_club_goals} : ${game.away_club_goals}</h2>
+            </div>
+            <div class="col-md-4 text-center">
+                <a id="away-team-link" href="${game.url}">
+                    <h6 id="away-team">${game.away_club_name}</h6>
+                    <img id="away-team-image" alt="Away Team Logo" src="${away_team_logo}" class="img-fluid w-25"> <!-- Replace src with actual path to away team logo -->
+                </a>
+            </div>
+        </div>
+        <p id="game-date-index" class="card-text">Match played on: ${new Date(game.date).toLocaleDateString()}</p>
+    </div>
+`;
+    return card;
+}
