@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         const home_club_id = urlParams.get('home_club_id');
         const away_club_id = urlParams.get('away_club_id');
 
+        document.getElementById('forum-button').href = "/forum?type=game&id=" + game_id;
+
         let competition = await sendAxiosQuery('/api/get-competition-by-id', {competition_id:competition_id});
         competition = competition[0];
 

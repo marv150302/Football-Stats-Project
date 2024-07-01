@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     try {
         const urlParams = new URLSearchParams(window.location.search);
         const player_id = urlParams.get('player_id');
-        console.log(player_id)
+
+        document.getElementById('forum-button').href = "/forum?type=player&id=" + player_id
         sendAxiosQuery('/api/get-player-data-by-id', {playerId:player_id})
             .then(data =>{
 
