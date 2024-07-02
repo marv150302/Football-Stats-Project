@@ -91,7 +91,8 @@ async function getTopScorerId(req, res) {
  */
 async function getAllAppearancesByGameId(req, res) {
     try {
-        const appearances_ = await APPEARANCES.find({game_id: req.query.game_id});
+        const game_id = req.query.game_id;
+        const appearances_ = await APPEARANCES.find({game_id: game_id});
         res.json(appearances_);
     } catch (err) {
         console.error(err);
