@@ -57,19 +57,20 @@
 
                 <h5 class="card-title">Login</h5>
                 <br>
-                <form onsubmit="return false;">
+                <form id="login-form">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control bg-dark text-light" id="username"
-                               aria-describedby="usernameHelp">
-                        <!--<div id="usernameHelp" class="form-text">We'll never share your email with anyone else.</div>-->
+                        <input type="text" class="form-control bg-dark text-light" id="username" aria-describedby="usernameHelp">
+                        <div id="username-error" class="form-text text-danger"></div>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control bg-dark text-light" id="password">
+                        <div id="password-error" class="form-text text-danger"></div>
                     </div>
-                    <button type="submit" onclick="enterRoom()" class="btn btn-warning">Enter</button>
+                    <button type="submit" class="btn btn-warning">Enter</button>
                 </form>
+
             </div>
         </div>
 

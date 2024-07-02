@@ -70,6 +70,12 @@ function clearErrorMessages() {
     document.getElementById('password-error').innerText = '';
 }
 
+/**
+ * Function used to validate form
+ * @param username
+ * @param password
+ * @returns {boolean}
+ */
 function validateForm(username, password) {
     let isValid = true;
 
@@ -86,6 +92,11 @@ function validateForm(username, password) {
     return isValid;
 }
 
+/**
+ * Function that handles the hiding and displaying of the login form/chat
+ * @param usernameInput
+ * @param passwordInput
+ */
 function enterRoom(usernameInput, passwordInput) {
     document.getElementById('login-form').style.display = "none";
     document.getElementById('chat').style.display = "block";
@@ -95,6 +106,9 @@ function enterRoom(usernameInput, passwordInput) {
     connectToRoom();
 }
 
+/**
+ * Function for connecting the user to the room
+ */
 function connectToRoom() {
     const urlParams = new URLSearchParams(window.location.search);
     roomId = urlParams.get('id');
@@ -103,12 +117,21 @@ function connectToRoom() {
     chat.emit('create or join', roomId, username);
 }
 
+/**
+ * Function for initializing the chat socket
+ */
 function initChatSocket() {
     chat.on('chat', (room, userId, chatText) => {
         addChatMessage('/images/boy.png', userId, chatText, timeAgo(new Date()));
     });
 }
 
+/**
+ *
+ * Function used to calculate how many days passed since sending of message
+ * @param date
+ * @returns {string}
+ */
 function timeAgo(date) {
     const now = new Date();
     const diffTime = Math.abs(now - date);
@@ -116,6 +139,14 @@ function timeAgo(date) {
     return `${diffDays} days ago`;
 }
 
+/**
+ *
+ * Function for adding message to the container
+ * @param userLogo the logo of the user
+ * @param userName the username
+ * @param message the text
+ * @param date the number of days since the post(this will be adjusted in the future)
+ */
 function addChatMessage(userLogo, userName, message, date) {
     const chatContainer = document.getElementById('chat-container');
     const card = document.createElement('div');
@@ -148,6 +179,11 @@ function addChatMessage(userLogo, userName, message, date) {
     chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the bottom after adding a new message
 }
 
+/**
+ *
+ * Function used to toggle between upvote and downvote
+ * @param button
+ */
 function toggleVote(button) {
     if (button.children[0].classList.contains('fa-arrow-up')) {
         button.classList.toggle('text-success');
@@ -166,6 +202,6 @@ function sendChatText() {
     const chatText = document.getElementById('message').value;
     if (chatText.trim() !== "") {
         chat.emit('chat', roomId, username, chatText);
-        document.getElementById('message').value = ''; // Clear the input field after sending the message
+        document.getElementById('message').value = '';
     }
 }

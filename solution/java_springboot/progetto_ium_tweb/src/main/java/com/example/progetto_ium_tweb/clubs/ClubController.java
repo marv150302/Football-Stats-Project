@@ -1,17 +1,15 @@
 package com.example.progetto_ium_tweb.clubs;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-// Allow requests from this origin
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"}) // Allow requests from this origin
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RequestMapping("/clubs")
-
 public class ClubController {
 
     private final ClubService clubService;
@@ -24,32 +22,37 @@ public class ClubController {
     /**
      * Retrieves all clubs from the database.
      *
-     * @return A list of Club objects representing all clubs.
+     * @return A ResponseEntity containing a list of Club objects representing all clubs and the HTTP status code.
      */
     @GetMapping("/get-all-clubs")
-    public List<Club> getAllClubs(){
-
-        return this.clubService.getAllClubs();
+    public ResponseEntity<List<Club>> getAllClubs() {
+        List<Club> clubs = clubService.getAllClubs();
+        return new ResponseEntity<>(clubs, HttpStatus.OK);
     }
 
     /**
-     * Retrieves all clubs names from the clubs table.
-     * @return  A list of String objects representing all clubs names.
+     * Retrieves all club names from the clubs table.
+     *
+     * @return A ResponseEntity containing a list of String objects representing all club names and the HTTP status code.
      */
     @GetMapping("/get-all-clubs-name")
-    public List<String> getAllClubNames() {
-        return clubService.getAllClubsName();
+    public ResponseEntity<List<String>> getAllClubNames() {
+        List<String> clubNames = clubService.getAllClubsName();
+        return new ResponseEntity<>(clubNames, HttpStatus.OK);
     }
 
     /**
+     * Retrieves all the info about a club by its id.
      *
-     * function used to get all the info about a club by its id
      * @param club_id the id of the club whose info we need to retrieve
-     * @return a list containing info about a club
+     * @return A ResponseEntity containing a list of Club objects with info about the club and the HTTP status code.
      */
     @GetMapping("/get-club-data-by-id")
-    public List<Club> getClubDataById(@RequestParam String club_id){
-
-        return this.clubService.getClubDataById(club_id);
+    public ResponseEntity<List<Club>> getClubDataById(@RequestParam String club_id) {
+        List<Club> clubData = clubService.getClubDataById(club_id);
+        if (clubData.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(clubData, HttpStatus.OK);
     }
 }
