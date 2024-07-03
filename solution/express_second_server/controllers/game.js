@@ -9,7 +9,7 @@ const Game = require('../models/Game');
  */
 const getAllGames = async (req, res) => {
     try {
-        const games = await Game.find().limit(10)
+        const games = await Game.find()
         res.json(games);
     } catch (error) {
         console.error('Error fetching games:', error);

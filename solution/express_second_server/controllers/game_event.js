@@ -8,7 +8,7 @@ const GameEvent = require('../models/game_event');
  */
 const getAllGameEvents = async (req, res) => {
     try {
-        const gameEvents = await GameEvent.find().limit(10);
+        const gameEvents = await GameEvent.find()
         res.json(gameEvents);
     } catch (error) {
         res.status(500).json({ error: 'Failed to retrieve game events' });
