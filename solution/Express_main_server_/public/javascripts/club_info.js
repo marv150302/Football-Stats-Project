@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', async function () {
+
+
+
     try {
         const urlParams = new URLSearchParams(window.location.search);
         //const season = urlParams.get('season');
         //const date = urlParams.get('date');
         const club_id = urlParams.get('club_id');
+
+        document.getElementById('stats-button').style.display = "block"
+        document.getElementById('stats-link').href = "/stats?type=club&id=" + club_id
 
         document.getElementById('forum-button').href = "/forum?type=club&id=" + club_id
 

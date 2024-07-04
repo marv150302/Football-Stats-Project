@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', async function () {
+
     try {
         const urlParams = new URLSearchParams(window.location.search);
         const player_id = urlParams.get('player_id');
 
-
+        document.getElementById('stats-button').style.display = "block"
+        document.getElementById('stats-link').href = "/stats?type=player&id=" + player_id
 
         // Fetch and load player data
         const playerData = await sendAxiosQuery('/api/get-player-data-by-id', { playerId: player_id });

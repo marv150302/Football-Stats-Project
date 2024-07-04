@@ -14,9 +14,14 @@ a{
   text-decoration: none;
   color: white;
 }
-a:hover{
+a:hover:not(#stats-link){
 
   color: #ffc107 !important;
+}
+
+#stats-link:hover{
+
+  color: black;!important;
 }
 
 /**

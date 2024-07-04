@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const competition_id = urlParams.get('competition_id');
     const season = 2023;
 
+    document.getElementById('stats-button').style.display = "block"
+    document.getElementById('stats-link').href = "/stats?type=competition&id=" + competition_id
+
     document.getElementById('forum-button').href = "/forum?type=competition&id=" + competition_id
 
     let competition = await sendAxiosQuery('/api/get-competition-by-id', {competition_id: competition_id});
