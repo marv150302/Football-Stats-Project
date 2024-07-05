@@ -45,7 +45,7 @@ router.get('/get-all-clubs', CLUB_CONTROLLER.getAllClubs);
  *                 name:
  *                   type: string
  *                   description: The name of the club
- *                 // Add other club properties here
+ *
  */
 router.get('/get-club-data-by-id', CLUB_CONTROLLER.getClubDataById);
 

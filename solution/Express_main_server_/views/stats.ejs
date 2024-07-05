@@ -2,10 +2,57 @@
     <div id="functionList" class="list-group"></div>
     <div class="row justify-content-center mt-5">
         <div class="col-md-4 text-center">
-            <button class="btn btn-warning btn-lg" onclick="submitSelections()" >Submit</button>
+            <button class="btn btn-warning btn-lg" onclick="submitSelections()">Submit</button>
         </div>
     </div>
     <br>
+
+
+    <!-- Modal -->
+    <!-- Updated Modal Structure -->
+    <div class="modal fade bg-dark" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl bg-dark">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title text-light" id="resultModalLabel">Python Functions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <h6 class="text-warning mb-3">Tutorial: How to Use the Python Functions</h6>
+                        <ol class="fw-bold">
+                            <li>Copy the Python function calls displayed below.</li>
+                            <li>Click the yellow button below to enter the Jupyter Notebook website.</li>
+                            <li>
+                                <img src="/images/jupyter_cell_tut.png" alt="Jupyter Notebook Interface" class="img-fluid mb-3"
+                                     style="max-height: 200px;">
+                                Paste the functions into the highlighted cell in the Jupyter Notebook.
+                                <br>
+                                *NOTE: if there is no empty cell at the bottom, simply press the + button above
+                            </li>
+                            <li>
+                                <img src="/images/jupyter_play_button_tut.png" alt="Jupyter Notebook Interface" class="img-fluid mb-3"
+                                     style="max-height: 200px;">
+                                Press the 'play' button
+                            </li>
+                            <li>Wait for the results to appear.</li>
+                        </ol>
+                    </div>
+                    <textarea id="functionCalls" class="fw-bold fs-6 form-control text-center text-light bg-dark"
+                              rows="10" readonly></textarea>
+                    <button class="btn btn-secondary mt-3" onclick="copyToClipboard()">Copy to Clipboard</button>
+                    <a id="functionLink" class="btn btn-warning text-decoration-none text-dark fw-bold d-block mt-2"
+                       href="http://localhost:8888/notebooks/jupyter_data_analysis/data_analysis.ipynb" target="_blank">Click here to enter the Jupyter Notebook website</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 
