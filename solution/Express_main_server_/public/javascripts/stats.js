@@ -43,7 +43,7 @@ const functions = {
 
 function createFunctionCard(func) {
     const card = document.createElement('div');
-    card.className = 'card text-center bg-dark text-white mb-3';
+    card.className = 'card bg-dark text-white mb-3';
     card.style = 'width: 18rem;';
 
     const cardBody = document.createElement('div');
@@ -74,16 +74,22 @@ function createFunctionCard(func) {
         });
     }
 
+    const checkboxContainer = document.createElement('div');
+    checkboxContainer.className = 'mt-auto';
+
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.name = 'selectedFunctions';
     checkbox.value = func.name;
-    checkbox.className = 'form-check-input mt-2 mb-2';
+    checkbox.className = 'form-check-input';
 
     const checkboxLabel = document.createElement('label');
-    checkboxLabel.className = 'form-check-label mt-auto mb-2';
-    checkboxLabel.appendChild(checkbox);
-    cardBody.appendChild(checkboxLabel);
+    checkboxLabel.className = 'form-check-label ms-2';
+    checkboxLabel.textContent = 'Select';
+
+    checkboxContainer.appendChild(checkbox);
+    checkboxContainer.appendChild(checkboxLabel);
+    cardBody.appendChild(checkboxContainer);
 
     card.appendChild(cardBody);
 
@@ -109,7 +115,6 @@ function displayFunctions() {
         row.appendChild(col);
     });
 
-
 }
 
 function submitSelections() {
@@ -118,9 +123,10 @@ function submitSelections() {
     selectedFunctions.forEach(checkbox => {
         const funcName = checkbox.value;
         const inputs = document.querySelectorAll(`input[name^="${funcName}"]`);
-        const params = [id];
+        const params = [`player_id=${id}`]; // Default param for player, you can adapt based on type
         inputs.forEach(input => {
-            params.push(input.value);
+            const paramName = input.name.split('_').pop();
+            params.push(`${paramName}=${input.value}`);
         });
         const functionCall = `${funcName}(${params.join(', ')})`;
         selections.push(functionCall);
