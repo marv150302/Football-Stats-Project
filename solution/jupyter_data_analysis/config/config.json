@@ -1,0 +1,11 @@
+{
+  "pg_user": "postgres",
+  "pg_password": "10030707742",
+  "pg_host": "localhost",
+  "pg_port": 5432,
+  "pg_db_name": "ProgettoIUMTWEB",
+  "mongo_host": "localhost",
+  "mongo_port": 27017,
+  "mongo_db_name": "Progetto_IUM_TWEB"
+}
+
