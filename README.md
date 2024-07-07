@@ -1,4 +1,4 @@
-![logo.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/84468105-900f-4df1-9369-1908a930a842/a66e90b1-4b15-4c07-88cb-a5d09e2ed9cf/logo.png)
+
 
 # Description
 
