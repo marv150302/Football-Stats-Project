@@ -1,4 +1,4 @@
-
+![logo.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/84468105-900f-4df1-9369-1908a930a842/a66e90b1-4b15-4c07-88cb-a5d09e2ed9cf/logo.png)
 
 # Description
 
@@ -176,6 +176,31 @@ The website provides football fans with access to game results, competition info
     - This will open Jupyter Notebook in your default web browser.
 5. **Access Notebooks**:
     - Access the notebooks by navigating through the directory structure in Jupyter Notebook's interface.
+
+# Database Setup
+
+### MongoDB
+
+1. **Restore MongoDB Schema and Data**:
+    - Navigate to the directory containing the MongoDB schema dump (`mongo_database_schema`).
+    - Run the following command in your terminal to restore the MongoDB database:
+        
+        ```bash
+        bashCopy code
+        mongorestore --db <database_name> <path_to_dump_directory>
+        
+        ```
+        
+
+### PostgreSQL
+
+1. **Prepare PostgreSQL Database**:
+    - Start the Java Spring Boot server to ensure that the necessary tables are created in the PostgreSQL database.
+2. **Restore PostgreSQL Data**:
+    - Open pgAdmin and connect to your PostgreSQL server.
+    - Navigate to the database where you want to restore the data.
+    - Use the pgAdmin interface to restore the data from the `postgre_Database_schema` file.
+    - Note: When restoring, only restore the data, not the schema. The restoration process might display a failure message, but the data will have been successfully imported.
 
 ### Additional Notes
 
