@@ -4,7 +4,7 @@ const GAMES_LINEUP_CONTROLLER = require('../controllers/game_lineup');
 
 /**
  * @swagger
- * /api/game-lineups/get-all-games-lineup:
+ * /api/get-all-games-lineup:
  *   get:
  *     summary: Retrieve all games lineups
  *     responses:
@@ -21,7 +21,7 @@ router.get('/get-all-games-lineup', GAMES_LINEUP_CONTROLLER.getAllGamesLineup);
 
 /**
  * @swagger
- * /api/game-lineups/get-game-lineup-by-id:
+ * /api/get-game-lineup-by-id:
  *   get:
  *     summary: Retrieve a game's lineup by the ID of the game
  *     parameters:
@@ -47,7 +47,7 @@ router.get('/get-game-lineup-by-id', GAMES_LINEUP_CONTROLLER.getGameLineupById);
 
 /**
  * @swagger
- * /api/game-lineups/get-player-club-history:
+ * /api/get-player-club-history:
  *   get:
  *     summary: Retrieve the player's club history
  *     parameters:

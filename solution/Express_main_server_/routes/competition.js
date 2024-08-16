@@ -4,7 +4,7 @@ const COMPETITION_CONTROLLER = require('../controllers/competition');
 
 /**
  * @swagger
- * /api/competitions/get-all-competitions:
+ * /api/get-all-competitions:
  *   get:
  *     summary: Retrieve a list of all competitions
  *     responses:
@@ -21,7 +21,7 @@ router.get('/get-all-competitions', COMPETITION_CONTROLLER.getAllCompetitions);
 
 /**
  * @swagger
- * /api/competitions/get-competition-by-id:
+ * /api/get-competition-by-id:
  *   get:
  *     summary: Retrieve competition information by its ID
  *     parameters:

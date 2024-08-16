@@ -4,7 +4,7 @@ const CLUB_GAMES_CONTROLLER = require('../controllers/club_games');
 
 /**
  * @swagger
- * /api/club-games/get-all-club-games:
+ * /api/get-all-club-games:
  *   get:
  *     summary: Retrieve a list of all games by a club
  *     responses:
@@ -21,7 +21,7 @@ router.get('/get-all-club-games', CLUB_GAMES_CONTROLLER.getAllClubGames);
 
 /**
  * @swagger
- * /api/club-games/get-club-game-by-game-id-and-club-id:
+ * /api/get-club-game-by-game-id-and-club-id:
  *   get:
  *     summary: Retrieve a specific club game by the ID of the club and the ID of the game
  *     parameters:

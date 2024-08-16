@@ -4,7 +4,7 @@ const GAME_CONTROLLER = require('../controllers/game');
 
 /**
  * @swagger
- * /api/games/get-all-games:
+ * /api/get-all-games:
  *   get:
  *     summary: Retrieve a list of all games
  *     responses:
@@ -21,7 +21,7 @@ router.get('/get-all-games', GAME_CONTROLLER.getAllGames);
 
 /**
  * @swagger
- * /api/games/get-latest-game-by-competition:
+ * /api/get-latest-game-by-competition:
  *   get:
  *     summary: Retrieve the latest game by the competition id
  *     parameters:
@@ -50,7 +50,7 @@ router.get('/get-latest-game-by-competition', GAME_CONTROLLER.getLatestGameByCom
 
 /**
  * @swagger
- * /api/games/get-last-four-games-by-competition-and-year:
+ * /api/get-last-four-games-by-competition-and-year:
  *   get:
  *     summary: Retrieve the last four games by the competition id and the season (year)
  *     parameters:
@@ -80,7 +80,7 @@ router.get('/get-last-four-games-by-competition-and-year', GAME_CONTROLLER.getLa
 
 /**
  * @swagger
- * /api/games/get-all-games-by-competition-and-year:
+ * /api/get-all-games-by-competition-and-year:
  *   get:
  *     summary: Retrieve all games by the competition id and the season (year)
  *     parameters:
@@ -110,7 +110,7 @@ router.get('/get-all-games-by-competition-and-year', GAME_CONTROLLER.getAllGames
 
 /**
  * @swagger
- * /api/games/get-game-info:
+ * /api/get-game-info:
  *   get:
  *     summary: Retrieve a game's information by its id
  *     parameters:
@@ -136,7 +136,7 @@ router.get('/get-game-info', GAME_CONTROLLER.getGameInfo);
 
 /**
  * @swagger
- * /api/games/get-standings-up-to-round:
+ * /api/get-standings-up-to-round:
  *   get:
  *     summary: Retrieve the league standings up to a matchday/round
  *     parameters:
@@ -173,7 +173,7 @@ router.get('/get-standings-up-to-round', GAME_CONTROLLER.calculateClubStats);
 
 /**
  * @swagger
- * /api/games/get-head-2-head-games:
+ * /api/get-head-2-head-games:
  *   get:
  *     summary: Retrieve all head-to-head games between two teams
  *     parameters:
@@ -203,7 +203,7 @@ router.get('/get-head-2-head-games', GAME_CONTROLLER.getHead2Head);
 
 /**
  * @swagger
- * /api/games/get-club-last-game:
+ * /api/get-club-last-game:
  *   get:
  *     summary: Retrieve the last game by the club's id
  *     parameters:

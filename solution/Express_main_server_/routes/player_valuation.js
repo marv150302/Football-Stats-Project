@@ -4,7 +4,7 @@ const PLAYER_VALUATION_CONTROLLER = require('../controllers/player_valuation');
 
 /**
  * @swagger
- * /api/player-valuation/get-all-players-valuation:
+ * /api/get-all-players-valuation:
  *   get:
  *     summary: Retrieve a list of all player valuations
  *     responses:

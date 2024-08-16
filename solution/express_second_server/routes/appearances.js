@@ -4,7 +4,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/appearances/get-all-appearances:
+ * /api/get-all-appearances:
  *   get:
  *     summary: Retrieve a list of all appearances
  *     responses:
@@ -21,7 +21,7 @@ router.get('/get-all-appearances', APPEARANCE_CONTROLLER.getAllAppearances);
 
 /**
  * @swagger
- * /api/appearances/top-scorer-id:
+ * /api/top-scorer-id:
  *   get:
  *     summary: Retrieve the ID of the player who scored the most goals
  *     responses:
@@ -40,7 +40,7 @@ router.get('/top-scorer-id', APPEARANCE_CONTROLLER.getTopScorer);
 
 /**
  * @swagger
- * /api/appearances/get-top-scorer-by-competition-and-year:
+ * /api/get-top-scorer-by-competition-and-year:
  *   get:
  *     summary: Retrieve the ID of the player who scored the most goals by competition and year
  *     parameters:
@@ -72,7 +72,7 @@ router.get('/get-top-scorer-by-competition-and-year', APPEARANCE_CONTROLLER.getT
 
 /**
  * @swagger
- * /api/appearances/get-appearances-by-game-id:
+ * /api/get-appearances-by-game-id:
  *   get:
  *     summary: Retrieve all appearances by game ID
  *     parameters:
@@ -96,7 +96,7 @@ router.get('/get-appearances-by-game-id', APPEARANCE_CONTROLLER.getAllAppearance
 
 /**
  * @swagger
- * /api/appearances/get-player-basic-data-by-id-and-season:
+ * /api/get-player-basic-data-by-id-and-season:
  *   get:
  *     summary: Retrieve the basic stats about a player by ID and season
  *     parameters:

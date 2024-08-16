@@ -47,7 +47,7 @@ async function getClubPlayers(req, res){
     const club_id = req.query.club_id;
     try{
 
-        const response = await AXIOS.get("http://localhost:8081/players/get-club-players?club_id=" + club_id);
+        const response = await AXIOS.get("http://localhost:8081/players/get-club-players?clubId=" + club_id);
         const players = response.data;
 
         res.json(players);

@@ -4,7 +4,7 @@ const PLAYER_CONTROLLER = require('../controllers/player');
 
 /**
  * @swagger
- * /api/players/get-all-players:
+ * /api/get-all-players:
  *   get:
  *     summary: Retrieve a list of all players
  *     responses:
@@ -21,7 +21,7 @@ router.get('/get-all-players', PLAYER_CONTROLLER.getAllPlayers);
 
 /**
  * @swagger
- * /api/players/get-player-data-by-id:
+ * /api/get-player-data-by-id:
  *   get:
  *     summary: Retrieve a player's data by its ID
  *     parameters:
@@ -50,7 +50,7 @@ router.get('/get-player-data-by-id', PLAYER_CONTROLLER.getPlayerDataById);
 
 /**
  * @swagger
- * /api/players/get-player-by-name:
+ * /api/get-player-by-name:
  *   get:
  *     summary: Retrieve a list of players by name
  *     parameters:

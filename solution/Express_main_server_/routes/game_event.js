@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/game-events/get-all-game-events:
+ * /api/get-all-game-events:
  *   get:
  *     summary: Retrieve a list of all game events
  *     responses:
@@ -30,7 +30,7 @@ router.get('/get-all-game-events', async function (req, res) {
 
 /**
  * @swagger
- * /api/game-events/get-all-game-events-by-game-id:
+ * /api/get-all-game-events-by-game-id:
  *   get:
  *     summary: Retrieve all game events by the ID of the game
  *     parameters:

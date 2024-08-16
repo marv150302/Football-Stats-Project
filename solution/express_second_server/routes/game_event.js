@@ -4,7 +4,7 @@ const GAME_EVENT_CONTROLLER = require('../controllers/game_event');
 
 /**
  * @swagger
- * /api/game-events/get-all-game-events:
+ * /api/get-all-game-events:
  *   get:
  *     summary: Retrieve all game events
  *     responses:
@@ -21,7 +21,7 @@ router.get('/get-all-game-events', GAME_EVENT_CONTROLLER.getAllGameEvents);
 
 /**
  * @swagger
- * /api/game-events/get-all-game-events-by-game-id:
+ * /api/get-all-game-events-by-game-id:
  *   get:
  *     summary: Retrieve all game events by the ID of the game
  *     parameters:
