@@ -1,97 +1,254 @@
-# Report on Project
 
-## Introduction
-
-This report includes the design, implementation, and difficulties encountered during the development of the project. 
+# Description
 
 The website provides football fans with access to game results, competition information, player information, and chat rooms for team discussions.
 
  It also includes advanced data analysis with  Jupyter Notebook.
 
-### Solution
+# Architecture
 
-**Design and its Motivations**:
-The main page connects to an Express server, which serves as the central server. This server interfaces with two additional servers:
+### Servers
 
-1. **Spring Boot Server**: Connects to a PostgreSQL database storing slower-changing data (e.g., competitions, game lineups, players, clubs, player valuations).
-2. **Express Server**: Connects to a MongoDB database for fast-changing data (e.g., appearances, game events, club games, games).
+- **Express Main Server**: Acts as the central server handling user queries and communication with other servers.
+- **Express Second Server:** Provides data from the mongoDb database
+- **Java Spring Boot Server**: Provides Data from the PostgreSQL database
 
-Jupyter Notebook allows users to select and visualize advanced statistics. 
+### Databases
 
-I implemented a web page that allows users to choose the desired stats, generating the query that can be executed in Jupyter Notebook.
+- **MongoDB**: Stores dynamic data with a fast change rate (e.g., game scores).
+- **Postgres**: Stores more static data (e.g., player information, competitions).
 
-**Advantages/Disadvantages**:
+### Additional Components
 
-- **Advantages**: It’s a modular system, which allows for easy adjustments and expansions. The Jupyter Notebook feature is particularly notable for providing advanced analytical capabilities.
-- **Disadvantages**: Merging data from two different databases can become problematic when handling complex queries and can increase development time. Using a single database would have simplified writing queries and sped up development. However, in the long term, it could have resulted in a poor user experience due to slow data retrieval for some types of information.
+- **Socket.io**: Implements a chat system among fans and pundits for real-time discussion.
 
-**Challenges Faced**:
+### Functionalities
 
-- **Database Connectivity**: Establishing connections between servers and databases, particularly with Spring Boot, was challenging due to performance issues on my dated computer(Macbook pro 13’ 2017).
-- **Complex Queries**: Some queries were difficult to implement, both for syntax and data merging.
-- **CORS Policies**: I had some issues with CORS policies, which were preventing me from making calls to API’s endpoints
-- **Assignment Misunderstandings**: Misinterpretations of the  assignment led to multiple changes in the project, which significanlty slowed me down.
+- **Web Interface**: Built using HTML, Javascript, and CSS, enabling users to query and explore football data.
+- **Large Scale Data Analytics**: Utilizes Jupyter Notebooks for in-depth analysis of selected data subsets.
 
-### Requirements
+# Project Structure
 
-The design meets all specified requirements listed in the assignment.
+1. **Frontend Files (public folder)**:
+    - HTML, CSS, and JavaScript files are located in the `public` folder.
+    - JavaScript files specific to frontend functionalities are in `public/javascripts`.
+2. **Backend Structure**:
+    - **Express Main Server**: Handles routing and communication with other servers.
+        - Located in its own project.
+    - **Spring Boot Server**:
+        - Uses `application.properties` for Postgres database configuration.
+        - Located in its own project.
+    - **Express Second Server**:
+        - Handles additional backend functionalities, including real-time features.
+        - Configuration for MongoDB located in `databases` folder.
+        - Located in its own project.
+3. **Database Configurations**:
+    - **Postgres (Spring Boot)**:
+        - Configured through `application.properties` in the Spring Boot project.
+    - **MongoDB (Express)**:
+        - Credentials and configuration located in the `databases` folder within the Express project.
+4. **Jupyter Notebooks**:
+    - **Location**: Hosted in a separate project.
+    - **Functionality**: Users can select and visualize advanced statistics by generating queries from a web interface.
+    - **Setup**: Pip is used to install required libraries if they're not already installed.
+5. **Interaction Between Servers**:
+    - Servers communicate via defined routes to exchange data and perform specific tasks.
+6. **Additional Assets**:
+    - Static assets such as images, fonts, etc., are stored in appropriate directories within `public`.
 
-### Limitations
+# Setup Instructions
 
-**Exceptional Situations and Extensibility**:
+### Prerequisites
 
-- **Data Completeness**: Additional basic information in the dataset would have made for a better website.
-- User **Login/Registration**: User data login (POST requests) are not implemented, which allows any user to enter the chat function.
-- **Data Persistence**: Messages are not stored in a database, limiting chat history.
-- **Data Insertion:** I purposely omitted creating POST request functions because I wrongly assumed that updated data would be inserted directly by an eventual admin through the DBMS or MongoDB interface.
-- **Statistical Display**: Users must open separate pages(from the main website) to compare stats between multiple competitions, players, or clubs.
-    
-    I strongly beleive that this feature can be improved
-    
+1. **Node.js and npm**:
+    - Ensure Node.js and npm are installed on your system. You can download them from [nodejs.org](https://nodejs.org/).
+2. **Java Development Kit (JDK)**:
+    - Install JDK suitable for your operating system. You can download it from [adoptopenjdk.net](https://adoptopenjdk.net/) or [oracle.com](https://www.oracle.com/java/technologies/javase-downloads.html).
+3. **Python and pip**:
+    - Install Python from [python.org](https://www.python.org/). Pip should be installed automatically with Python. Make sure Python is added to your system's PATH.
+4. **MongoDB**:
+    - Install MongoDB Community Edition from [mongodb.com](https://www.mongodb.com/try/download/community).
+5. **PostgreSQL**:
+    - Install PostgreSQL database from [postgresql.org](https://www.postgresql.org/download/).
 
-## **Extensibility**
+### Project Setup
 
-The design can be easily be adapted for other requirements and is highly extensible. To add a new function, you need to follow simple steps:
+1. **Clone the Repositories**:
+    - Clone the following repositories for each server:
+        - Main Express Server (for views and primary routing)
+        - Secondary Express Server (for MongoDB interactions)
+        - Java Spring Boot Server (for PostgreSQL interactions)
+        - Jupyter Notebooks (for advanced data analytics)
+2. **Setting up Main Express Server**:
+    - Navigate to the Main Express Server project directory.
+    - Install dependencies:
+        
+        ```bash
+        bashCopy code
+        cd main-express-server
+        npm install
+        
+        ```
+        
+    - Start the server:
+        - If using command line:
+            
+            ```sql
+            sqlCopy code
+            npm start
+            
+            ```
+            
+        - If using IntelliJ IDEA or WebStorm:
+            - Open the project in IntelliJ IDEA or WebStorm.
+            - Navigate to the `package.json` file.
+            - Right-click on the `start` script and select "Run".
+            - Access the web interface in your browser at `http://localhost:3000`.
+3. **Setting up Secondary Express Server**:
+    - Navigate to the Secondary Express Server project directory.
+    - Install dependencies:
+        
+        ```bash
+        bashCopy code
+        cd secondary-express-server
+        npm install
+        
+        ```
+        
+    - Update MongoDB credentials in the appropriate configuration file (`databases/config.js`).
+    - Start the server:
+        - If using command line:
+            
+            ```sql
+            sqlCopy code
+            npm start
+            
+            ```
+            
+        - If using IntelliJ IDEA or WebStorm, follow similar steps as for the Main Express Server.
+4. **Setting up Java Spring Boot Server**:
+    - Navigate to the Java Spring Boot Server project directory.
+    - Ensure `application.properties` has correct configurations for PostgreSQL.
+    - Build and run the application:
+        - If using command line:
+            
+            ```bash
+            bashCopy code
+            cd spring-boot-server
+            mvn clean package
+            java -jar target/application.jar
+            
+            ```
+            
+        - If using IntelliJ IDEA:
+            - Open the project in IntelliJ IDEA.
+            - Build the project (`Build` > `Build Project`).
+            - Run the application by running the main class with Spring Boot application context.
 
-1. **Data Availability**: Ensure the function uses data available in the database, if it requires data querying.
-2. **Route Implementation**: Implement the route using the MVC pattern.
-3. **PostgreSQL Database**: To introduce a new table, add its class in Java using JPA. Follow the pattern of creating a main class, a controller class, a service class, and a repository class.
-4. **MongoDB Database**: For MongoDB, create the necessary files following the MVC pattern. Introduce the model, the controller class, and, if required, the view.
+### 5. Setting up Jupyter Notebooks
 
-Future improvements could also include database integration for message persistence and user authentication.
+1. **Clone the Jupyter Notebooks Repository**:
+    - Clone the Jupyter Notebooks project repository to your local machine.
+2. **Navigate to the Jupyter Notebooks Directory**:
+    - Open a terminal or command prompt.
+    - Change directory to where you cloned the Jupyter Notebooks project.
+3. **Set up a Virtual Environment**:
+    - It's recommended to use a virtual environment to manage dependencies:
+        
+        ```bash
+        bashCopy code
+        cd jupyter-notebooks
+        python -m venv venv
+        source venv/bin/activate  # On Windows, use venv\Scripts\activate
+        
+        ```
+        
+4. **Start Jupyter Notebook**:
+    - Launch Jupyter Notebook:
+        
+        ```
+        Copy code
+        jupyter notebook
+        
+        ```
+        
+    - This will open Jupyter Notebook in your default web browser.
+5. **Access Notebooks**:
+    - Access the notebooks by navigating through the directory structure in Jupyter Notebook's interface.
 
-## Conclusions
+# Database Setup
 
-Implementing this project from scratch displayed the importance of an organized development and attention to small details. 
+### MongoDB
 
-I beleive my understanding of server/database connections, coding practices, and project management, has greatly improved.
+1. **Restore MongoDB Schema and Data**:
+    - Navigate to the directory containing the MongoDB schema dump (`mongo_database_schema`).
+    - Run the following command in your terminal to restore the MongoDB database:
+        
+        ```bash
+        bashCopy code
+        mongorestore --db <database_name> <path_to_dump_directory>
+        
+        ```
+        
 
-## Division of Work
+### PostgreSQL
 
-The entire project was completed by me.
+1. **Prepare PostgreSQL Database**:
+    - Start the Java Spring Boot server to ensure that the necessary tables are created in the PostgreSQL database.
+2. **Restore PostgreSQL Data**:
+    - Open pgAdmin and connect to your PostgreSQL server.
+    - Navigate to the database where you want to restore the data.
+    - Use the pgAdmin interface to restore the data from the `postgre_Database_schema` file.
+    - Note: When restoring, only restore the data, not the schema. The restoration process might display a failure message, but the data will have been successfully imported.
 
-## Extra Information
+### Additional Notes
 
-### Running the Code
+- **For Users with IntelliJ IDEA, WebStorm, and PyCharm**:
+    - IntelliJ IDEA and WebStorm offer integrated tools for managing Node.js, Java, and Python projects, providing an easier setup and management experience through their GUI. You can run npm scripts, build Java projects, and manage Python environments directly within these IDEs.
+- **For Users Without IntelliJ IDEA, WebStorm, or PyCharm**:
+    - You can still set up and run the project using command line instructions provided. Ensure all dependencies are installed and configurations are correctly set up as per the instructions above.
+- **Ensure All Servers Are Running Simultaneously**:
+    - Properly configure database connections and environment variables across all servers (`Main Express Server`, `Secondary Express Server`, `Java Spring Boot Server`) for seamless interaction and functionality.
 
-1. **Database Setup**:
-    
-    Import the data into the databases.
-    
-    - Import PostgreSQL schema from `IUM-TWEB_Asuenimhen_Marvel/postgre_database_schema.sql`.
-    - Import MongoDB schema from `IUM-TWEB_Asuenimhen_Marvel/mongo_database_schema/Progetto_IUM_TWEB`.
-2. **Server Configuration**:
-    - Update PostgreSQL credentials in `application.properties` located at `IUM-TWEB_Asuenimhen_Marvel/solution/java_springboot/progetto_ium_tweb/src/main/resources`.
-    - Update MongoDB credentials in the Express server configuration at `IUM-TWEB_Asuenimhen_Marvel/solution/express_second_server/databases`.
-3. **Jupyter Notebook Configuration**:
-    - Ensure correct credentials in `config.json` at `/Users/marvel/Documents/School/Uni/3°/IUM-TWEB-SERVIZI/Project/IUM-TWEB_Asuenimhen_Marvel/solution/jupyter_data_analysis/config`.
-    - Run all cells before executing specific functions.
+# Usage
 
-## Bibliography
+### Accessing the Web Interface
 
-- OpenAI. (2024). ChatGPT [Large language model]. Retrieved from [https://www.openai.com/chatgpt](https://www.openai.com/chatgpt)
-    
-    *"ChatGPT was used to assist with the implementation of repetitive class structures and complex queries (OpenAI, 2024)."*
-    
+1. **Accessing the Web Interface**:
+    - Open your web browser and navigate to `http://localhost:3000` (assuming default port).
+    - You will be greeted with the main page where you can start interacting with the football data.
 
-###
+### Specific Functionalities and Features
+
+1. **Specific Functionalities**:
+    - **Querying Data**: Use the interface to query and explore football data stored in MongoDB and PostgreSQL.
+    - **Advanced Analytics**: For detailed statistical analysis, use the integrated Jupyter Notebooks to visualize and analyze data subsets.
+
+### Using the Chat System
+
+1. **Using the Chat System**:
+    - The chat system allows fans and pundits to engage in real-time discussions in topic-based rooms.
+    - To use the chat system:
+        - Navigate to the designated chat section on the web interface.
+        - Choose a room (e.g., Juventus Room, English Premiership Room) to join.
+        - Start typing messages and engage with other users participating in the chat.
+
+# Limitations
+
+### Exceptional Situations and Extensibility
+
+- **Data Completeness**: The dataset lacks additional basic information that could enhance the website's functionality and user experience.
+- **User Login/Registration**: Currently, user login and registration functionalities (POST requests) are not implemented, allowing any user to access the chat function without authentication.
+- **Data Persistence**: Messages in the chat system are not stored in a database, resulting in the lack of chat history for users.
+- **Data Insertion**: POST request functions for updating data are intentionally omitted.
+- **Statistical Display**: Users need to navigate to separate pages from the main website to compare statistics across multiple competitions, players, or clubs, rather than having integrated comparative features.
+
+### Future Improvements
+
+These limitations present opportunities for future enhancements and improvements to the project:
+
+- **Enhanced Data Collection**: Adding more updated data to the dataset would enrich the website's content , providing users with more relevant information.
+- **Implement User Authentication**: Introducing user login and registration features would enhance security and personalize user experiences, especially for interactive features like the chat system.
+- **Persistent Chat History**: Implementing a database solution to store chat messages would allow users to view previous conversations and maintain continuity in discussions.
+- **Automated Data Updates**: Developing automated processes or scheduled tasks for data insertion and updates could ensure that the website's content reflects the latest information without manual intervention.
+- **Integrated Statistical Tools**: Enhancing the website to include interactive and comparative statistical displays within the main pages would improve user accessibility and engagement with analytical insights.
