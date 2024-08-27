@@ -1,100 +1,145 @@
-<style>
-    .chat-container {
-        max-width: 600px;
-        margin: 20px auto;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    .card {
-        margin-bottom: 15px;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .chat-container {
+            max-width: 600px;
+            margin: 20px auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
 
-    .card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+        .card {
+            margin-bottom: 15px;
+        }
 
-    .card img {
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        margin-right: 10px;
-    }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    .header-content {
-        flex-grow: 1;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+        .card img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
 
-    .vote-button {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.2em;
-        margin: 0 5px;
-    }
+        .header-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .vote-button.active {
-        color: white;
-    }
+        .vote-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            margin: 0 5px;
+        }
 
-    .card:hover {
+        .vote-button.active {
+            color: white;
+        }
 
-        transition: none !important;
-        transform: none !important;
-    }
-</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        .card:hover {
+            transition: none !important;
+            transform: none !important;
+        }
+    </style>
+</head>
 
-
-<div class="row justify-content-center">
-
-    <div class="col-md-6 text-center text-light" id="login-form">
-        <div class="card text-light bg-dark">
-            <div class="card-body">
-
-                <h5 class="card-title">Login</h5>
-                <br>
-                <form id="login-form">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control bg-dark text-light" id="username" aria-describedby="usernameHelp">
-                        <div id="username-error" class="form-text text-danger"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control bg-dark text-light" id="password">
-                        <div id="password-error" class="form-text text-danger"></div>
-                    </div>
-                    <button type="submit" class="btn btn-warning">Enter</button>
-                </form>
-
+<body>
+<div class="container">
+    <div class="row justify-content-center my-5">
+        <div class="col-md-6">
+            <!-- Login Card -->
+            <div class="card text-light bg-dark shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Login</h3>
+                    <form id="login-form" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control bg-dark text-light" id="username" aria-describedby="usernameHelp username-error" aria-label="Enter your username" required>
+                            <div id="username-error" class="form-text text-danger" aria-live="assertive"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control bg-dark text-light" id="password" aria-describedby="password-error" aria-label="Enter your password" required>
+                            <div id="password-error" class="form-text text-danger" aria-live="assertive"></div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-warning">Enter</button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p>Don't have an account? <a href="#" id="register-link" class="text-warning">Register</a></p>
+                        </div>
+                    </form>
+                </div>
             </div>
+
+            <!-- Registration Card (Initially Hidden) -->
+            <div class="card text-light bg-dark shadow-lg mt-4" id="registration-card" style="display: none;">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Register</h3>
+                    <form id="register-form" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="reg-username" class="form-label">Username</label>
+                            <input type="text" class="form-control bg-dark text-light" id="reg-username" aria-describedby="usernameHelp" aria-label="Enter your username" required>
+                            <div id="reg-username-error" class="form-text text-danger" aria-live="assertive"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reg-email" class="form-label">Email</label>
+                            <input type="email" class="form-control bg-dark text-light" id="reg-email" aria-label="Enter your email" required>
+                            <div id="reg-email-error" class="form-text text-danger" aria-live="assertive"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reg-password" class="form-label">Password</label>
+                            <input type="password" class="form-control bg-dark text-light" id="reg-password" aria-label="Enter your password" required>
+                            <div id="reg-password-error" class="form-text text-danger" aria-live="assertive"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reg-password-confirm" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control bg-dark text-light" id="reg-password-confirm" aria-label="Confirm your password" required>
+                            <div id="reg-password-confirm-error" class="form-text text-danger" aria-live="assertive"></div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-warning">Register</button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p>Already have an account? <a href="#" id="login-link" class="text-warning">Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
-
     </div>
-
 </div>
 
 <div class="row justify-content-center" id="chat" style="display: none">
-
     <div class="row justify-content-center" id="header">
-
-
         <div class="row justify-content-center">
-            <div class="col-md-7 overflow-auto" id="chat-container" style="max-height: 500px">
+            <div class="col-md-7 overflow-auto" id="chat-container">
+                <!-- Chat messages will be loaded here -->
             </div>
         </div>
     </div>
     <br>
 
     <!-- Message Input Section -->
-    <div class="fixed-bottom bg-dark  py-2">
+    <div class="fixed-bottom bg-dark py-2">
         <div class="container">
             <div class="row justify-content-center mt-2">
-                <div class="col-7  align-items-center">
+                <div class="col-7 align-items-center">
                     <input type="text" class="form-control bg-dark text-light" id="message" placeholder="Type Message">
                 </div>
                 <div class="col-auto">
@@ -104,7 +149,6 @@
         </div>
     </div>
 </div>
-
 <script src="../socket.io/socket.io.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="/javascripts/forum.js"></script>

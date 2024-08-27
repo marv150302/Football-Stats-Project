@@ -1,5 +1,6 @@
 const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const swaggerUi = require(
+    'swagger-ui-express');
 
 // Basic Meta Information about our API
 const options = {
